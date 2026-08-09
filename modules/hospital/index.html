@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AA MediCare 360° - Enterprise Hospital & Clinic Operating System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #0F766E;     /* Teal medical primary */
+      --dark-navy: #0F172A;
+      --bg-light: #F8FAFC;
+    }
+    body { font-family: 'Inter', sans-serif; background-color: var(--bg-light); color: #334155; min-height: 100vh; display: flex; flex-direction: column; }
+    h1, h2, h3, h4, h5 { font-family: 'Poppins', sans-serif; color: var(--dark-navy); }
+    
+    /* Navbar */
+    .navbar-landing { background: #FFFFFF; height: 72px; border-bottom: 1px solid #E2E8F0; box-shadow: 0 1px 3px rgba(0,0,0,0.02); }
+    
+    /* Hero Section */
+    .hero-section {
+      background: linear-gradient(135deg, #F0FDFA 0%, #CCFBF1 100%);
+      color: var(--dark-navy);
+      padding: 100px 0 80px 0;
+    }
+    .badge-pill { background: rgba(15, 118, 110, 0.1); color: var(--primary-color); border: 1px solid rgba(15, 118, 110, 0.2); font-weight: 600; }
+
+    /* Feature Cards */
+    .feature-card {
+      border: none; border-radius: 16px; background: white;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -2px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 15px -3px rgba(15, 118, 110, 0.15);
+    }
+    .icon-box {
+      width: 54px; height: 54px; border-radius: 12px;
+      background: #F0FDFA; color: var(--primary-color);
+      display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+    }
+
+    /* Modal Styling */
+    .modal-content { border: none; border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15); }
+    .form-control { padding: 10px 14px; border-radius: 8px; border: 1px solid #CBD5E1; font-size: 0.95rem; }
+    .form-control:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(15,118,110,0.18); }
+    
+    /* Footer */
+    footer { background: #FFFFFF; color: #64748B; border-top: 1px solid #E2E8F0; margin-top: auto; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light navbar-landing px-4 fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold d-flex align-items-center gap-2 text-dark" href="#">
+        <div class="text-white rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 36px; height: 36px; background-color: #0F766E;">
+          <i class="bi bi-hospital-fill"></i>
+        </div>
+        <span>AA MediCare 360°</span>
+      </a>
+      <button class="btn text-white px-4 fw-semibold shadow-sm rounded-pill" style="background-color: #0F766E;" data-bs-toggle="modal" data-bs-target="#loginModal">
+        <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero-section text-center mt-5">
+    <div class="container py-4">
+      <span class="badge badge-pill px-3 py-2 rounded-pill mb-3 text-uppercase small">Enterprise Hospital & Clinic Operating System</span>
+      <h1 class="display-5 fw-bold mb-3 text-dark">Welcome to AA MediCare 360°</h1>
+      <p class="lead text-muted mb-4 mx-auto" style="max-width: 600px;">Streamline patient registration, ABDM/ABHA linking, OPD queue tokens, doctor EMR, pharmacy inventory, and GST billing from a unified workspace.</p>
+      <button class="btn btn-lg text-white px-5 py-3 fw-semibold shadow rounded-pill" style="background-color: #0F766E;" data-bs-toggle="modal" data-bs-target="#loginModal">
+        Open Clinical Workspace <i class="bi bi-arrow-right ms-2"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Core Features Section -->
+  <section class="container py-5 my-3">
+    <div class="text-center mb-5">
+      <h3 class="fw-bold">Core Clinical Modules</h3>
+      <p class="text-muted small">Deliver superior patient care with seamless multi-department operations</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="feature-card p-4 h-100">
+          <div class="icon-box mb-3"><i class="bi bi-people-fill"></i></div>
+          <h5 class="fw-bold mb-2">Patient Registry & ABHA</h5>
+          <p class="text-muted small mb-0">Register patients instantly, link National Health Authority ABHA IDs, and maintain comprehensive 360° patient medical histories.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card p-4 h-100">
+          <div class="icon-box mb-3"><i class="bi bi-calendar-check-fill"></i></div>
+          <h5 class="fw-bold mb-2">OPD Queue & Token Engine</h5>
+          <p class="text-muted small mb-0">Automate appointment booking, live token queue management, check-ins, and doctor consultation routing.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="feature-card p-4 h-100">
+          <div class="icon-box mb-3"><i class="bi bi-receipt"></i></div>
+          <h5 class="fw-bold mb-2">Pharmacy, Lab & Billing</h5>
+          <p class="text-muted small mb-0">Manage medicine stock dispensing, diagnostic lab test reports, itemized GST invoicing, and insurance payment settlements.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-4 text-center small">
+    <div class="container">&copy; 2026 AA MediCare 360° &bull; Enterprise Hospital & Clinic Management Suite</div>
+  </footer>
+
+  <!-- Login Modal -->
+  <div class="modal fade" id="loginModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content p-4 p-md-4">
+        <div class="text-center mb-3">
+          <div class="text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-2 shadow-sm" style="width: 48px; height: 48px; font-size: 1.2rem; background-color: #0F766E;">
+            <i class="bi bi-shield-lock-fill"></i>
+          </div>
+          <h4 class="fw-bold text-dark">AA MediCare Sign In</h4>
+          <p class="text-muted small mb-0">Enter your hospital tenant credentials</p>
+        </div>
+        <form id="moduleLoginForm" onsubmit="handleModuleLogin(event)">
+          <div class="mb-3 text-start">
+            <label class="form-label small fw-semibold text-secondary">Email Address</label>
+            <input type="email" id="loginEmail" class="form-control" required placeholder="hosp_admin@aacrm.com" value="hosp_admin@aacrm.com">
+          </div>
+          <div class="mb-3 text-start">
+            <label class="form-label small fw-semibold text-secondary">Password</label>
+            <input type="password" id="loginPassword" class="form-control" required placeholder="••••••••" value="password123">
+          </div>
+          <div id="loginError" class="alert alert-danger py-2 small d-none mb-3"></div>
+          <button type="submit" class="btn text-white w-100 py-2 fw-semibold rounded-pill shadow-sm" style="background-color: #0F766E;">
+            Sign In to Workspace
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    async function handleModuleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const errBox = document.getElementById('loginError');
+      errBox.classList.add('d-none');
+
+      try {
+        const res = await axios.post('/api/auth/login', { email, password });
+        localStorage.setItem('token', res.data.token);
+        window.location.href = './dashboard.html';
+      } catch (err) {
+        errBox.textContent = err.response?.data?.error || 'Invalid credentials. Please try again.';
+        errBox.classList.remove('d-none');
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Admin - Enterprise Control Center</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background-color: #f4f6f9; }
+    .navbar-brand { font-weight: 700; letter-spacing: 0.5px; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-dark bg-dark px-4 shadow-sm">
+    <a class="navbar-brand" href="#"><i class="bi bi-shield-lock-fill me-2"></i> Super Admin Control Center</a>
+    <button class="btn btn-outline-light btn-sm" onclick="logout()"><i class="bi bi-box-arrow-right me-1"></i> Logout</button>
+  </nav>
+
+  <div class="container my-5">
+    <button class="btn btn-success me-2">
+      <a href="./dashboard.html" target="_blank" class="text-white text-decoration-none">
+          <i class="bi bi-building-add me-1"></i> Tenant View
+      </a>
+    </button>
+          
+    <!-- SECTION 1: Tenant & Module Assignments -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h2>Tenant & Module Management</h2>
+        <p class="text-muted">Oversee registered organizations, manage product subscriptions, and control access.</p>
+      </div>
+      <div>
+        <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#createTenantModal">
+          <i class="bi bi-building-add me-1"></i> Register Tenant
+        </button>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#assignModuleModal" onclick="populateModuleDropdowns()">
+          <i class="bi bi-plus-circle me-1"></i> Assign Module
+        </button>
+      </div>
+    </div>
+
+    <!-- Tenants & Modules Table -->
+    <div class="card shadow-sm p-3 border-0 mb-5">
+      <table class="table table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Tenant ID</th>
+            <th>Tenant Name</th>
+            <th>Subdomain</th>
+            <th>Assigned Module</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tenantTableBody">
+          <tr><td colspan="6" class="text-center text-muted py-4">Loading tenants...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 2: Master Product Module Catalogue Management -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h2>Product Catalogue Management</h2>
+        <p class="text-muted">Manage available product suites, update pricing, or add new modules dynamically.</p>
+      </div>
+      <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createModuleModal">
+        <i class="bi bi-folder-plus me-1"></i> Add New Product Module
+      </button>
+    </div>
+
+    <!-- Master Modules Table -->
+    <div class="card shadow-sm p-3 border-0">
+      <table class="table table-hover align-middle">
+        <thead class="table-secondary">
+          <tr>
+            <th>ID</th>
+            <th>Module Key</th>
+            <th>Display Name</th>
+            <th>Description</th>
+            <th>Price (Monthly)</th>
+            <td>Link</td>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="productModuleTableBody">
+          <tr><td colspan="7" class="text-center text-muted py-3">Loading catalogue...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- MODAL 1: Assign / Update Module to Tenant (Dynamic Catalogue Options) -->
+  <div class="modal fade" id="assignModuleModal" tabindex="-1">
+    <div class="modal-dialog">
+      <form id="assignModuleForm" class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Assign or Toggle Module Status</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Tenant ID</label>
+            <input type="number" id="modalTenantId" class="form-control" required placeholder="e.g. 1">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Module Name</label>
+            <!-- Dynamically populated from /api/modules catalogue -->
+            <select id="modalModuleName" class="form-select" required>
+              <option value="" disabled selected>Loading available modules...</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Module Status</label>
+            <select id="modalModuleStatus" class="form-select" required>
+              <option value="ACTIVE">ACTIVE</option>
+              <option value="SUSPENDED">SUSPENDED</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-success">Save Configuration</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Register New Tenant -->
+  <div class="modal fade" id="createTenantModal" tabindex="-1">
+    <div class="modal-dialog">
+      <form id="createTenantForm" class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Register New Tenant Organization</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Company / Tenant Name</label>
+            <input type="text" id="newTenantName" class="form-control" required placeholder="Acme Corp">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Subdomain</label>
+            <input type="text" id="newSubdomain" class="form-control" required placeholder="acme">
+          </div>
+          <hr>
+          <h6 class="text-muted fw-bold">Initial Admin Account</h6>
+          <div class="mb-3">
+            <label class="form-label">Admin Full Name</label>
+            <input type="text" id="newAdminName" class="form-control" required placeholder="Jane Doe">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Admin Email</label>
+            <input type="email" id="newAdminEmail" class="form-control" required placeholder="admin@acme.com">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Admin Password</label>
+            <input type="password" id="newAdminPassword" class="form-control" required placeholder="SecurePassword@123">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Provision Tenant</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Create New Product Module Catalogue Item -->
+  <div class="modal fade" id="createModuleModal" tabindex="-1">
+    <div class="modal-dialog">
+      <form id="createModuleForm" class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Add New Product Module</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Module Key (Uppercase identifier)</label>
+            <input type="text" id="newModuleKey" class="form-control" required placeholder="INVENTORY">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Display Name</label>
+            <input type="text" id="newModuleDisplayName" class="form-control" required placeholder="Inventory Management">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea id="newModuleDescription" class="form-control" rows="2" placeholder="Stock tracking and warehouse control."></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Monthly Price (₹)</label>
+            <input type="number" step="0.01" id="newModulePrice" class="form-control" required placeholder="750.00">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-dark">Create Module</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const token = localStorage.getItem('token');
+    if (!token) window.location.href = '/index.html';
+
+    const api = axios.create({ headers: { Authorization: `Bearer ${token}` } });
+
+    // Populate Dynamic Module Dropdown from Database Catalogue
+    async function populateModuleDropdowns() {
+      const select = document.getElementById('modalModuleName');
+      try {
+        const res = await api.get('/api/modules');
+        const modules = res.data;
+        select.innerHTML = modules.length ? modules.map(m => `<option value="${m.moduleKey}">${m.displayName} (${m.moduleKey})</option>`).join('') : '<option value="" disabled>No active modules available</option>';
+      } catch (err) {
+        select.innerHTML = '<option value="" disabled>Failed to load modules</option>';
+      }
+    }
+
+    // 1. Load Tenants & Modules Table
+    async function loadTenantsAndModules() {
+      const tbody = document.getElementById('tenantTableBody');
+      try {
+        const res = await api.get('/api/tenant-modules');
+        tbody.innerHTML = '';
+
+        if (!res.data || res.data.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">No tenants found.</td></tr>`;
+          return;
+        }
+
+        res.data.forEach(tenant => {
+          const modules = tenant.modules || [];
+          const formattedDate = tenant.createdAt ? new Date(tenant.createdAt).toLocaleDateString() : 'N/A';
+
+          if (modules.length === 0) {
+            tbody.innerHTML += `
+              <tr>
+                <td>${tenant.id}</td>
+                <td class="fw-bold">${tenant.name}</td>
+                <td>${tenant.subdomain || 'N/A'}</td>
+                <td class="text-muted fst-italic">No modules assigned</td>
+                <td><span class="badge bg-secondary">Unsubscribed</span></td>
+                <td>
+                  <small class="text-muted d-block mb-1">Created: ${formattedDate}</small>
+                  <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#assignModuleModal" onclick="prefillTenant(${tenant.id}); populateModuleDropdowns();">
+                    Assign Module
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" onclick="deleteTenant(${tenant.id}, '${tenant.name}')">
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            `;
+          } else {
+            modules.forEach((m, index) => {
+              const badgeClass = m.status === 'ACTIVE' ? 'bg-success' : 'bg-danger';
+              const toggleText = m.status === 'ACTIVE' ? 'Suspend' : 'Activate';
+              const nextStatus = m.status === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE';
+              const btnStyle = m.status === 'ACTIVE' ? 'btn-outline-danger' : 'btn-outline-success';
+
+              tbody.innerHTML += `
+                <tr>
+                  <td>${index === 0 ? tenant.id : ''}</td>
+                  <td class="fw-bold">${index === 0 ? tenant.name : ''}</td>
+                  <td>${index === 0 ? (tenant.subdomain || 'N/A') : ''}</td>
+                  <td><span class="badge bg-dark text-white px-2 py-1">${m.moduleName}</span></td>
+                  <td><span class="badge ${badgeClass}">${m.status}</span></td>
+                  <td>
+                    <small class="text-muted d-block mb-1">${index === 0 ? `Created: ${formattedDate}` : ''}</small>
+                    <button class="btn btn-sm ${btnStyle} me-1" onclick="quickToggle(${tenant.id}, '${m.moduleName}', '${nextStatus}')">
+                      ${toggleText}
+                    </button>
+                    ${index === 0 ? `<button class="btn btn-sm btn-outline-danger" onclick="deleteTenant(${tenant.id}, '${tenant.name}')">Delete</button>` : ''}
+                  </td>
+                </tr>
+              `;
+            });
+          }
+        });
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">Failed to load tenant data.</td></tr>`;
+      }
+    }
+
+    // 2. Load Master Product Catalogue Table
+    async function loadProductCatalogue() {
+      const tbody = document.getElementById('productModuleTableBody');
+      try {
+        const res = await api.get('/api/admin/modules');
+        tbody.innerHTML = '';
+
+        if (!res.data || res.data.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">No product modules found in catalogue.</td></tr>`;
+          return;
+        }
+
+        res.data.forEach(mod => {
+          const badgeClass = mod.status === 'ACTIVE' ? 'bg-success' : 'bg-secondary';
+          const nextStatus = mod.status === 'ACTIVE' ? 'DISCONTINUED' : 'ACTIVE';
+          const toggleText = mod.status === 'ACTIVE' ? 'Discontinue' : 'Activate';
+          const moduleUrl = `./modules/${mod.moduleKey}/index.html`;
+          tbody.innerHTML += `
+            <tr>
+              <td>${mod.id}</td>
+              <td><code>${mod.moduleKey}</code></td>
+              <td class="fw-bold">${mod.displayName}</td>
+              <td class="small text-muted">${mod.description || 'N/A'}</td>
+              <td>₹${parseFloat(mod.price).toFixed(2)}</td>
+              <td>
+                <a href="${moduleUrl}" target="_blank" class="btn btn-sm btn-outline-primary">
+                  Open Portal <i class="bi bi-box-arrow-up-right ms-1"></i>
+                </a>
+              </td>
+              <td><span class="badge ${badgeClass}">${mod.status}</span></td>
+              <td>
+                <button class="btn btn-sm btn-outline-dark" onclick="toggleModuleStatus(${mod.id}, '${nextStatus}')">
+                  ${toggleText}
+                </button>
+              </td>
+            </tr>
+          `;
+        });
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center text-danger">Failed to load product catalogue.</td></tr>`;
+      }
+    }
+
+    // Quick toggle module status for tenant
+    async function quickToggle(tenantId, moduleName, status) {
+      try {
+        await api.post('/api/admin/tenant-modules', { tenantId, moduleName, status });
+        loadTenantsAndModules();
+      } catch (err) {
+        alert(err.response?.data?.error || 'Failed to update module status');
+      }
+    }
+
+    // Toggle catalogue module status (ACTIVE / DISCONTINUED)
+    async function toggleModuleStatus(id, newStatus) {
+      try {
+        await api.put(`/api/admin/modules/${id}`, { status: newStatus });
+        loadProductCatalogue();
+      } catch (err) {
+        alert(err.response?.data?.error || 'Failed to update module catalogue status.');
+      }
+    }
+
+    function prefillTenant(tenantId) {
+      document.getElementById('modalTenantId').value = tenantId;
+    }
+
+    // Assign module form submit
+    document.getElementById('assignModuleForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const tenantId = document.getElementById('modalTenantId').value;
+      const moduleName = document.getElementById('modalModuleName').value;
+      const status = document.getElementById('modalModuleStatus').value;
+
+      try {
+        await api.post('/api/admin/tenant-modules', { tenantId, moduleName, status });
+        location.reload();
+      } catch (err) {
+        alert(err.response?.data?.error || 'Failed to assign module');
+      }
+    });
+
+    // Register Tenant form submit
+    document.getElementById('createTenantForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        tenantName: document.getElementById('newTenantName').value,
+        subdomain: document.getElementById('newSubdomain').value,
+        adminName: document.getElementById('newAdminName').value,
+        adminEmail: document.getElementById('newAdminEmail').value,
+        adminPassword: document.getElementById('newAdminPassword').value
+      };
+
+      try {
+        await api.post('/api/auth/register', payload);
+        alert('Tenant and admin successfully provisioned!');
+        location.reload();
+      } catch (err) {
+        alert(err.response?.data?.error || 'Failed to create tenant organization.');
+      }
+    });
+
+    // Create New Master Module form submit
+    document.getElementById('createModuleForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        moduleKey: document.getElementById('newModuleKey').value,
+        displayName: document.getElementById('newModuleDisplayName').value,
+        description: document.getElementById('newModuleDescription').value,
+        price: parseFloat(document.getElementById('newModulePrice').value)
+      };
+
+      try {
+        await api.post('/api/admin/modules', payload);
+        alert('New product module successfully added to catalogue!');
+        location.reload();
+      } catch (err) {
+        alert(err.response?.data?.error || 'Failed to create product module.');
+      }
+    });
+
+    async function deleteTenant(tenantId, tenantName) {
+      if (confirm(`Are you sure you want to delete tenant "${tenantName}" (ID: ${tenantId})? This action cannot be undone.`)) {
+        try {
+          await api.delete(`/api/tenants/${tenantId}`);
+          alert('Tenant deleted successfully.');
+          loadTenantsAndModules();
+        } catch (err) {
+          alert(err.response?.data?.error || 'Failed to delete tenant.');
+        }
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('token');
+      window.location.href = '/index.html';
+    }
+
+    // Initial load calls
+    loadTenantsAndModules();
+    loadProductCatalogue();
+    populateModuleDropdowns();
+  </script>
+</body>
+</html>

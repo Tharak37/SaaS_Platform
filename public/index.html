@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AA Technologies - Building Intelligent Digital Solutions</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap"
+    rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary-blue: #2563EB;
+      --dark-navy: #0F172A;
+      --cyan-accent: #06B6D4;
+      --light-gray: #F8FAFC;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: #334155;
+      background-color: var(--light-gray);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .navbar-brand {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .hero-section {
+      background: linear-gradient(135deg, var(--dark-navy) 0%, #1e293b 100%);
+      color: white;
+      padding: 120px 0;
+    }
+
+    .hero-section h1 {
+      color: #ffffff;
+    }
+
+    .hero-section h1 span {
+      color: var(--cyan-accent);
+    }
+
+    .feature-card {
+      transition: transform 0.2s;
+      border: none;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      border-radius: 12px;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .btn-primary {
+      background-color: var(--primary-blue);
+      border-color: var(--primary-blue);
+    }
+
+    .btn-primary:hover {
+      background-color: #1d4ed8;
+      border-color: #1d4ed8;
+    }
+
+    .text-primary {
+      color: var(--primary-blue) !important;
+    }
+
+    .badge-tech {
+      background-color: #e2e8f0;
+      color: var(--dark-navy);
+      font-weight: 500;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm py-3">
+    <div class="container">
+      <!-- <a class="navbar-brand fw-bold fs-4 text-primary d-flex align-items-center" href="#">
+        <i class="bi bi-cpu-fill me-2" style="color: var(--cyan-accent);"></i> AA Technologies
+      </a> -->
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+        <img src="../assets/AA_logo.png" alt="AA Technologies" width="100" height="75" class="me-2">
+        <!-- <span class="fw-bold fs-4 text-primary">
+          AA Technologies
+        </span> -->
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item"><a class="nav-link px-3" href="#services">Services</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="#products">Products</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="#techstack">Tech Stack</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="#about">About Us</a></li>
+          <li class="nav-item ms-lg-3">
+            <button class="btn btn-primary px-4 rounded-pill" data-bs-toggle="modal" data-bs-target="#authModal">Sign In
+              / Register</button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero-section text-center">
+    <div class="container">
+      <h1 class="display-4 fw-bold mb-3">Building Intelligent <span>Digital Solutions</span></h1>
+      <p class="lead mb-4 mx-auto" style="max-width: 650px; color: #94a3b8;">AA Technologies is a technology consulting
+        and software development company specializing in enterprise applications, SaaS platforms, AI solutions, cloud
+        technologies, and digital transformation.</p>
+      <button class="btn btn-light btn-lg text-primary fw-bold px-5 rounded-pill shadow" data-bs-toggle="modal"
+        data-bs-target="#authModal" onclick="switchPane('registerPane')">Get Started Free</button>
+    </div>
+  </header>
+
+  <section id="services" class="py-5 bg-white">
+    <div class="container py-4">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold">Our Core Services</h2>
+        <p class="text-muted">Empowering businesses through modern software engineering, cloud technologies, and
+          artificial intelligence.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card feature-card p-4 h-100 bg-light">
+            <div class="text-primary fs-1 mb-3"><i class="bi bi-code-slash"></i></div>
+            <h4 class="fw-bold">Software Development</h4>
+            <p class="text-muted small">Custom Software Development, Enterprise Application Development, SaaS Product
+              Development, and Mobile Application Development.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card p-4 h-100 bg-light">
+            <div class="text-primary fs-1 mb-3"><i class="bi bi-cpu"></i></div>
+            <h4 class="fw-bold">Advanced Tech & AI</h4>
+            <p class="text-muted small">AI & Generative AI Solutions, Business Process Automation, Cloud & DevOps, and
+              API Development & Integration.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card feature-card p-4 h-100 bg-light">
+            <div class="text-primary fs-1 mb-3"><i class="bi bi-lightbulb"></i></div>
+            <h4 class="fw-bold">Design & Strategy</h4>
+            <p class="text-muted small">UI/UX Design and Digital Transformation Consulting to guide your enterprise
+              forward.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="products" class="py-5 bg-light">
+    <div class="container py-4">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold">Our Product Portfolio</h2>
+        <p class="text-muted">Explore our active software solutions and long-term innovation pipeline.</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-6">
+          <div class="card p-4 h-100 border-0 shadow-sm">
+            <h4 class="fw-bold text-primary mb-3"><i class="bi bi-check-circle-fill me-2"></i>Active Suite</h4>
+            <ul class="list-unstyled mb-0">
+              <!-- <li class="py-2 border-bottom"><strong>WaitLess</strong> - Queue Management System</li>
+              <li class="py-2 border-bottom"><strong>MediTrack</strong> - Medicine History Tracker</li>
+              <li class="py-2 border-bottom"><strong>ServiceHub</strong> - Local Services Marketplace</li> -->
+              <li class="py-2 border-bottom"><strong>GateFlow</strong> - Gate Pass Management</li>
+              <li class="py-2 border-bottom"><strong>HRFlow</strong> - HR Management System</li>
+              <li class="py-2 pt-2"><strong>VenuePlay</strong> - Venue Engagement Platform</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card p-4 h-100 border-0 shadow-sm">
+            <h4 class="fw-bold text-dark mb-3"><i class="bi bi-rocket-takeoff-fill me-2"
+                style="color: var(--cyan-accent);"></i>Long-Term Product Pipeline</h4>
+            <div class="d-flex flex-wrap gap-2 mt-3">
+              <span class="badge-tech">HRMS Platform</span>
+              <span class="badge-tech">Gate Pass System</span>
+              <span class="badge-tech">Inventory Management</span>
+              <span class="badge-tech">ERP Solution</span>
+              <span class="badge-tech">CRM Platform</span>
+              <span class="badge-tech">PromptHub AI</span>
+              <span class="badge-tech">Workflow Automation</span>
+              <span class="badge-tech">Enterprise AI Assistant</span>
+              <span class="badge-tech">Document Management</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="techstack" class="py-5 bg-white">
+    <div class="container py-4 text-center">
+      <h2 class="fw-bold mb-3">Our Technology Stack</h2>
+      <p class="text-muted mb-5">Leveraging robust, modern frameworks and cloud platforms.</p>
+      <div class="d-flex flex-wrap justify-content-center gap-2">
+        <span class="badge-tech">Node.js</span>
+        <span class="badge-tech">React</span>
+        <span class="badge-tech">Angular</span>
+        <span class="badge-tech">Ionic</span>
+        <span class="badge-tech">Mendix</span>
+        <span class="badge-tech">MySQL</span>
+        <span class="badge-tech">PostgreSQL</span>
+        <span class="badge-tech">MongoDB</span>
+        <span class="badge-tech">Docker</span>
+        <span class="badge-tech">Kubernetes</span>
+        <span class="badge-tech">AWS</span>
+        <span class="badge-tech">Azure</span>
+        <span class="badge-tech">Google Cloud</span>
+        <span class="badge-tech">OpenAI</span>
+        <span class="badge-tech">Claude</span>
+        <span class="badge-tech">REST APIs</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Footer ================= -->
+<footer id="about" class="bg-dark text-light pt-5 pb-3 border-top border-secondary">
+
+  <div class="container">
+
+    <div class="row gy-4">
+
+      <!-- Company -->
+      <div class="col-lg-4 col-md-6">
+
+        <h4 class="fw-bold text-white mb-3">
+          <!-- <i class="bi bi-cpu-fill text-info me-2"></i> -->
+          AA Technologies
+        </h4>
+
+        <p class="text-secondary mb-3">
+          Empowering businesses with modern SaaS platforms, enterprise applications,
+          AI-powered automation, cloud solutions, and digital transformation services.
+        </p>
+
+        <div class="d-flex gap-3 fs-5">
+
+          <a href="#" class="text-secondary"><i class="bi bi-facebook"></i></a>
+
+          <a href="#" class="text-secondary"><i class="bi bi-linkedin"></i></a>
+
+          <a href="#" class="text-secondary"><i class="bi bi-twitter-x"></i></a>
+
+          <a href="#" class="text-secondary"><i class="bi bi-github"></i></a>
+
+        </div>
+
+      </div>
+
+      <!-- Quick Links -->
+
+      <div class="col-lg-2 col-md-6">
+
+        <h5 class="text-white mb-3">Quick Links</h5>
+
+        <ul class="list-unstyled">
+
+          <li class="mb-2">
+            <a href="#home" class="text-secondary text-decoration-none">
+              Home
+            </a>
+          </li>
+
+          <li class="mb-2">
+            <a href="#features" class="text-secondary text-decoration-none">
+              Features
+            </a>
+          </li>
+
+          <li class="mb-2">
+            <a href="#modules" class="text-secondary text-decoration-none">
+              Modules
+            </a>
+          </li>
+
+          <li class="mb-2">
+            <a href="#pricing" class="text-secondary text-decoration-none">
+              Pricing
+            </a>
+          </li>
+
+          <li>
+            <a href="#contact" class="text-secondary text-decoration-none">
+              Contact
+            </a>
+          </li>
+
+        </ul>
+
+      </div>
+
+      <!-- Products -->
+
+      <div class="col-lg-3 col-md-6">
+
+        <h5 class="text-white mb-3">
+          Products
+        </h5>
+
+        <ul class="list-unstyled">
+
+          <li class="mb-2">HRMS Suite</li>
+
+          <li class="mb-2">CRM Platform</li>
+
+          <li class="mb-2">Inventory Management</li>
+
+          <li class="mb-2">Gate Pass System</li>
+
+          <li class="mb-2">Helpdesk</li>
+
+
+        </ul>
+
+      </div>
+
+      <!-- Contact -->
+
+      <div class="col-lg-3 col-md-6">
+
+        <h5 class="text-white mb-3">
+          Contact Us
+        </h5>
+
+        <p class="mb-2">
+          <i class="bi bi-envelope-fill text-info me-2"></i>
+          tharak37@gmail.com
+        </p>
+
+        <p class="mb-2">
+          <i class="bi bi-telephone-fill text-info me-2"></i>
+          +91 76618 29283
+        </p>
+
+        <p class="mb-0">
+          <i class="bi bi-geo-alt-fill text-info me-2"></i>
+          Visakhapatnam, Andhra Pradesh, India
+        </p>
+
+      </div>
+
+    </div>
+
+    <hr class="border-secondary my-4">
+
+    <div class="row align-items-center">
+
+      <div class="col-md-6 text-center text-md-start">
+
+        <small class="text-secondary">
+          © 2026 <strong class="text-white">AA Technologies</strong>. All Rights Reserved.
+        </small>
+
+      </div>
+
+      <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
+
+        <small class="text-secondary">
+          Designed & Developed by
+          <span class="text-info fw-semibold">
+            AA Technologies
+          </span>
+        </small>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+
+  <div class="modal fade" id="authModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header border-0 pb-0">
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body px-4 pb-4">
+
+          <ul class="nav nav-pills nav-fill mb-4 bg-light p-1 rounded" id="authTab" role="tablist">
+            <li class="nav-item">
+              <button class="nav-link active rounded" id="login-tab" data-bs-toggle="pill" data-bs-target="#loginPane"
+                type="button">Login</button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link rounded" id="register-tab" data-bs-toggle="pill" data-bs-target="#registerPane"
+                type="button">Register</button>
+            </li>
+          </ul>
+
+          <div class="tab-content" id="authTabContent">
+
+            <div class="tab-pane fade show active" id="loginPane">
+              <form id="loginForm">
+                <h4 class="mb-3 fw-bold text-center">Welcome Back</h4>
+                <div class="mb-3">
+                  <label class="form-label">Email Address</label>
+                  <input type="email" id="loginEmail" class="form-control" required placeholder="admin@company.com">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Password</label>
+                  <input type="password" id="loginPassword" class="form-control" required placeholder="••••••••">
+                </div>
+                <button type="submit" class="btn btn-primary w-100 py-2 mb-2">Login</button>
+                <div class="text-end mb-3">
+                  <a href="#" class="small text-decoration-none" onclick="switchPane('forgotPane')">Forgot Password?</a>
+                </div>
+                <div id="loginAlert" class="alert alert-danger d-none py-2 small" role="alert"></div>
+              </form>
+            </div>
+
+            <div class="tab-pane fade" id="registerPane">
+              <form id="registerForm">
+                <h4 class="mb-3 fw-bold text-center">Create Tenant Account</h4>
+                <div class="mb-3">
+                  <label class="form-label">Company / Tenant Name</label>
+                  <input type="text" id="regTenantName" class="form-control" required placeholder="InnoTech Solutions">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Subdomain</label>
+                  <input type="text" id="regSubdomain" class="form-control" required placeholder="innotech">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Admin Full Name</label>
+                  <input type="text" id="regAdminName" class="form-control" required placeholder="John Doe">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Admin Email</label>
+                  <input type="email" id="regAdminEmail" class="form-control" required placeholder="john@innotech.com">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Password</label>
+                  <input type="password" id="regPassword" class="form-control" required placeholder="Admin@123">
+                </div>
+                <button type="submit" class="btn btn-success w-100 py-2 mb-3">Register Organization</button>
+                <div id="regAlert" class="alert alert-danger d-none py-2 small" role="alert"></div>
+              </form>
+            </div>
+
+            <div class="tab-pane fade" id="forgotPane">
+              <form id="forgotForm">
+                <h4 class="mb-3 fw-bold text-center">Reset Password</h4>
+                <p class="text-muted small text-center">Enter your email address and we'll send you a password reset
+                  link/token.</p>
+                <div class="mb-3">
+                  <label class="form-label">Email Address</label>
+                  <input type="email" id="forgotEmail" class="form-control" required placeholder="admin@company.com">
+                </div>
+                <button type="submit" class="btn btn-warning w-100 py-2 mb-3 text-dark">Send Reset Token</button>
+                <div class="text-center mb-2">
+                  <a href="#" class="small text-decoration-none" onclick="switchPane('loginPane')">Back to Login</a>
+                </div>
+                <div id="forgotAlert" class="alert alert-info d-none py-2 small" role="alert"></div>
+              </form>
+            </div>
+
+            <div class="tab-pane fade" id="resetPane">
+              <form id="resetForm">
+                <h4 class="mb-3 fw-bold text-center">Set New Password</h4>
+                <div class="mb-3">
+                  <label class="form-label">Reset Token</label>
+                  <input type="text" id="resetToken" class="form-control" required placeholder="Paste token here">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">New Password</label>
+                  <input type="password" id="resetNewPassword" class="form-control" required placeholder="New Password">
+                </div>
+                <button type="submit" class="btn btn-dark w-100 py-2 mb-3">Update Password</button>
+                <div class="text-center mb-2">
+                  <a href="#" class="small text-decoration-none" onclick="switchPane('loginPane')">Back to Login</a>
+                </div>
+                <div id="resetAlert" class="alert alert-danger d-none py-2 small" role="alert"></div>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    // Helper function to switch modal panes programmatically
+    function switchPane(paneId) {
+      if (paneId === 'loginPane') {
+        new bootstrap.Tab(document.getElementById('login-tab')).show();
+        return;
+      }
+      if (paneId === 'registerPane') {
+        new bootstrap.Tab(document.getElementById('register-tab')).show();
+        return;
+      }
+
+      document.querySelectorAll('.tab-pane').forEach(el => {
+        el.classList.remove('show', 'active');
+      });
+      document.getElementById(paneId).classList.add('show', 'active');
+    }
+
+    // 1. Handle Login
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const alertBox = document.getElementById('loginAlert');
+      alertBox.classList.add('d-none');
+
+      try {
+        const response = await axios.post('/api/auth/login', { email, password });
+        localStorage.setItem('token', response.data.token);
+
+        const role = response.data.user?.role || response.data.role;
+        if (role === 'SUPER_ADMIN') {
+          window.location.href = '/super-admin.html';
+        } else {
+          window.location.href = '/dashboard.html';
+        }
+      } catch (err) {
+        alertBox.textContent = err.response?.data?.error || 'Login failed. Please check your credentials.';
+        alertBox.classList.remove('d-none');
+      }
+    });
+
+    // 2. Handle Tenant Self-Registration (/api/auth/register)
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        tenantName: document.getElementById('regTenantName').value,
+        subdomain: document.getElementById('regSubdomain').value,
+        adminName: document.getElementById('regAdminName').value,
+        adminEmail: document.getElementById('regAdminEmail').value,
+        adminPassword: document.getElementById('regPassword').value
+      };
+      const alertBox = document.getElementById('regAlert');
+      alertBox.classList.add('d-none');
+
+      try {
+        await axios.post('/api/auth/register', payload);
+        alert('Tenant and Admin registered successfully! You can now log in.');
+        switchPane('loginPane');
+      } catch (err) {
+        alertBox.textContent = err.response?.data?.error || 'Registration failed.';
+        alertBox.classList.remove('d-none');
+      }
+    });
+
+    // 3. Handle Forgot Password Request (/api/auth/forgot-password)
+    document.getElementById('forgotForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('forgotEmail').value;
+      const alertBox = document.getElementById('forgotAlert');
+      alertBox.classList.remove('d-none');
+      alertBox.className = 'alert alert-info py-2 small';
+      alertBox.textContent = 'Sending reset instructions...';
+
+      try {
+        const res = await axios.post('/api/auth/forgot-password', { email });
+        alertBox.className = 'alert alert-success py-2 small';
+        alertBox.textContent = res.data.message || 'Password reset token generated!';
+
+        if (res.data.token) {
+          document.getElementById('resetToken').value = res.data.token;
+        }
+
+        setTimeout(() => switchPane('resetPane'), 2500);
+      } catch (err) {
+        alertBox.className = 'alert alert-danger py-2 small';
+        alertBox.textContent = err.response?.data?.error || 'Failed to request password reset.';
+      }
+    });
+
+    // 4. Handle Reset Password Completion (/api/auth/reset-password)
+    document.getElementById('resetForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const token = document.getElementById('resetToken').value;
+      const newPassword = document.getElementById('resetNewPassword').value;
+      const alertBox = document.getElementById('resetAlert');
+      alertBox.classList.add('d-none');
+
+      try {
+        await axios.post('/api/auth/reset-password', { token, newPassword });
+        alert('Password successfully updated! You can now log in with your new password.');
+        switchPane('loginPane');
+      } catch (err) {
+        alertBox.textContent = err.response?.data?.error || 'Password reset failed or token expired.';
+        alertBox.classList.remove('d-none');
+      }
+    });
+  </script>
+</body>
+
+</html>

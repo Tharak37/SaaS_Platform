@@ -1,0 +1,736 @@
+:root {
+    --med-primary: #0F766E;
+    --med-dark: #115E59;
+    --med-accent: #14B8A6;
+    --med-light: #F0FDFA;
+    --success: #10B981;
+    --danger: #EF4444;
+    --warning: #F59E0B;
+    --cream: #F8FAFC;
+    --card: #FFFFFF;
+    --line: #E2E8F0;
+    --ink: #0F172A;
+    --ink-soft: #64748B;
+    --nav-h: 64px;
+    --header-h: 64px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #CBD5E1;
+    color: var(--ink);
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Poppins', sans-serif;
+    color: var(--ink);
+    margin: 0;
+}
+
+/* Master App Shell */
+#appShell {
+    width: 100%;
+    height: 100vh;
+    background: var(--cream);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+@media (min-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    #appShell {
+        max-width: 1440px;
+        height: calc(100vh - 20px);
+        margin: 0 auto;
+        border-radius: 18px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .mobile-only {
+        display: none !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .desktop-sidebar {
+        display: none !important;
+    }
+}
+
+/* Fixed Header */
+.app-header {
+    height: var(--header-h);
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    background: var(--card);
+    z-index: 50;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--med-primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.brand-name {
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: -0.2px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+}
+
+.icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--med-primary);
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.avatar-chip {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--med-primary);
+    color: #fff;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.88rem;
+    cursor: pointer;
+}
+
+/* Profile Dropdown Menu */
+.profile-dropdown-menu {
+    position: absolute;
+    right: 0;
+    top: 48px;
+    width: 260px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    padding: 14px;
+    z-index: 100;
+    display: none;
+}
+
+.profile-dropdown-menu.open {
+    display: block;
+}
+
+/* Main App Body Wrapper */
+.app-body-wrapper {
+    display: flex;
+    flex: 1 1 auto;
+    height: calc(100vh - var(--header-h));
+    overflow: hidden;
+    position: relative;
+}
+
+/* Desktop Sidebar */
+.desktop-sidebar {
+    width: 270px;
+    background: var(--card);
+    border-right: 1px solid var(--line);
+    padding: 20px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 0 0 auto;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    border-radius: 12px;
+    color: var(--ink-soft);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.15s;
+}
+
+.sidebar-link i {
+    font-size: 1.1rem;
+    color: var(--med-primary);
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+    background: var(--med-light);
+    color: var(--med-dark);
+}
+
+/* Content Area */
+.app-content {
+    flex: 1 1 auto;
+    height: 100%;
+    overflow-y: auto;
+    padding: 24px;
+    background: var(--cream);
+}
+
+@media (max-width: 767px) {
+    .app-content {
+        padding-bottom: calc(var(--nav-h) + 30px);
+    }
+}
+
+/* Fix mobile bottom navigation and card wrapping */
+@media (max-width: 991px) {
+    .bottom-nav {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 64px;
+        background: var(--med-card, #FFFFFF);
+        border-top: 1px solid var(--med-line, #EFE3D0);
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        z-index: 40;
+        padding: 0 4px;
+    }
+
+    .nav-item {
+        background: none;
+        border: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        color: var(--med-text-muted, #8A7563);
+        font-size: 0.95rem;
+        padding: 4px 6px;
+        cursor: pointer;
+        flex: 1;
+        white-space: nowrap;
+    }
+
+    .nav-item span {
+        font-size: 0.58rem;
+        font-weight: 600;
+    }
+
+    .nav-item.active {
+        color: var(--med-primary, #0F766E);
+    }
+
+    .nav-item.active i {
+        background: var(--med-light, #CCFBF1);
+        border-radius: 8px;
+        padding: 2px 8px;
+    }
+
+    /* Ensure content doesn't get hidden behind fixed nav */
+    .app-content {
+        padding-bottom: 84px !important;
+    }
+
+    /* Reposition FAB so it floats above the bottom nav nicely */
+    .fab {
+        bottom: 78px !important;
+        right: 18px !important;
+    }
+}
+
+/* Hero Banner & KPIs */
+.hero-banner {
+    background: linear-gradient(135deg, var(--med-primary) 0%, var(--med-dark) 100%);
+    border-radius: 20px;
+    padding: 24px;
+    color: #fff;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(15, 118, 110, 0.2);
+}
+
+.hero-banner::after {
+    content: '';
+    position: absolute;
+    right: -30px;
+    top: -30px;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background: rgba(20, 184, 166, 0.25);
+}
+
+.hero-banner h3 {
+    color: #fff;
+    font-size: 1.25rem;
+}
+
+.hero-banner p {
+    color: #99F6E4;
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+.abha-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.18);
+    color: #CCFBF1;
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    margin-top: 12px;
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.kpi-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.kpi-card .kpi-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+.kpi-label {
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.kpi-value {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.7rem;
+    margin-top: 2px;
+    color: var(--ink);
+}
+
+/* Quick Actions Horizontal Row */
+.qa-row {
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 14px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 24px;
+    white-space: nowrap;
+}
+
+.qa-item {
+    flex: 0 0 84px !important;
+    width: 84px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.qa-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 18px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    color: var(--med-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    margin: 0 auto 6px auto;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    transition: all 0.15s;
+}
+
+.qa-icon:hover {
+    border-color: var(--med-accent);
+    background: var(--med-light);
+}
+
+.qa-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+}
+
+/* Section Title */
+.section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.section-title h2 {
+    font-size: 1.1rem;
+}
+
+.section-sub {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    margin-top: 2px;
+}
+
+/* Record Cards */
+.rec-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 12px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    cursor: pointer;
+    transition: all 0.15s;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+.rec-card:hover {
+    border-color: var(--med-accent);
+    transform: translateY(-1px);
+}
+
+.rec-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: var(--med-light);
+    color: var(--med-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    flex: 0 0 auto;
+}
+
+.rec-body {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.rec-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.rec-title {
+    font-weight: 700;
+    font-size: 0.98rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.rec-subtitle {
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    margin-top: 2px;
+}
+
+.rec-badge {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    color: var(--success);
+    white-space: nowrap;
+}
+
+.rec-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 10px;
+}
+
+.rec-meta span {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+/* Status Badges */
+.status-pill {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 999px;
+    text-transform: uppercase;
+}
+
+.status-SCHEDULED {
+    background: #E0F2FE;
+    color: #0284C7;
+}
+
+.status-CHECKED_IN {
+    background: #FEF3C7;
+    color: #D97706;
+}
+
+.status-IN_CONSULTATION {
+    background: #CCFBF1;
+    color: #0D9488;
+}
+
+.status-COMPLETED {
+    background: #D1FAE5;
+    color: #059669;
+}
+
+.status-CANCELLED {
+    background: #FEE2E2;
+    color: #DC2626;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 16px;
+    color: var(--ink-soft);
+}
+
+.empty-state i {
+    font-size: 2.8rem;
+    opacity: 0.5;
+    display: block;
+    margin-bottom: 12px;
+}
+
+/* Bottom Sheets & Record 360 Detail Drawer */
+.sheet-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 90;
+}
+
+.sheet-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.bottom-sheet {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--card);
+    border-radius: 24px 24px 0 0;
+    max-height: 85%;
+    transform: translateY(100%);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 95;
+    padding: 20px 24px 36px 24px;
+    overflow-y: auto;
+    box-shadow: 0 -15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.bottom-sheet.open {
+    transform: translateY(0);
+}
+
+.sheet-handle {
+    width: 40px;
+    height: 4px;
+    background: var(--line);
+    border-radius: 99px;
+    margin: 0 auto 16px auto;
+}
+
+/* Detail Property Cards */
+.detail-prop-card {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-prop-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.detail-prop-val {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-top: 2px;
+    word-break: break-all;
+}
+
+/* OPD Status Update Box inside Drawer */
+.opd-update-box {
+    background: var(--med-light);
+    border: 1.5px solid var(--med-accent);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+/* Modal Styling Overrides */
+.modal-dialog {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 auto;
+    max-width: 480px;
+    width: 100%;
+    transform: translateY(100%) !important;
+}
+
+.modal.show .modal-dialog {
+    transform: translateY(0) !important;
+}
+
+.modal-content {
+    border-radius: 24px 24px 0 0;
+    border: none;
+    padding: 8px 6px;
+    background: var(--cream);
+}
+
+.modal-header {
+    border: none;
+}
+
+.modal-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.form-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.form-control,
+.form-select {
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    background: var(--card);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--med-accent);
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.18);
+}
+
+.btn-primary {
+    background: var(--med-primary);
+    border-color: var(--med-primary);
+    border-radius: 12px;
+    font-weight: 700;
+    padding: 10px;
+}
+
+.btn-primary:hover {
+    background: var(--med-dark);
+    border-color: var(--med-dark);
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 4px;
+}

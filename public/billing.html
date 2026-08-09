@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modular Subscription & Billing</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; background-color: #f4f6f9; }
+    .billing-card { border: none; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-dark bg-dark px-4 shadow-sm mb-5">
+    <a class="navbar-brand fw-bold" href="/dashboard.html"><i class="bi bi-arrow-left me-2"></i> Back to Dashboard</a>
+    <span class="text-white small">Subscription Management</span>
+  </nav>
+
+  <div class="container pb-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        
+        <div class="card billing-card p-4 bg-white">
+          <h3 class="fw-bold mb-2"><i class="bi bi-box-seam me-2 text-primary"></i>Choose Product Modules</h3>
+          <p class="text-muted mb-4">Select the enterprise suites you wish to subscribe to. Your monthly total updates automatically.</p>
+
+          <!-- Billing Form -->
+          <form id="billingForm">
+            
+            <!-- Dynamic Modules Checkbox List Container -->
+            <div class="list-group mb-4" id="modulesListContainer">
+              <div class="text-center text-muted py-4">Loading available modules from catalogue...</div>
+            </div>
+
+            <!-- Total Summary Card -->
+            <div class="card bg-light border-0 p-3 mb-4">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 text-secondary">Total Monthly Due:</h5>
+                <h3 class="mb-0 fw-bold text-success" id="displayTotal">₹0</h3>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 py-3 fw-bold fs-5 shadow-sm">
+              <i class="bi bi-shield-lock-fill me-2"></i> Proceed to Secure Checkout
+            </button>
+            <div id="billingAlert" class="alert alert-danger d-none mt-3 py-2 small" role="alert"></div>
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <!-- Razorpay Checkout Script -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  
+  <script>
+    const token = localStorage.getItem('token');
+    if (!token) window.location.href = '/index.html';
+
+    const api = axios.create({ headers: { Authorization: `Bearer ${token}` } });
+
+    // 1. Fetch active modules dynamically from your master table endpoint (/api/modules)
+    async function loadAvailableModules() {
+      const container = document.getElementById('modulesListContainer');
+      try {
+        const res = await api.get('/api/modules');
+        container.innerHTML = '';
+
+        if (!res.data || res.data.length === 0) {
+          container.innerHTML = `<div class="text-center text-muted py-3">No active modules available at this moment.</div>`;
+          return;
+        }
+
+        res.data.forEach(mod => {
+          container.innerHTML += `
+            <label class="list-group-item d-flex align-items-center py-3 px-3 border rounded mb-2 shadow-sm" style="cursor: pointer;">
+              <input class="form-check-input me-3 module-checkbox fs-5" type="checkbox" value="${mod.moduleKey}" data-price="${mod.price}" onchange="calculateTotal()">
+              <div class="flex-grow-1">
+                <h5 class="mb-0 fw-bold text-dark">${mod.displayName}</h5>
+                <small class="text-muted">${mod.description || 'Enterprise module suite.'}</small>
+              </div>
+              <span class="badge bg-primary fs-6 px-3 py-2">₹${parseFloat(mod.price).toFixed(2)} / mo</span>
+            </label>
+          `;
+        });
+      } catch (err) {
+        console.error(err);
+        container.innerHTML = `<div class="text-center text-danger py-3">Failed to load product modules catalogue.</div>`;
+      }
+    }
+
+    // 2. Real-time Client-side Calculation
+    function calculateTotal() {
+      const checkboxes = document.querySelectorAll('.module-checkbox:checked');
+      let total = 0;
+      checkboxes.forEach(cb => {
+        total += parseFloat(cb.getAttribute('data-price'));
+      });
+      document.getElementById('displayTotal').textContent = `₹${total.toFixed(2)}`;
+    }
+
+    // 3. Handle Checkout Form Submission -> Calls /api/subscriptions/create-order
+    document.getElementById('billingForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const alertBox = document.getElementById('billingAlert');
+      alertBox.classList.add('d-none');
+
+      const selectedModules = Array.from(document.querySelectorAll('.module-checkbox:checked')).map(cb => cb.value);
+
+      if (selectedModules.length === 0) {
+        alertBox.textContent = 'Please select at least one module to proceed with your subscription.';
+        alertBox.classList.remove('d-none');
+        return;
+      }
+
+      try {
+        // Call backend order creation endpoint
+        const response = await api.post('/api/subscriptions/create-order', { selectedModules });
+        const { orderId, amount, currency } = response.data;
+
+        // Open Razorpay Checkout modal
+        const options = {
+          key: "rzp_test_YourTestKeyId", // Replace with your Razorpay Test Key ID
+          amount: amount, // Amount in paisa
+          currency: currency,
+          name: "SaaS Enterprise Platform",
+          description: "Multi-Module Subscription Upgrade",
+          order_id: orderId,
+          handler: function (response) {
+            alert('Payment successful! Your modules have been provisioned.');
+            window.location.href = '/dashboard.html';
+          },
+          prefill: {
+            name: "Tenant Administrator",
+            email: "admin@tenant.com"
+          },
+          theme: {
+            color: "#0d6efd"
+          }
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.open();
+
+      } catch (err) {
+        alertBox.textContent = err.response?.data?.error || 'Failed to initialize payment gateway order.';
+        alertBox.classList.remove('d-none');
+      }
+    });
+
+    // Initialize module list on page load
+    loadAvailableModules();
+  </script>
+</body>
+</html>

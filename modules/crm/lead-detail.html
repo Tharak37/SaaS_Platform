@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en" x-data="leadDetailApp()" x-init="initLeadDetail()">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Detail 360° - Enterprise CRM</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Bootstrap CSS for layout components & modals -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="./style.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <div id="appShell">
+
+        <!-- Header / Navigation Bar (Clean & Streamlined) -->
+        <header class="app-header shadow-sm">
+            <a href="dashboard.html" class="brand">
+                <div class="brand-badge"><i class="bi bi-arrow-left"></i></div>
+                <span>Leads / All Leads</span>
+            </a>
+        </header>
+
+        <!-- Main Content Body (Scrollable Middle Content Area) -->
+        <main class="app-content overflow-y-auto flex-1 p-4 md:p-8 space-y-6">
+
+            <!-- Lead Hero Banner -->
+            <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 md:p-7">
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+
+                    <!-- Lead Identity & Contacts -->
+                    <div class="space-y-2 w-full lg:w-auto">
+                        <div class="flex flex-wrap items-center gap-2.5">
+                            <span
+                                class="px-2.5 py-0.5 text-xs font-bold bg-amber-50 text-amber-700 border border-amber-200 rounded-full inline-flex items-center gap-1">
+                                <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span> HOT LEAD
+                            </span>
+                            <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider"
+                                x-text="'LEAD #' + (lead.id ? lead.id.toString().padStart(6, '0') : '000503')"></span>
+                        </div>
+                        <h1 class="text-xl md:text-3xl font-extrabold text-slate-900 tracking-tight break-words"
+                            x-text="lead.fullName || 'Rajesh Kumar'"></h1>
+                        <p class="text-sm font-semibold text-slate-600 break-words"
+                            x-text="lead.companyName || 'ABC Technologies Pvt Ltd'"></p>
+                        <div
+                            class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-slate-600 pt-1">
+                            <a :href="'tel:' + lead.phone"
+                                class="inline-flex items-center gap-1.5 hover:text-blue-600 transition break-all">
+                                <i class="bi bi-telephone text-slate-400 flex-shrink-0"></i> <span
+                                    x-text="lead.phone || '+91 98765 43210'"></span>
+                            </a>
+                            <span class="hidden sm:inline text-slate-300">•</span>
+                            <a :href="'mailto:' + lead.email"
+                                class="inline-flex items-center gap-1.5 hover:text-blue-600 transition break-all">
+                                <i class="bi bi-envelope text-slate-400 flex-shrink-0"></i> <span
+                                    x-text="lead.email || 'rajesh@abc.com'"></span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Stage & Owner Assignment Box + Action Buttons Grid -->
+                    <div
+                        class="bg-slate-50 p-4 rounded-xl border border-slate-200/80 w-full lg:w-80 space-y-3 flex-shrink-0">
+                        <div>
+                            <label
+                                class="block text-[11px] uppercase font-bold text-slate-400 mb-1 tracking-wider">Pipeline
+                                Stage</label>
+                            <select x-model="lead.statusId" @change="updateStage($event.target.value)"
+                                class="w-full text-sm font-semibold border border-slate-300 rounded-lg px-3 py-2 bg-white shadow-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                                <option value="1">New</option>
+                                <option value="2">Contacted</option>
+                                <option value="3" selected>Qualified</option>
+                                <option value="4">Proposal Sent</option>
+                                <option value="5">Negotiation</option>
+                                <option value="6">Won / Lost</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label
+                                class="block text-[11px] uppercase font-bold text-slate-400 mb-1 tracking-wider">Owner
+                                Assignment</label>
+                            <select
+                                class="w-full text-sm font-semibold border border-slate-300 rounded-lg px-3 py-2 bg-white shadow-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                                <option selected>Manikanta</option>
+                                <option>Sales Manager North</option>
+                                <option>Sales Rep 2</option>
+                            </select>
+                        </div>
+
+                        <!-- Action Buttons Moved Into the Content Side Card -->
+                        <div class="pt-2 border-t border-slate-200 grid grid-cols-2 gap-2">
+                            <button @click="openEditModal = true" class="btn btn-sm btn-outline-secondary w-full">
+                                <i class="bi bi-pencil"></i> Edit
+                            </button>
+                            <button @click="convertLead()" class="btn btn-sm btn-success text-white w-full">
+                                <i class="bi bi-check-circle"></i> Convert
+                            </button>
+                            <button @click="triggerLeadRouting()" class="btn btn-sm btn-outline-dark w-full text-xs">
+                                <i class="bi bi-cpu"></i> AI Score
+                            </button>
+                            <button @click="deleteLead()" class="btn btn-sm btn-outline-danger w-full text-xs">
+                                <i class="bi bi-trash"></i> Delete
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Quick Action Toolbar -->
+                <div class="flex flex-wrap gap-2 mt-6 pt-5 border-t border-slate-100">
+                    <button @click="openActionModal('Call')" class="btn btn-sm btn-light border">
+                        <i class="bi bi-telephone text-blue-600"></i> Call
+                    </button>
+                    <button @click="openActionModal('Email')" class="btn btn-sm btn-light border">
+                        <i class="bi bi-envelope text-indigo-600"></i> Email
+                    </button>
+                    <button @click="openActionModal('WhatsApp')" class="btn btn-sm btn-light border">
+                        <i class="bi bi-whatsapp text-emerald-600"></i> WhatsApp
+                    </button>
+                    <button @click="openTaskModal = true" class="btn btn-sm btn-light border">
+                        <i class="bi bi-check2-square text-amber-600"></i> Add Task
+                    </button>
+                    <button @click="openNoteModal = true" class="btn btn-sm btn-light border">
+                        <i class="bi bi-journal-text text-purple-600"></i> Add Note
+                    </button>
+                </div>
+            </section>
+
+            <!-- Navigation Tabs -->
+            <nav
+                class="flex border-b border-slate-200 text-sm font-semibold overflow-x-auto bg-white rounded-t-xl px-2 md:px-4 shadow-sm">
+                <button
+                    class="py-3 px-3 md:px-4 border-b-2 border-blue-600 text-blue-600 whitespace-nowrap">Overview</button>
+                <button
+                    class="py-3 px-3 md:px-4 text-slate-500 hover:text-slate-900 whitespace-nowrap transition">Activities</button>
+                <button
+                    class="py-3 px-3 md:px-4 text-slate-500 hover:text-slate-900 whitespace-nowrap transition">Notes</button>
+                <button
+                    class="py-3 px-3 md:px-4 text-slate-500 hover:text-slate-900 whitespace-nowrap transition">Tasks</button>
+                <button
+                    class="py-3 px-3 md:px-4 text-slate-500 hover:text-slate-900 whitespace-nowrap transition">Calls</button>
+                <button
+                    class="py-3 px-3 md:px-4 text-slate-500 hover:text-slate-900 whitespace-nowrap transition">Emails</button>
+                <button
+                    class="py-3 px-3 md:px-4 text-slate-500 hover:text-slate-900 whitespace-nowrap transition">Documents</button>
+                <button
+                    class="py-3 px-3 md:px-4 text-slate-500 hover:text-slate-900 whitespace-nowrap transition">History</button>
+            </nav>
+
+            <!-- Grid Layout Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <!-- Lead Information Card -->
+                <div
+                    class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 md:p-6 flex flex-col justify-between">
+                    <div>
+                        <h3
+                            class="font-bold text-slate-900 text-xs uppercase mb-4 border-b border-slate-100 pb-2.5 tracking-wider flex items-center gap-2">
+                            <i class="bi bi-person-badge text-blue-600"></i> Lead Information
+                        </h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between py-1 gap-2"><span class="text-slate-400 flex-shrink-0">Lead
+                                    Name</span><span class="font-semibold text-slate-800 text-right truncate"
+                                    x-text="lead.fullName || 'Rajesh Kumar'"></span></div>
+                            <div class="flex justify-between py-1 gap-2"><span
+                                    class="text-slate-400 flex-shrink-0">Company</span><span
+                                    class="font-semibold text-slate-800 text-right truncate"
+                                    x-text="lead.companyName || 'ABC Technologies'"></span></div>
+                            <div class="flex justify-between py-1 gap-2"><span
+                                    class="text-slate-400 flex-shrink-0">Designation</span><span
+                                    class="font-semibold text-slate-800 text-right">IT Manager</span></div>
+                            <div class="flex justify-between py-1 gap-2"><span
+                                    class="text-slate-400 flex-shrink-0">Email</span><span
+                                    class="font-semibold text-blue-600 text-right break-all"
+                                    x-text="lead.email || 'rajesh@abc.com'"></span>
+                            </div>
+                            <div class="flex justify-between py-1 gap-2"><span
+                                    class="text-slate-400 flex-shrink-0">Phone</span><span
+                                    class="font-semibold text-slate-800 text-right"
+                                    x-text="lead.phone || '+91 98765 43210'"></span></div>
+                            <div class="flex justify-between py-1 gap-2"><span
+                                    class="text-slate-400 flex-shrink-0">Industry</span><span
+                                    class="font-semibold text-slate-800 text-right">IT Services</span></div>
+                            <div class="flex justify-between py-1 gap-2"><span
+                                    class="text-slate-400 flex-shrink-0">City</span><span
+                                    class="font-semibold text-slate-800 text-right"
+                                    x-text="lead.city || 'Visakhapatnam'"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lead Summary Card -->
+                <div
+                    class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 md:p-6 flex flex-col justify-between">
+                    <div>
+                        <h3
+                            class="font-bold text-slate-900 text-xs uppercase mb-4 border-b border-slate-100 pb-2.5 tracking-wider flex items-center gap-2">
+                            <i class="bi bi-info-circle text-blue-600"></i> Lead Summary
+                        </h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between py-1"><span class="text-slate-400">Source</span><span
+                                    class="font-semibold text-slate-800">Website</span></div>
+                            <div class="flex justify-between py-1"><span class="text-slate-400">Campaign</span><span
+                                    class="font-semibold text-slate-800">Google Ads</span></div>
+                            <div class="flex justify-between py-1"><span class="text-slate-400">Created</span><span
+                                    class="font-semibold text-slate-800">09 Aug 2026</span></div>
+                            <div class="flex justify-between py-1"><span class="text-slate-400">Last Contact</span><span
+                                    class="font-semibold text-slate-800">08 Aug 2026</span></div>
+                            <div class="flex justify-between py-1"><span class="text-slate-400">Next
+                                    Follow-up</span><span class="font-semibold text-indigo-600">12 Aug 2026</span></div>
+                            <div class="flex justify-between py-1"><span class="text-slate-400">Probability</span><span
+                                    class="font-semibold text-slate-800">70%</span></div>
+                            <div class="flex justify-between py-1"><span class="text-slate-400">Estimated
+                                    Value</span><span class="font-bold text-emerald-600"
+                                    x-text="'₹' + Number(lead.estimatedValue || 250000).toLocaleString()"></span></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- Modal for Adding Note -->
+        <div x-show="openNoteModal"
+            class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+            <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border border-slate-100">
+                <h3 class="text-lg font-bold text-slate-900 mb-4">Add Lead Note</h3>
+                <form @submit.prevent="addNote">
+                    <textarea x-model="noteContent" rows="4" placeholder="Enter interaction remarks..." required
+                        class="w-full border border-slate-200 rounded-xl p-3 text-sm mb-4 focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" @click="openNoteModal = false"
+                            class="px-4 py-2 border border-slate-200 rounded-xl text-sm font-medium hover:bg-slate-50">Cancel</button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-medium hover:bg-blue-700 shadow-sm">Save
+                            Note</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script Controller Engine -->
+    <script>
+        function leadDetailApp() {
+            return {
+                leadId: null,
+                lead: {},
+                openNoteModal: false,
+                noteContent: '',
+                async initLeadDetail() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    this.leadId = urlParams.get('id') || 1;
+                    await this.fetchLead();
+                },
+                async fetchLead() {
+                    const token = localStorage.getItem('token');
+                    const res = await fetch(`/api/crm/leads/${this.leadId}`, { headers: { 'Authorization': 'Bearer ' + token } });
+                    if (res.ok) this.lead = await res.json();
+                },
+                async updateStage(statusId) {
+                    const token = localStorage.getItem('token');
+                    await fetch(`/api/crm/leads/${this.leadId}/status`, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                        body: JSON.stringify({ statusId })
+                    });
+                    alert('Lead pipeline stage updated successfully.');
+                },
+                async addNote() {
+                    const token = localStorage.getItem('token');
+                    await fetch(`/api/crm/leads/${this.leadId}/notes`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+                        body: JSON.stringify({ noteContent: this.noteContent })
+                    });
+                    this.openNoteModal = false;
+                    this.noteContent = '';
+                    alert('Note added to timeline feed.');
+                },
+                async convertLead() {
+                    if (!confirm('Convert this lead into an active customer account?')) return;
+                    const token = localStorage.getItem('token');
+                    const res = await fetch(`/api/crm/leads/${this.leadId}/convert`, {
+                        method: 'PATCH',
+                        headers: { 'Authorization': 'Bearer ' + token }
+                    });
+                    const data = await res.json();
+                    alert(data.message || 'Lead converted successfully.');
+                    window.location.href = `company-detail.html?id=${data.customerId || 1}`;
+                },
+                triggerLeadRouting() {
+                    alert('AI Lead Scoring & Regional Routing executed successfully.');
+                },
+                openActionModal(type) {
+                    alert(`Initiating ${type} channel interface for lead.`);
+                },
+                async deleteLead() {
+                    if (!confirm('Are you sure you want to delete this lead record?')) return;
+                    const token = localStorage.getItem('token');
+                    await fetch(`/api/crm/leads/${this.leadId}`, {
+                        method: 'DELETE',
+                        headers: { 'Authorization': 'Bearer ' + token }
+                    });
+                    window.location.href = 'dashboard.html';
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
