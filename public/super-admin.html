@@ -3,435 +3,527 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Super Admin - Enterprise Control Center</title>
-  <!-- Bootstrap 5 CSS -->
+  <title>Super Admin — AA Enterprise Control Center</title>
+  <meta name="description" content="AA Enterprise Platform Super Admin Control Center — manage tenants, product modules, audit logs and platform settings.">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="/shared.css" rel="stylesheet">
   <style>
-    body { min-height: 100vh; background-color: #f4f6f9; }
-    .navbar-brand { font-weight: 700; letter-spacing: 0.5px; }
+    /* Super Admin accent — Deep Slate + Red danger stripe */
+    :root {
+      --primary: #1E293B;
+      --primary-hover: #0F172A;
+      --primary-light: #F1F5F9;
+      --sa-accent: #EF4444;
+    }
+    .sidebar .nav-link.active {
+      background: #EF4444;
+      box-shadow: 0 4px 12px rgba(239,68,68,0.30);
+    }
+    .sidebar .nav-link:hover { background: rgba(255,255,255,0.07); }
+
+    /* Super Admin header stripe */
+    .sa-header-stripe {
+      background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+      border-bottom: 3px solid #EF4444;
+      padding: 12px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .sa-badge {
+      background: #EF4444;
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    /* KPI stat cards */
+    .sa-stat-card {
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--sa-accent);
+      transition: transform 0.2s;
+    }
+    .sa-stat-card:hover { transform: translateY(-2px); }
+
+    /* Tenant row hover */
+    .table tbody tr:hover td { background: #F8FAFC; }
+
+    /* Module key code pill */
+    .module-key-pill {
+      background: #1E293B;
+      color: #94A3B8;
+      font-family: 'Courier New', monospace;
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+
+    /* Audit log */
+    .audit-row td { font-size: 0.82rem; }
+    .audit-action {
+      background: #EEF2FF;
+      color: #4F46E5;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+
+    .sidebar { background: #0F172A; }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-dark bg-dark px-4 shadow-sm">
-    <a class="navbar-brand" href="#"><i class="bi bi-shield-lock-fill me-2"></i> Super Admin Control Center</a>
-    <button class="btn btn-outline-light btn-sm" onclick="logout()"><i class="bi bi-box-arrow-right me-1"></i> Logout</button>
+  <!-- ░░ TOP NAVIGATION ░░ -->
+  <nav class="navbar-top" style="background:#0F172A; border-bottom:2px solid #EF4444;">
+    <div class="d-flex align-items-center gap-3">
+      <div class="brand-logo" style="color:white">
+        <div class="brand-logo-icon" style="background:#EF4444"><i class="bi bi-shield-lock-fill"></i></div>
+        <div>
+          <div style="font-size:1rem;font-weight:700;color:white">AA Enterprise Platform</div>
+          <div style="font-size:0.7rem;color:#94A3B8;margin-top:-2px">Super Admin Control Center</div>
+        </div>
+      </div>
+      <span class="sa-badge ms-2">SUPER ADMIN</span>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <a target="_blank" href="/dashboard.html" class="btn btn-sm" style="background:#1E293B;color:#94A3B8;border:1px solid #334155">
+        <i class="bi bi-building me-1"></i>Tenant View
+      </a>
+      <div class="vr" style="height:24px;background:#334155;opacity:1"></div>
+      <div class="d-flex align-items-center gap-2">
+        <div class="user-avatar text-white" style="background:#EF4444" id="userAvatar">SA</div>
+        <div>
+          <div class="fw-semibold small lh-1" style="color:white" id="userName">Super Admin</div>
+          <div style="font-size:0.7rem;color:#64748B">SUPER_ADMIN</div>
+        </div>
+      </div>
+    </div>
   </nav>
 
-  <div class="container my-5">
-    <button class="btn btn-success me-2">
-      <a href="./dashboard.html" target="_blank" class="text-white text-decoration-none">
-          <i class="bi bi-building-add me-1"></i> Tenant View
-      </a>
-    </button>
-          
-    <!-- SECTION 1: Tenant & Module Assignments -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <div>
-        <h2>Tenant & Module Management</h2>
-        <p class="text-muted">Oversee registered organizations, manage product subscriptions, and control access.</p>
-      </div>
-      <div>
-        <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#createTenantModal">
-          <i class="bi bi-building-add me-1"></i> Register Tenant
+  <!-- ░░ SIDEBAR ░░ -->
+  <nav class="sidebar">
+    <div class="sidebar-section-label" style="color:#475569">Control Panels</div>
+    <ul class="nav flex-column" id="sidebarNav">
+      <li class="nav-item">
+        <button class="nav-link active" onclick="showPanel('tenants', this)">
+          <i class="bi bi-building-fill"></i><span class="nav-label">Tenants</span>
         </button>
-        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#assignModuleModal" onclick="populateModuleDropdowns()">
-          <i class="bi bi-plus-circle me-1"></i> Assign Module
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" onclick="showPanel('catalogue', this)">
+          <i class="bi bi-grid-3x3-gap-fill"></i><span class="nav-label">Product Catalogue</span>
         </button>
-      </div>
-    </div>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" onclick="showPanel('audit', this)">
+          <i class="bi bi-journal-check"></i><span class="nav-label">Audit Logs</span>
+        </button>
+      </li>
+    </ul>
 
-    <!-- Tenants & Modules Table -->
-    <div class="card shadow-sm p-3 border-0 mb-5">
-      <table class="table table-hover align-middle">
-        <thead class="table-dark">
-          <tr>
-            <th>Tenant ID</th>
-            <th>Tenant Name</th>
-            <th>Subdomain</th>
-            <th>Assigned Module</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="tenantTableBody">
-          <tr><td colspan="6" class="text-center text-muted py-4">Loading tenants...</td></tr>
-        </tbody>
-      </table>
-    </div>
+    <div class="sidebar-section-label mt-3" style="color:#475569">Quick Links</div>
+    <ul class="nav flex-column">
+      <li><a class="nav-link" href="/api-docs" target="_blank"><i class="bi bi-code-slash"></i><span class="nav-label">Swagger API Docs</span></a></li>
+      <!-- <li><a class="nav-link" href="/health" target="_blank"><i class="bi bi-heart-pulse"></i><span class="nav-label">Health Check</span></a></li> -->
+    </ul>
 
-    <!-- SECTION 2: Master Product Module Catalogue Management -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <div>
-        <h2>Product Catalogue Management</h2>
-        <p class="text-muted">Manage available product suites, update pricing, or add new modules dynamically.</p>
-      </div>
-      <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createModuleModal">
-        <i class="bi bi-folder-plus me-1"></i> Add New Product Module
+    <div class="sidebar-footer">
+      <button class="nav-link w-100" style="color:#F87171" onclick="logout()">
+        <i class="bi bi-box-arrow-right"></i><span class="nav-label">Sign Out</span>
       </button>
     </div>
+  </nav>
 
-    <!-- Master Modules Table -->
-    <div class="card shadow-sm p-3 border-0">
-      <table class="table table-hover align-middle">
-        <thead class="table-secondary">
-          <tr>
-            <th>ID</th>
-            <th>Module Key</th>
-            <th>Display Name</th>
-            <th>Description</th>
-            <th>Price (Monthly)</th>
-            <td>Link</td>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="productModuleTableBody">
-          <tr><td colspan="7" class="text-center text-muted py-3">Loading catalogue...</td></tr>
-        </tbody>
-      </table>
+  <!-- ░░ MAIN CONTENT ░░ -->
+  <main class="main-content">
+
+    <!-- ── Panel: Tenants ── -->
+    <div id="panelTenants">
+      <div class="page-header">
+        <div>
+          <h2>Tenant Management</h2>
+          <p>Provision new organisations, manage module subscriptions, and control tenant access.</p>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#createTenantModal">
+            <i class="bi bi-building-add me-1"></i>Register Tenant
+          </button>
+          <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#assignModuleModal" onclick="populateModuleDropdowns()">
+            <i class="bi bi-plus-circle me-1"></i>Assign Module
+          </button>
+        </div>
+      </div>
+
+      <!-- Platform Stats Row -->
+      <div class="row g-3 mb-4" id="saStatsRow">
+        <div class="col-md-3"><div class="sa-stat-card"><div class="text-muted small fw-bold">Total Tenants</div><h3 class="fw-bold mt-1 mb-0" id="statTotalTenants">—</h3></div></div>
+        <div class="col-md-3"><div class="sa-stat-card" style="border-left-color:#10B981"><div class="text-muted small fw-bold">Active Module Assignments</div><h3 class="fw-bold mt-1 mb-0" id="statActiveModules">—</h3></div></div>
+        <div class="col-md-3"><div class="sa-stat-card" style="border-left-color:#F59E0B"><div class="text-muted small fw-bold">Platform Products</div><h3 class="fw-bold mt-1 mb-0" id="statCatalogueCount">—</h3></div></div>
+        <div class="col-md-3"><div class="sa-stat-card" style="border-left-color:#3B82F6"><div class="text-muted small fw-bold">Platform Uptime</div><h3 class="fw-bold mt-1 mb-0" id="statUptime">—</h3></div></div>
+      </div>
+
+      <div class="table-container">
+        <div class="table-toolbar">
+          <h6 class="fw-bold mb-0"><i class="bi bi-building me-2 text-danger"></i>All Tenant Organisations</h6>
+          <input class="table-search" type="text" placeholder="Search tenants..." oninput="filterTable('tenantTableBody', this.value)">
+        </div>
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th>Tenant</th>
+              <th>Subdomain</th>
+              <th>Assigned Modules</th>
+              <th>Status</th>
+              <th>Created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tenantTableBody">
+            <tr><td colspan="6" class="text-center py-4 text-muted">Loading tenants...</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
-  </div>
-
-  <!-- MODAL 1: Assign / Update Module to Tenant (Dynamic Catalogue Options) -->
-  <div class="modal fade" id="assignModuleModal" tabindex="-1">
-    <div class="modal-dialog">
-      <form id="assignModuleForm" class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Assign or Toggle Module Status</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <!-- ── Panel: Product Catalogue ── -->
+    <div id="panelCatalogue" style="display:none">
+      <div class="page-header">
+        <div>
+          <h2>Product Module Catalogue</h2>
+          <p>Manage available enterprise product suites, pricing, and activation status.</p>
         </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label">Tenant ID</label>
-            <input type="number" id="modalTenantId" class="form-control" required placeholder="e.g. 1">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Module Name</label>
-            <!-- Dynamically populated from /api/modules catalogue -->
-            <select id="modalModuleName" class="form-select" required>
-              <option value="" disabled selected>Loading available modules...</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Module Status</label>
-            <select id="modalModuleStatus" class="form-select" required>
-              <option value="ACTIVE">ACTIVE</option>
-              <option value="SUSPENDED">SUSPENDED</option>
-            </select>
-          </div>
+        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#createModuleModal">
+          <i class="bi bi-folder-plus me-1"></i>Add Module to Catalogue
+        </button>
+      </div>
+      <div class="table-container">
+        <div class="table-toolbar">
+          <h6 class="fw-bold mb-0"><i class="bi bi-grid-3x3-gap me-2 text-danger"></i>Enterprise Products</h6>
+          <input class="table-search" type="text" placeholder="Search modules..." oninput="filterTable('productModuleTableBody', this.value)">
         </div>
-        <div class="modal-footer">
-          <button type="submit" class="btn btn-success">Save Configuration</button>
-        </div>
-      </form>
+        <table class="table align-middle">
+          <thead>
+            <tr><th>Module Key</th><th>Display Name</th><th>Description</th><th>Monthly Price</th><th>Status</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="productModuleTableBody">
+            <tr><td colspan="6" class="text-center py-4 text-muted">Loading catalogue...</td></tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
 
-  <!-- MODAL 2: Register New Tenant -->
+    <!-- ── Panel: Audit Logs ── -->
+    <div id="panelAudit" style="display:none">
+      <div class="page-header">
+        <div>
+          <h2>Audit Log</h2>
+          <p>Platform-wide activity trail — all significant events recorded and timestamped.</p>
+        </div>
+        <button class="btn btn-outline-secondary btn-sm" onclick="loadAuditLogs()">
+          <i class="bi bi-arrow-clockwise me-1"></i>Refresh
+        </button>
+      </div>
+      <div class="table-container">
+        <div class="table-toolbar">
+          <h6 class="fw-bold mb-0"><i class="bi bi-journal-check me-2 text-danger"></i>Recent Events</h6>
+          <input class="table-search" type="text" placeholder="Search logs..." oninput="filterTable('auditTableBody', this.value)">
+        </div>
+        <table class="table align-middle">
+          <thead><tr><th>Time</th><th>User</th><th>Action</th><th>Details</th></tr></thead>
+          <tbody id="auditTableBody">
+            <tr><td colspan="4" class="text-center py-4 text-muted">Select Audit Logs panel to load...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ░░ MODAL: Register Tenant ░░ -->
   <div class="modal fade" id="createTenantModal" tabindex="-1">
     <div class="modal-dialog">
       <form id="createTenantForm" class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Register New Tenant Organization</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
+        <div class="modal-header"><h5 class="modal-title"><i class="bi bi-building-add me-2 text-danger"></i>Register New Tenant</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
         <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label">Company / Tenant Name</label>
-            <input type="text" id="newTenantName" class="form-control" required placeholder="Acme Corp">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Subdomain</label>
-            <input type="text" id="newSubdomain" class="form-control" required placeholder="acme">
-          </div>
-          <hr>
-          <h6 class="text-muted fw-bold">Initial Admin Account</h6>
-          <div class="mb-3">
-            <label class="form-label">Admin Full Name</label>
-            <input type="text" id="newAdminName" class="form-control" required placeholder="Jane Doe">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Admin Email</label>
-            <input type="email" id="newAdminEmail" class="form-control" required placeholder="admin@acme.com">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Admin Password</label>
-            <input type="password" id="newAdminPassword" class="form-control" required placeholder="SecurePassword@123">
-          </div>
+          <div class="mb-3"><label class="form-label">Organisation / Company Name</label><input type="text" id="newTenantName" class="form-control" required placeholder="Acme Corp"></div>
+          <div class="mb-3"><label class="form-label">Subdomain</label><input type="text" id="newSubdomain" class="form-control" required placeholder="acme"></div>
+          <hr><h6 class="text-muted fw-bold mb-3">Initial Admin Account</h6>
+          <div class="mb-3"><label class="form-label">Admin Full Name</label><input type="text" id="newAdminName" class="form-control" required placeholder="Jane Doe"></div>
+          <div class="mb-3"><label class="form-label">Admin Email</label><input type="email" id="newAdminEmail" class="form-control" required placeholder="admin@acme.com"></div>
+          <div class="mb-3"><label class="form-label">Admin Password</label><input type="password" id="newAdminPassword" class="form-control" required placeholder="SecurePassword@123"></div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Provision Tenant</button>
+          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-building-add me-1"></i>Provision Tenant</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- MODAL 3: Create New Product Module Catalogue Item -->
+  <!-- ░░ MODAL: Assign Module ░░ -->
+  <div class="modal fade" id="assignModuleModal" tabindex="-1">
+    <div class="modal-dialog">
+      <form id="assignModuleForm" class="modal-content">
+        <div class="modal-header"><h5 class="modal-title"><i class="bi bi-plug me-2 text-danger"></i>Assign Module to Tenant</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+        <div class="modal-body">
+          <div class="mb-3"><label class="form-label">Tenant ID</label><input type="number" id="modalTenantId" class="form-control" required placeholder="e.g. 2"></div>
+          <div class="mb-3"><label class="form-label">Product Module</label><select id="modalModuleName" class="form-select" required><option value="" disabled selected>Loading modules...</option></select></div>
+          <div class="mb-3"><label class="form-label">Status</label><select id="modalModuleStatus" class="form-select" required><option value="ACTIVE">ACTIVE</option><option value="SUSPENDED">SUSPENDED</option></select></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-check2 me-1"></i>Save Assignment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ░░ MODAL: Add Product Module ░░ -->
   <div class="modal fade" id="createModuleModal" tabindex="-1">
     <div class="modal-dialog">
       <form id="createModuleForm" class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Add New Product Module</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
+        <div class="modal-header"><h5 class="modal-title"><i class="bi bi-folder-plus me-2 text-danger"></i>Add Product Module to Catalogue</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
         <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label">Module Key (Uppercase identifier)</label>
-            <input type="text" id="newModuleKey" class="form-control" required placeholder="INVENTORY">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Display Name</label>
-            <input type="text" id="newModuleDisplayName" class="form-control" required placeholder="Inventory Management">
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Description</label>
-            <textarea id="newModuleDescription" class="form-control" rows="2" placeholder="Stock tracking and warehouse control."></textarea>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Monthly Price (₹)</label>
-            <input type="number" step="0.01" id="newModulePrice" class="form-control" required placeholder="750.00">
-          </div>
+          <div class="mb-3"><label class="form-label">Module Key <span class="text-muted small">(UPPERCASE identifier)</span></label><input type="text" id="newModuleKey" class="form-control" required placeholder="INVENTORY" style="font-family:monospace;text-transform:uppercase"></div>
+          <div class="mb-3"><label class="form-label">Display Name</label><input type="text" id="newModuleDisplayName" class="form-control" required placeholder="AA Inventory"></div>
+          <div class="mb-3"><label class="form-label">Description</label><textarea id="newModuleDescription" class="form-control" rows="2" placeholder="Stock and warehouse management system."></textarea></div>
+          <div class="mb-3"><label class="form-label">Monthly Price (₹)</label><input type="number" step="0.01" id="newModulePrice" class="form-control" required placeholder="750.00"></div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-dark">Create Module</button>
+          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-plus-lg me-1"></i>Create Module</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/shared.js"></script>
   <script>
     const token = localStorage.getItem('token');
     if (!token) window.location.href = '/index.html';
-
     const api = axios.create({ headers: { Authorization: `Bearer ${token}` } });
 
-    // Populate Dynamic Module Dropdown from Database Catalogue
-    async function populateModuleDropdowns() {
-      const select = document.getElementById('modalModuleName');
-      try {
-        const res = await api.get('/api/modules');
-        const modules = res.data;
-        select.innerHTML = modules.length ? modules.map(m => `<option value="${m.moduleKey}">${m.displayName} (${m.moduleKey})</option>`).join('') : '<option value="" disabled>No active modules available</option>';
-      } catch (err) {
-        select.innerHTML = '<option value="" disabled>Failed to load modules</option>';
-      }
+    // ── Panel Switching ───────────────────────────────────────
+    function showPanel(name, el) {
+      ['panelTenants','panelCatalogue','panelAudit'].forEach(p => {
+        document.getElementById(p).style.display = p === `panel${name.charAt(0).toUpperCase()+name.slice(1)}` ? '' : 'none';
+      });
+      document.querySelectorAll('.sidebar .nav-link').forEach(l => l.classList.remove('active'));
+      if (el) el.classList.add('active');
+      if (name === 'audit') loadAuditLogs();
     }
 
-    // 1. Load Tenants & Modules Table
+    // ── Health Check / Stats ──────────────────────────────────
+    async function loadPlatformStats() {
+      try {
+        const h = await axios.get('/health');
+        const u = h.data.uptime;
+        const hrs = Math.floor(u / 3600), mins = Math.floor((u % 3600) / 60);
+        document.getElementById('statUptime').textContent = `${hrs}h ${mins}m`;
+      } catch {}
+    }
+
+    // ── Populate Module Dropdown ──────────────────────────────
+    async function populateModuleDropdowns() {
+      const sel = document.getElementById('modalModuleName');
+      try {
+        const res = await api.get('/api/modules');
+        sel.innerHTML = res.data.length
+          ? res.data.map(m => `<option value="${m.moduleKey}">${m.displayName} (${m.moduleKey})</option>`).join('')
+          : '<option disabled>No modules in catalogue</option>';
+      } catch { sel.innerHTML = '<option disabled>Failed to load</option>'; }
+    }
+
+    // ── Load Tenants ──────────────────────────────────────────
     async function loadTenantsAndModules() {
       const tbody = document.getElementById('tenantTableBody');
       try {
         const res = await api.get('/api/tenant-modules');
-        tbody.innerHTML = '';
+        const tenants = res.data || [];
+        document.getElementById('statTotalTenants').textContent = tenants.length;
+        let totalModAssignments = 0;
 
-        if (!res.data || res.data.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted">No tenants found.</td></tr>`;
+        if (!tenants.length) {
+          tbody.innerHTML = `<tr><td colspan="6">${emptyStateHTML('bi-building','No Tenants','No organisations registered yet.','')}</td></tr>`;
           return;
         }
-
-        res.data.forEach(tenant => {
-          const modules = tenant.modules || [];
-          const formattedDate = tenant.createdAt ? new Date(tenant.createdAt).toLocaleDateString() : 'N/A';
-
-          if (modules.length === 0) {
-            tbody.innerHTML += `
-              <tr>
-                <td>${tenant.id}</td>
-                <td class="fw-bold">${tenant.name}</td>
-                <td>${tenant.subdomain || 'N/A'}</td>
-                <td class="text-muted fst-italic">No modules assigned</td>
-                <td><span class="badge bg-secondary">Unsubscribed</span></td>
-                <td>
-                  <small class="text-muted d-block mb-1">Created: ${formattedDate}</small>
-                  <button class="btn btn-sm btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#assignModuleModal" onclick="prefillTenant(${tenant.id}); populateModuleDropdowns();">
-                    Assign Module
-                  </button>
-                  <button class="btn btn-sm btn-outline-danger" onclick="deleteTenant(${tenant.id}, '${tenant.name}')">
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            `;
-          } else {
-            modules.forEach((m, index) => {
-              const badgeClass = m.status === 'ACTIVE' ? 'bg-success' : 'bg-danger';
-              const toggleText = m.status === 'ACTIVE' ? 'Suspend' : 'Activate';
-              const nextStatus = m.status === 'ACTIVE' ? 'SUSPENDED' : 'ACTIVE';
-              const btnStyle = m.status === 'ACTIVE' ? 'btn-outline-danger' : 'btn-outline-success';
-
-              tbody.innerHTML += `
-                <tr>
-                  <td>${index === 0 ? tenant.id : ''}</td>
-                  <td class="fw-bold">${index === 0 ? tenant.name : ''}</td>
-                  <td>${index === 0 ? (tenant.subdomain || 'N/A') : ''}</td>
-                  <td><span class="badge bg-dark text-white px-2 py-1">${m.moduleName}</span></td>
-                  <td><span class="badge ${badgeClass}">${m.status}</span></td>
-                  <td>
-                    <small class="text-muted d-block mb-1">${index === 0 ? `Created: ${formattedDate}` : ''}</small>
-                    <button class="btn btn-sm ${btnStyle} me-1" onclick="quickToggle(${tenant.id}, '${m.moduleName}', '${nextStatus}')">
-                      ${toggleText}
-                    </button>
-                    ${index === 0 ? `<button class="btn btn-sm btn-outline-danger" onclick="deleteTenant(${tenant.id}, '${tenant.name}')">Delete</button>` : ''}
-                  </td>
-                </tr>
-              `;
-            });
-          }
+        tbody.innerHTML = '';
+        tenants.forEach(t => {
+          const mods = t.modules || [];
+          totalModAssignments += mods.length;
+          const modBadges = mods.length
+            ? mods.map(m => `<span class="badge me-1" style="background:#EEF2FF;color:#4F46E5;font-weight:600">${m.moduleName} <span class="badge ${m.status==='ACTIVE'?'bg-success':'bg-secondary'}" style="font-size:0.6rem">${m.status}</span></span>`).join('')
+            : '<span class="text-muted small">No modules assigned</span>';
+          tbody.innerHTML += `
+            <tr>
+              <td><div class="fw-semibold">${t.name}</div><div class="text-muted small">#${t.id}</div></td>
+              <td><code class="module-key-pill">${t.subdomain || '—'}</code></td>
+              <td>${modBadges}</td>
+              <td>${statusBadge(mods.length ? 'ACTIVE' : 'INACTIVE')}</td>
+              <td class="text-muted small">${formatDate(t.createdAt)}</td>
+              <td>
+                <button class="btn btn-xs btn-outline-primary me-1" data-bs-toggle="modal" data-bs-target="#assignModuleModal" onclick="prefillTenant(${t.id}); populateModuleDropdowns()">
+                  <i class="bi bi-plug me-1"></i>Assign
+                </button>
+                <button class="btn btn-xs btn-outline-danger" onclick="deleteTenant(${t.id}, '${t.name}')">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </td>
+            </tr>`;
         });
-      } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="6" class="text-center text-danger">Failed to load tenant data.</td></tr>`;
+        document.getElementById('statActiveModules').textContent = totalModAssignments;
+      } catch {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center text-danger py-3">Failed to load tenants.</td></tr>`;
       }
     }
 
-    // 2. Load Master Product Catalogue Table
+    // ── Load Product Catalogue ────────────────────────────────
     async function loadProductCatalogue() {
       const tbody = document.getElementById('productModuleTableBody');
       try {
         const res = await api.get('/api/admin/modules');
-        tbody.innerHTML = '';
+        const mods = res.data || [];
+        document.getElementById('statCatalogueCount').textContent = mods.length;
 
-        if (!res.data || res.data.length === 0) {
-          tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted">No product modules found in catalogue.</td></tr>`;
+        if (!mods.length) {
+          tbody.innerHTML = `<tr><td colspan="6">${emptyStateHTML('bi-grid-3x3-gap','No Products','No modules in catalogue.','')}</td></tr>`;
           return;
         }
-
-        res.data.forEach(mod => {
-          const badgeClass = mod.status === 'ACTIVE' ? 'bg-success' : 'bg-secondary';
-          const nextStatus = mod.status === 'ACTIVE' ? 'DISCONTINUED' : 'ACTIVE';
-          const toggleText = mod.status === 'ACTIVE' ? 'Discontinue' : 'Activate';
-          const moduleUrl = `./modules/${mod.moduleKey}/index.html`;
-          tbody.innerHTML += `
-            <tr>
-              <td>${mod.id}</td>
-              <td><code>${mod.moduleKey}</code></td>
-              <td class="fw-bold">${mod.displayName}</td>
-              <td class="small text-muted">${mod.description || 'N/A'}</td>
-              <td>₹${parseFloat(mod.price).toFixed(2)}</td>
-              <td>
-                <a href="${moduleUrl}" target="_blank" class="btn btn-sm btn-outline-primary">
-                  Open Portal <i class="bi bi-box-arrow-up-right ms-1"></i>
-                </a>
-              </td>
-              <td><span class="badge ${badgeClass}">${mod.status}</span></td>
-              <td>
-                <button class="btn btn-sm btn-outline-dark" onclick="toggleModuleStatus(${mod.id}, '${nextStatus}')">
-                  ${toggleText}
-                </button>
-              </td>
-            </tr>
-          `;
-        });
-      } catch (err) {
-        tbody.innerHTML = `<tr><td colspan="7" class="text-center text-danger">Failed to load product catalogue.</td></tr>`;
+        tbody.innerHTML = mods.map(m => `
+          <tr>
+            <td><span class="module-key-pill">${m.moduleKey}</span></td>
+            <td><div class="fw-semibold">${m.displayName}</div></td>
+            <td class="text-muted small" style="max-width:200px">${m.description || '—'}</td>
+            <td class="fw-bold text-success">₹${parseFloat(m.price || 0).toLocaleString('en-IN')}/mo</td>
+            <td>${statusBadge(m.status)}</td>
+            <td>
+              <button class="btn btn-xs btn-outline-dark me-1" onclick="toggleModuleStatus(${m.id}, '${m.status==='ACTIVE'?'DISCONTINUED':'ACTIVE'}')">
+                ${m.status==='ACTIVE'?'Discontinue':'Activate'}
+              </button>
+              <a href="/modules/${m.moduleKey.toLowerCase()}/index.html" target="_blank" class="btn btn-xs btn-outline-primary">
+                <i class="bi bi-box-arrow-up-right"></i>
+              </a>
+            </td>
+          </tr>`).join('');
+      } catch {
+        tbody.innerHTML = `<tr><td colspan="6" class="text-center text-danger py-3">Failed to load catalogue.</td></tr>`;
       }
     }
 
-    // Quick toggle module status for tenant
-    async function quickToggle(tenantId, moduleName, status) {
+    // ── Load Audit Logs ───────────────────────────────────────
+    async function loadAuditLogs() {
+      const tbody = document.getElementById('auditTableBody');
+      tbody.innerHTML = `<tr><td colspan="4" class="text-center py-3"><div class="spinner-border spinner-border-sm text-danger me-2"></div>Loading audit logs...</td></tr>`;
       try {
-        await api.post('/api/admin/tenant-modules', { tenantId, moduleName, status });
-        loadTenantsAndModules();
-      } catch (err) {
-        alert(err.response?.data?.error || 'Failed to update module status');
-      }
-    }
-
-    // Toggle catalogue module status (ACTIVE / DISCONTINUED)
-    async function toggleModuleStatus(id, newStatus) {
-      try {
-        await api.put(`/api/admin/modules/${id}`, { status: newStatus });
-        loadProductCatalogue();
-      } catch (err) {
-        alert(err.response?.data?.error || 'Failed to update module catalogue status.');
-      }
-    }
-
-    function prefillTenant(tenantId) {
-      document.getElementById('modalTenantId').value = tenantId;
-    }
-
-    // Assign module form submit
-    document.getElementById('assignModuleForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const tenantId = document.getElementById('modalTenantId').value;
-      const moduleName = document.getElementById('modalModuleName').value;
-      const status = document.getElementById('modalModuleStatus').value;
-
-      try {
-        await api.post('/api/admin/tenant-modules', { tenantId, moduleName, status });
-        location.reload();
-      } catch (err) {
-        alert(err.response?.data?.error || 'Failed to assign module');
-      }
-    });
-
-    // Register Tenant form submit
-    document.getElementById('createTenantForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const payload = {
-        tenantName: document.getElementById('newTenantName').value,
-        subdomain: document.getElementById('newSubdomain').value,
-        adminName: document.getElementById('newAdminName').value,
-        adminEmail: document.getElementById('newAdminEmail').value,
-        adminPassword: document.getElementById('newAdminPassword').value
-      };
-
-      try {
-        await api.post('/api/auth/register', payload);
-        alert('Tenant and admin successfully provisioned!');
-        location.reload();
-      } catch (err) {
-        alert(err.response?.data?.error || 'Failed to create tenant organization.');
-      }
-    });
-
-    // Create New Master Module form submit
-    document.getElementById('createModuleForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const payload = {
-        moduleKey: document.getElementById('newModuleKey').value,
-        displayName: document.getElementById('newModuleDisplayName').value,
-        description: document.getElementById('newModuleDescription').value,
-        price: parseFloat(document.getElementById('newModulePrice').value)
-      };
-
-      try {
-        await api.post('/api/admin/modules', payload);
-        alert('New product module successfully added to catalogue!');
-        location.reload();
-      } catch (err) {
-        alert(err.response?.data?.error || 'Failed to create product module.');
-      }
-    });
-
-    async function deleteTenant(tenantId, tenantName) {
-      if (confirm(`Are you sure you want to delete tenant "${tenantName}" (ID: ${tenantId})? This action cannot be undone.`)) {
-        try {
-          await api.delete(`/api/tenants/${tenantId}`);
-          alert('Tenant deleted successfully.');
-          loadTenantsAndModules();
-        } catch (err) {
-          alert(err.response?.data?.error || 'Failed to delete tenant.');
+        const res = await api.get('/api/audit-logs');
+        const logs = res.data || [];
+        if (!logs.length) {
+          tbody.innerHTML = `<tr><td colspan="4">${emptyStateHTML('bi-journal','No Audit Logs','No events recorded yet.','')}</td></tr>`;
+          return;
         }
+        tbody.innerHTML = logs.map(l => `
+          <tr class="audit-row">
+            <td class="text-muted" style="white-space:nowrap">${formatDateTime(l.createdAt)}</td>
+            <td><div class="fw-semibold small">${l.userName || 'System'}</div><div class="text-muted" style="font-size:0.72rem">#${l.userId || '—'}</div></td>
+            <td><span class="audit-action">${l.action}</span></td>
+            <td class="text-muted small">${(l.details || '').substring(0,120)}${l.details?.length > 120 ? '...' : ''}</td>
+          </tr>`).join('');
+      } catch {
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center text-danger py-3">Failed to load audit logs. Endpoint may not exist yet.</td></tr>`;
       }
     }
 
-    function logout() {
-      localStorage.removeItem('token');
-      window.location.href = '/index.html';
+    // ── Actions ───────────────────────────────────────────────
+    function prefillTenant(id) { document.getElementById('modalTenantId').value = id; }
+
+    async function quickToggle(tenantId, moduleName, status) {
+      try { await api.post('/api/admin/tenant-modules', { tenantId, moduleName, status }); await loadTenantsAndModules(); showToast('Module status updated.', 'success'); }
+      catch (e) { showToast(e.response?.data?.error || 'Failed to update.', 'error'); }
     }
 
-    // Initial load calls
-    loadTenantsAndModules();
-    loadProductCatalogue();
-    populateModuleDropdowns();
+    async function toggleModuleStatus(id, newStatus) {
+      try { await api.put(`/api/admin/modules/${id}`, { status: newStatus }); await loadProductCatalogue(); showToast('Catalogue updated.', 'success'); }
+      catch (e) { showToast(e.response?.data?.error || 'Failed.', 'error'); }
+    }
+
+    async function deleteTenant(id, name) {
+      if (!confirm(`Delete tenant "${name}" (#${id})? This is irreversible.`)) return;
+      try { await api.delete(`/api/tenants/${id}`); await loadTenantsAndModules(); showToast(`Tenant "${name}" deleted.`, 'success'); }
+      catch (e) { showToast(e.response?.data?.error || 'Failed to delete.', 'error'); }
+    }
+
+    document.getElementById('assignModuleForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      try {
+        await api.post('/api/admin/tenant-modules', {
+          tenantId: document.getElementById('modalTenantId').value,
+          moduleName: document.getElementById('modalModuleName').value,
+          status: document.getElementById('modalModuleStatus').value
+        });
+        bootstrap.Modal.getInstance(document.getElementById('assignModuleModal')).hide();
+        await loadTenantsAndModules();
+        showToast('Module assigned successfully!', 'success');
+      } catch (e) { showToast(e.response?.data?.error || 'Failed.', 'error'); }
+    });
+
+    document.getElementById('createTenantForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      try {
+        await api.post('/api/auth/register', {
+          tenantName: document.getElementById('newTenantName').value,
+          subdomain: document.getElementById('newSubdomain').value,
+          adminName: document.getElementById('newAdminName').value,
+          adminEmail: document.getElementById('newAdminEmail').value,
+          adminPassword: document.getElementById('newAdminPassword').value
+        });
+        bootstrap.Modal.getInstance(document.getElementById('createTenantModal')).hide();
+        document.getElementById('createTenantForm').reset();
+        await loadTenantsAndModules();
+        showToast('Tenant provisioned successfully!', 'success');
+      } catch (e) { showToast(e.response?.data?.error || 'Failed.', 'error'); }
+    });
+
+    document.getElementById('createModuleForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      try {
+        await api.post('/api/admin/modules', {
+          moduleKey: document.getElementById('newModuleKey').value.toUpperCase(),
+          displayName: document.getElementById('newModuleDisplayName').value,
+          description: document.getElementById('newModuleDescription').value,
+          price: parseFloat(document.getElementById('newModulePrice').value)
+        });
+        bootstrap.Modal.getInstance(document.getElementById('createModuleModal')).hide();
+        document.getElementById('createModuleForm').reset();
+        await loadProductCatalogue();
+        showToast('Module added to catalogue!', 'success');
+      } catch (e) { showToast(e.response?.data?.error || 'Failed.', 'error'); }
+    });
+
+    function logout() { localStorage.removeItem('token'); window.location.href = '/index.html'; }
+
+    // ── Initialise ────────────────────────────────────────────
+    (async () => {
+      try {
+        const res = await api.get('/api/auth/me');
+        const u = res.data;
+        document.getElementById('userName').textContent = u.name || 'Super Admin';
+        document.getElementById('userAvatar').textContent = getInitials(u.name || 'SA');
+        if (u.role !== 'SUPER_ADMIN') { window.location.href = '/dashboard.html'; }
+      } catch { window.location.href = '/index.html'; }
+
+      await Promise.allSettled([loadTenantsAndModules(), loadProductCatalogue(), loadPlatformStats()]);
+      await populateModuleDropdowns();
+    })();
   </script>
 </body>
 </html>

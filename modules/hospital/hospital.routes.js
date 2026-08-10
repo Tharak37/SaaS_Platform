@@ -77,6 +77,7 @@ module.exports = (pool, authenticateToken, tenantIsolation, checkPermission, req
     const tableMap = {
       'appointments': 'hosp_appointments',
       'patients': 'hosp_patients',
+      'departments': 'hosp_departments',
       'doctors': 'hosp_doctors',
       'medicines': 'hosp_medicines',
       'invoices': 'hosp_invoices',
@@ -114,6 +115,7 @@ module.exports = (pool, authenticateToken, tenantIsolation, checkPermission, req
     // Map your frontend view names or entity names to actual safe database table names
     const tableMap = {
       'appointments': 'hosp_appointments',
+      'departments': 'hosp_departments',
       'patients': 'hosp_patients',
       'doctors': 'hosp_doctors',
       'medicines': 'hosp_medicines',
@@ -284,6 +286,80 @@ module.exports = (pool, authenticateToken, tenantIsolation, checkPermission, req
 
   router.post('/appointments/checkin', ...baseMiddleware, checkPermission('HOSPITAL', 'MANAGE_APPOINTMENTS'), withPool(workflowCtrl.checkInPatient));
   router.post('/queue/call-next', ...baseMiddleware, checkPermission('HOSPITAL', 'VIEW_APPOINTMENTS'), withPool(workflowCtrl.callNextQueueToken));
+
+
+  // Get all departments for the tenant
+  router.get('/departments', ...baseMiddleware, tenantIsolation, withPool(async (req, res, db) => {
+    const [rows] = await db.query(
+      'SELECT * FROM hosp_departments WHERE tenantId = ? ORDER BY id DESC',
+      [req.tenantId]
+    );
+    res.json(rows);
+  }));
+
+  // Get a single department by ID
+  router.get('/departments/:id', ...baseMiddleware, tenantIsolation, withPool(async (req, res, db) => {
+    const [rows] = await db.query(
+      'SELECT * FROM hosp_departments WHERE id = ? AND tenantId = ?',
+      [req.params.id, req.tenantId]
+    );
+    if (rows.length === 0) {
+      return res.status(404).json({ message: 'Department not found' });
+    }
+    res.json(rows[0]);
+  }));
+
+  // Create a new department
+  router.post('/departments', ...baseMiddleware, tenantIsolation, withPool(async (req, res, db, audit) => {
+    const { departmentName, description } = req.body;
+
+    if (!departmentName) {
+      return res.status(400).json({ message: 'Department name is required' });
+    }
+
+    const [result] = await db.query(
+      `INSERT INTO hosp_departments (tenantId, departmentName, description) VALUES (?, ?, ?)`,
+      [req.tenantId, departmentName, description || null]
+    );
+
+    if (audit) audit(req.tenantId, req.user?.userId, `Created department ID ${result.insertId}`);
+    res.status(201).json({ success: true, message: 'Department created successfully', id: result.insertId });
+  }));
+
+  // Update an existing department
+  router.put('/departments/:id', ...baseMiddleware, tenantIsolation, withPool(async (req, res, db, audit) => {
+    const { id } = req.params;
+    const { departmentName, description } = req.body;
+
+    const [result] = await db.query(
+      `UPDATE hosp_departments SET departmentName = COALESCE(?, departmentName), description = COALESCE(?, description) WHERE id = ? AND tenantId = ?`,
+      [departmentName, description, id, req.tenantId]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Department not found or unauthorized' });
+    }
+
+    if (audit) audit(req.tenantId, req.user?.userId, `Updated department ID ${id}`);
+    res.json({ success: true, message: 'Department updated successfully' });
+  }));
+
+  // Delete a department
+  router.delete('/departments/:id', ...baseMiddleware, tenantIsolation, withPool(async (req, res, db, audit) => {
+    const { id } = req.params;
+
+    const [result] = await db.query(
+      `DELETE FROM hosp_departments WHERE id = ? AND tenantId = ?`,
+      [id, req.tenantId]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Department not found or unauthorized' });
+    }
+
+    if (audit) audit(req.tenantId, req.user?.userId, `Deleted department ID ${id}`);
+    res.json({ success: true, message: 'Department deleted successfully' });
+  }));
 
     // ==========================================
   // DOCTORS DIRECTORY ROUTES
