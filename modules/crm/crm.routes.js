@@ -103,13 +103,15 @@ module.exports = (pool, authenticateToken, tenantIsolation, checkPermission, req
   }));
 
   router.post('/leads', ...baseMiddleware, checkPermission('CRM', 'MANAGE_LEADS'), withPool(async (req, res, db, audit) => {
-    const { fullName, companyName, phone, email, estimatedValue, priority, statusId, sourceId } = req.body;
-    const [r] = await db.query(
-      'INSERT INTO crm_leads (tenantId, fullName, companyName, phone, email, estimatedValue, priority, statusId, sourceId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [req.tenantId, fullName, companyName || '', phone, email || '', estimatedValue || 0, priority || 'MEDIUM', statusId || null, sourceId || null]
-    );
-    if (audit) audit(req.tenantId, req.user?.userId, `Created lead: ${fullName} (ID: ${r.insertId})`);
-    res.status(201).json({ id: r.insertId, message: 'Lead created successfully' });
+    
+      const { fullName, companyName, phone, email, estimatedValue, priority, statusId, sourceId } = req.body;
+      const [r] = await db.query(
+        'INSERT INTO crm_leads (tenantId, fullName, companyName, phone, email, estimatedValue, priority, statusId, sourceId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [req.tenantId, fullName, companyName || '', phone, email || '', estimatedValue || 0, priority || 'MEDIUM', statusId || null, sourceId || null]
+      );
+      if (audit) audit(req.tenantId, req.user?.userId, `Created lead: ${fullName} (ID: ${r.insertId})`);
+      res.status(201).json({ id: r.insertId, message: 'Lead created successfully' });
+    
   }));
 
   // ==========================================

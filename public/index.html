@@ -1,200 +1,640 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AA Technologies - Building Intelligent Digital Solutions</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap"
-    rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <meta name="description" content="AA Technologies builds enterprise applications, SaaS platforms, AI solutions, cloud applications and digital transformation solutions.">
+  <title>AA Technologies | Digital Engineering & AI Solutions</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
   <style>
     :root {
-      --primary-blue: #2563EB;
-      --dark-navy: #0F172A;
-      --cyan-accent: #06B6D4;
-      --light-gray: #F8FAFC;
+      --navy: #08111f;
+      --navy-2: #0d1b2e;
+      --blue: #2563eb;
+      --blue-2: #3b82f6;
+      --cyan: #06b6d4;
+      --ink: #0f172a;
+      --text: #475569;
+      --muted: #64748b;
+      --line: #e2e8f0;
+      --surface: #f8fafc;
+      --white: #fff;
+      --radius: 18px;
+      --shadow: 0 18px 50px rgba(15, 23, 42, .08);
     }
 
+    html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', sans-serif;
-      color: #334155;
-      background-color: var(--light-gray);
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      color: var(--text);
+      background: #fff;
+      line-height: 1.65;
     }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    .navbar-brand {
-      font-family: 'Poppins', sans-serif;
+    h1,h2,h3,h4,h5,h6 {
+      font-family: "Poppins", sans-serif;
+      color: var(--ink);
     }
+    a { text-decoration: none; }
+    section { scroll-margin-top: 90px; }
 
-    .hero-section {
-      background: linear-gradient(135deg, var(--dark-navy) 0%, #1e293b 100%);
-      color: white;
-      padding: 120px 0;
+    .navbar {
+      background: rgba(255,255,255,.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(226,232,240,.8);
     }
-
-    .hero-section h1 {
-      color: #ffffff;
+    .navbar-brand img {
+      width: 92px;
+      height: 58px;
+      object-fit: contain;
     }
-
-    .hero-section h1 span {
-      color: var(--cyan-accent);
+    .nav-link {
+      color: #334155 !important;
+      font-weight: 600;
+      font-size: .94rem;
     }
-
-    .feature-card {
-      transition: transform 0.2s;
-      border: none;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    .nav-link:hover { color: var(--blue) !important; }
+    .btn-brand {
+      background: var(--blue);
+      border: 1px solid var(--blue);
+      color: #fff;
+      font-weight: 700;
       border-radius: 12px;
+      padding: .7rem 1.15rem;
+      box-shadow: 0 8px 20px rgba(37,99,235,.18);
     }
-
-    .feature-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .btn-primary {
-      background-color: var(--primary-blue);
-      border-color: var(--primary-blue);
-    }
-
-    .btn-primary:hover {
-      background-color: #1d4ed8;
+    .btn-brand:hover {
+      background: #1d4ed8;
       border-color: #1d4ed8;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .btn-outline-brand {
+      border: 1px solid rgba(255,255,255,.3);
+      color: #fff;
+      font-weight: 700;
+      border-radius: 12px;
+      padding: .72rem 1.2rem;
+    }
+    .btn-outline-brand:hover { background: #fff; color: var(--navy); }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 690px;
+      display: flex;
+      align-items: center;
+      background:
+        radial-gradient(circle at 82% 25%, rgba(6,182,212,.20), transparent 25%),
+        radial-gradient(circle at 65% 80%, rgba(37,99,235,.24), transparent 32%),
+        linear-gradient(135deg, #06101d 0%, #0b1930 55%, #102544 100%);
+      color: #fff;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: linear-gradient(to bottom, black, transparent 90%);
+    }
+    .hero .container { position: relative; z-index: 1; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .45rem .8rem;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      border-radius: 999px;
+      color: #cbd5e1;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .eyebrow .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 14px var(--cyan);
+    }
+    .hero h1 {
+      color: #fff;
+      font-size: clamp(2.7rem, 6vw, 5rem);
+      line-height: 1.06;
+      letter-spacing: -.045em;
+      margin: 1.25rem 0 1.2rem;
+      max-width: 850px;
+    }
+    .hero h1 span {
+      background: linear-gradient(90deg, #67e8f9, #60a5fa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-copy {
+      max-width: 700px;
+      color: #b7c5d7;
+      font-size: 1.08rem;
+    }
+    .hero-actions { display: flex; gap: .8rem; flex-wrap: wrap; margin-top: 2rem; }
+    .hero-note {
+      margin-top: 1.3rem;
+      color: #94a3b8;
+      font-size: .88rem;
     }
 
-    .text-primary {
-      color: var(--primary-blue) !important;
+    .floating-card {
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.07);
+      backdrop-filter: blur(16px);
+      border-radius: 22px;
+      padding: 1.2rem;
+      color: #fff;
+      box-shadow: 0 25px 70px rgba(0,0,0,.2);
+    }
+    .solution-orbit {
+      position: relative;
+      width: 100%;
+      max-width: 430px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+    .solution-main {
+      min-height: 330px;
+      display: grid;
+      place-items: center;
+      border-radius: 28px;
+      background: linear-gradient(145deg, rgba(37,99,235,.2), rgba(6,182,212,.1));
+      border: 1px solid rgba(255,255,255,.12);
+      position: relative;
+    }
+    .solution-core {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, #2563eb, #06b6d4);
+      box-shadow: 0 0 70px rgba(37,99,235,.35);
+      font-size: 3rem;
+    }
+    .orbit-pill {
+      position: absolute;
+      padding: .55rem .75rem;
+      border-radius: 12px;
+      background: rgba(8,17,31,.88);
+      border: 1px solid rgba(255,255,255,.13);
+      color: #dbeafe;
+      font-size: .78rem;
+      font-weight: 700;
+    }
+    .p1 { top: 25px; left: 20px; }
+    .p2 { top: 30px; right: 18px; }
+    .p3 { bottom: 28px; left: 20px; }
+    .p4 { bottom: 32px; right: 20px; }
+
+    .section-pad { padding: 95px 0; }
+    .section-kicker {
+      color: var(--blue);
+      font-size: .78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      margin-bottom: .65rem;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: -.035em;
+      margin-bottom: .8rem;
+    }
+    .section-subtitle {
+      color: var(--muted);
+      max-width: 680px;
+      margin: 0 auto;
     }
 
-    .badge-tech {
-      background-color: #e2e8f0;
-      color: var(--dark-navy);
-      font-weight: 500;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 0.85rem;
+    .service-card {
+      height: 100%;
+      padding: 1.6rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #fff;
+      transition: .25s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-7px);
+      border-color: #bfdbfe;
+      box-shadow: var(--shadow);
+    }
+    .icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      background: #eff6ff;
+      font-size: 1.35rem;
+      margin-bottom: 1.2rem;
+    }
+    .service-card h4 { font-size: 1.18rem; }
+    .service-card p { color: var(--muted); font-size: .92rem; margin-bottom: 0; }
+
+    .product-section { background: var(--surface); }
+    .product-card {
+      height: 100%;
+      padding: 1.6rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #fff;
+      box-shadow: 0 8px 25px rgba(15,23,42,.04);
+    }
+    .product-card .product-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: #eef2ff;
+      color: #4f46e5;
+      font-size: 1.2rem;
+    }
+    .product-tag {
+      display: inline-block;
+      padding: .3rem .6rem;
+      background: #ecfeff;
+      color: #0e7490;
+      border-radius: 999px;
+      font-size: .7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .capability {
+      border-radius: 24px;
+      background: var(--navy);
+      color: #fff;
+      padding: 2rem;
+      height: 100%;
+    }
+    .capability h3 { color: #fff; }
+    .capability p { color: #aebdce; }
+    .check-list { list-style: none; padding: 0; margin: 1.4rem 0 0; }
+    .check-list li {
+      display: flex;
+      gap: .65rem;
+      align-items: flex-start;
+      margin-bottom: .85rem;
+      color: #dbe4ef;
+    }
+    .check-list i { color: #67e8f9; }
+
+    .tech-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: .65rem;
+      max-width: 950px;
+      margin: 2.5rem auto 0;
+    }
+    .tech-pill {
+      padding: .6rem .85rem;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      color: #334155;
+      font-size: .86rem;
+      font-weight: 700;
+      transition: .2s ease;
+    }
+    .tech-pill:hover { border-color: #93c5fd; color: var(--blue); transform: translateY(-2px); }
+
+    .industries { background: #f8fbff; }
+    .industry-card {
+      padding: 1.2rem;
+      border-radius: 15px;
+      background: #fff;
+      border: 1px solid var(--line);
+      text-align: center;
+      height: 100%;
+    }
+    .industry-card i { color: var(--blue); font-size: 1.5rem; }
+    .industry-card h6 { margin: .65rem 0 0; font-size: .9rem; }
+
+    .contact-box {
+      border-radius: 28px;
+      padding: 3rem;
+      background:
+        radial-gradient(circle at 90% 20%, rgba(6,182,212,.22), transparent 24%),
+        linear-gradient(135deg, #0a1730, #0c2341);
+      color: #fff;
+      overflow: hidden;
+    }
+    .contact-box h2 { color: #fff; }
+    .contact-box p { color: #b7c5d7; }
+    .contact-item {
+      display: flex;
+      gap: .75rem;
+      align-items: flex-start;
+      margin-bottom: .8rem;
+      color: #dbeafe;
+    }
+    .contact-item i { color: #67e8f9; }
+
+    footer {
+      background: #050c16;
+      color: #94a3b8;
+    }
+    footer h5 { color: #fff; font-size: 1rem; }
+    footer a { color: #94a3b8; }
+    footer a:hover { color: #67e8f9; }
+    .footer-logo {
+      width: 90px;
+      height: 55px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      opacity: .95;
+    }
+
+    .modal-content { border: 0; border-radius: 20px; }
+    .auth-tabs { background: #f1f5f9; border-radius: 12px; padding: .25rem; }
+    .auth-tabs .nav-link { border-radius: 9px; color: #64748b !important; }
+    .auth-tabs .nav-link.active { background: #fff; color: var(--blue) !important; box-shadow: 0 2px 7px rgba(15,23,42,.08); }
+    .form-control {
+      border-radius: 11px;
+      padding: .72rem .85rem;
+      border-color: #dbe3ee;
+    }
+    .form-control:focus { border-color: #93c5fd; box-shadow: 0 0 0 .2rem rgba(37,99,235,.1); }
+
+    @media (max-width: 991px) {
+      .hero { min-height: auto; padding: 115px 0 80px; }
+      .solution-orbit { margin-top: 3rem; }
+      .section-pad { padding: 75px 0; }
+    }
+    @media (max-width: 575px) {
+      .hero h1 { font-size: 2.55rem; }
+      .contact-box { padding: 2rem 1.3rem; }
+      .solution-main { min-height: 285px; }
+      .orbit-pill { font-size: .7rem; }
     }
   </style>
 </head>
 
 <body>
-
-  <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm py-3">
-    <div class="container">
-      <!-- <a class="navbar-brand fw-bold fs-4 text-primary d-flex align-items-center" href="#">
-        <i class="bi bi-cpu-fill me-2" style="color: var(--cyan-accent);"></i> AA Technologies
-      </a> -->
-      <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
-        <img src="../assets/AA_logo.png" alt="AA Technologies" width="100" height="75" class="me-2">
-        <!-- <span class="fw-bold fs-4 text-primary">
-          AA Technologies
-        </span> -->
+  <!-- NAVIGATION -->
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container py-2">
+      <a class="navbar-brand d-flex align-items-center" href="#home" aria-label="AA Technologies home">
+        <img src="../assets/AA_logo.png" alt="AA Technologies">
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+
+      <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto align-items-center">
+
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
           <li class="nav-item"><a class="nav-link px-3" href="#services">Services</a></li>
-          <li class="nav-item"><a class="nav-link px-3" href="#products">Products</a></li>
-          <li class="nav-item"><a class="nav-link px-3" href="#techstack">Tech Stack</a></li>
-          <li class="nav-item"><a class="nav-link px-3" href="#about">About Us</a></li>
-          <li class="nav-item ms-lg-3">
-            <button class="btn btn-primary px-4 rounded-pill" data-bs-toggle="modal" data-bs-target="#authModal">Sign In
-              / Register</button>
+          <li class="nav-item"><a class="nav-link px-3" href="#solutions">Solutions</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="#technology">Technology</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link px-3" href="#contact">Contact</a></li>
+          <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+            <button class="btn btn-brand" data-bs-toggle="modal" data-bs-target="#authModal">
+              Client Login <i class="bi bi-arrow-up-right ms-1"></i>
+            </button>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <header class="hero-section text-center">
+  <!-- HERO -->
+  <header id="home" class="hero">
     <div class="container">
-      <h1 class="display-4 fw-bold mb-3">Building Intelligent <span>Digital Solutions</span></h1>
-      <p class="lead mb-4 mx-auto" style="max-width: 650px; color: #94a3b8;">AA Technologies is a technology consulting
-        and software development company specializing in enterprise applications, SaaS platforms, AI solutions, cloud
-        technologies, and digital transformation.</p>
-      <button class="btn btn-light btn-lg text-primary fw-bold px-5 rounded-pill shadow" data-bs-toggle="modal"
-        data-bs-target="#authModal" onclick="switchPane('registerPane')">Get Started Free</button>
+      <div class="row align-items-center g-5">
+        <div class="col-lg-7">
+          <div class="eyebrow"><span class="dot"></span> Digital Engineering • AI • Cloud</div>
+          <h1>We build technology that <span>moves businesses forward.</span></h1>
+          <p class="hero-copy">
+            AA Technologies helps organizations turn business ideas into scalable digital products,
+            enterprise applications, SaaS platforms, AI-powered solutions and modern cloud systems.
+          </p>
+          <div class="hero-actions">
+            <a href="#contact" class="btn btn-light btn-lg px-4 fw-bold">Start a Conversation <i class="bi bi-arrow-right ms-1"></i></a>
+            <a href="#solutions" class="btn btn-outline-brand btn-lg">Explore Solutions</a>
+          </div>
+          <div class="hero-note">
+            <i class="bi bi-check-circle-fill text-info me-1"></i>
+            From idea and architecture to development, deployment and support.
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="solution-orbit">
+            <div class="solution-main">
+              <div class="solution-core"><i class="bi bi-cpu"></i></div>
+              <span class="orbit-pill p1"><i class="bi bi-window-stack me-1"></i> SaaS</span>
+              <span class="orbit-pill p2"><i class="bi bi-stars me-1"></i> AI</span>
+              <span class="orbit-pill p3"><i class="bi bi-cloud-check me-1"></i> Cloud</span>
+              <span class="orbit-pill p4"><i class="bi bi-diagram-3 me-1"></i> APIs</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 
-  <section id="services" class="py-5 bg-white">
-    <div class="container py-4">
+  <!-- SERVICES -->
+  <section id="services" class="section-pad">
+    <div class="container">
       <div class="text-center mb-5">
-        <h2 class="fw-bold">Our Core Services</h2>
-        <p class="text-muted">Empowering businesses through modern software engineering, cloud technologies, and
-          artificial intelligence.</p>
+        <div class="section-kicker">What we do</div>
+        <h2 class="section-title">Technology expertise with business focus</h2>
+        <p class="section-subtitle">
+          We combine product thinking, engineering and automation to deliver solutions that are practical,
+          scalable and ready for real-world operations.
+        </p>
       </div>
+
       <div class="row g-4">
-        <div class="col-md-4">
-          <div class="card feature-card p-4 h-100 bg-light">
-            <div class="text-primary fs-1 mb-3"><i class="bi bi-code-slash"></i></div>
-            <h4 class="fw-bold">Software Development</h4>
-            <p class="text-muted small">Custom Software Development, Enterprise Application Development, SaaS Product
-              Development, and Mobile Application Development.</p>
+        <div class="col-md-6 col-lg-4">
+          <div class="service-card">
+            <div class="icon-box"><i class="bi bi-code-slash"></i></div>
+            <h4>Software Engineering</h4>
+            <p>Custom enterprise applications, web platforms, mobile applications, SaaS products and modernization initiatives.</p>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card feature-card p-4 h-100 bg-light">
-            <div class="text-primary fs-1 mb-3"><i class="bi bi-cpu"></i></div>
-            <h4 class="fw-bold">Advanced Tech & AI</h4>
-            <p class="text-muted small">AI & Generative AI Solutions, Business Process Automation, Cloud & DevOps, and
-              API Development & Integration.</p>
+        <div class="col-md-6 col-lg-4">
+          <div class="service-card">
+            <div class="icon-box"><i class="bi bi-stars"></i></div>
+            <h4>AI & Automation</h4>
+            <p>Generative AI, AI assistants, document intelligence, workflow automation and intelligent business processes.</p>
           </div>
         </div>
-        <div class="col-md-4">
-          <div class="card feature-card p-4 h-100 bg-light">
-            <div class="text-primary fs-1 mb-3"><i class="bi bi-lightbulb"></i></div>
-            <h4 class="fw-bold">Design & Strategy</h4>
-            <p class="text-muted small">UI/UX Design and Digital Transformation Consulting to guide your enterprise
-              forward.</p>
+        <div class="col-md-6 col-lg-4">
+          <div class="service-card">
+            <div class="icon-box"><i class="bi bi-cloud-arrow-up"></i></div>
+            <h4>Cloud & DevOps</h4>
+            <p>Cloud-native applications, deployment automation, containers, APIs, infrastructure and application operations.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="service-card">
+            <div class="icon-box"><i class="bi bi-diagram-3"></i></div>
+            <h4>API & Integration</h4>
+            <p>Secure REST APIs, third-party integrations, system connectivity and data exchange across business platforms.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="service-card">
+            <div class="icon-box"><i class="bi bi-phone"></i></div>
+            <h4>Web & Mobile</h4>
+            <p>Responsive customer experiences and mobile applications designed for speed, usability and maintainability.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="service-card">
+            <div class="icon-box"><i class="bi bi-lightbulb"></i></div>
+            <h4>Digital Transformation</h4>
+            <p>Architecture, process modernization, product strategy and technology consulting for evolving organizations.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="products" class="py-5 bg-light">
-    <div class="container py-4">
-      <div class="text-center mb-5">
-        <h2 class="fw-bold">Our Product Portfolio</h2>
-        <p class="text-muted">Explore our active software solutions and long-term innovation pipeline.</p>
+  <!-- SOLUTIONS / PRODUCTS -->
+  <section id="solutions" class="section-pad product-section">
+    <div class="container">
+      <div class="row align-items-end mb-5">
+        <div class="col-lg-8">
+          <div class="section-kicker">Our solutions</div>
+          <h2 class="section-title">Products designed around real business workflows</h2>
+          <p class="text-muted mb-0">A growing portfolio of business applications and SaaS products from AA Technologies.</p>
+        </div>
       </div>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="product-card">
+            <div class="d-flex justify-content-between align-items-start mb-4">
+              <div class="product-icon"><i class="bi bi-people"></i></div>
+              <span class="product-tag">Business</span>
+            </div>
+            <h4>HRFlow</h4>
+            <p class="text-muted">HR management, employee operations, attendance, leave, payroll and workforce workflows.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="product-card">
+            <div class="d-flex justify-content-between align-items-start mb-4">
+              <div class="product-icon"><i class="bi bi-door-open"></i></div>
+              <span class="product-tag">Operations</span>
+            </div>
+            <h4>GateFlow</h4>
+            <p class="text-muted">Digital gate pass and visitor workflows for controlled, trackable workplace operations.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="product-card">
+            <div class="d-flex justify-content-between align-items-start mb-4">
+              <div class="product-icon"><i class="bi bi-buildings"></i></div>
+              <span class="product-tag">Platform</span>
+            </div>
+            <h4>VenuePlay</h4>
+            <p class="text-muted">A digital engagement concept connecting venue operations, experiences and customer interaction.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="product-card">
+            <div class="d-flex justify-content-between align-items-start mb-4">
+              <div class="product-icon"><i class="bi bi-box-seam"></i></div>
+              <span class="product-tag">Operations</span>
+            </div>
+            <h4>Inventory Solutions</h4>
+            <p class="text-muted">Inventory visibility, stock workflows, transactions and operational reporting for growing teams.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="product-card">
+            <div class="d-flex justify-content-between align-items-start mb-4">
+              <div class="product-icon"><i class="bi bi-headset"></i></div>
+              <span class="product-tag">Support</span>
+            </div>
+            <h4>Helpdesk Platform</h4>
+            <p class="text-muted">Structured ticketing, service workflows, assignment, status tracking and operational visibility.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="product-card">
+            <div class="d-flex justify-content-between align-items-start mb-4">
+              <div class="product-icon"><i class="bi bi-magic"></i></div>
+              <span class="product-tag">AI</span>
+            </div>
+            <h4>PromptHub AI</h4>
+            <p class="text-muted">A prompt and AI productivity concept for organizing reusable prompts, workflows and intelligent assistance.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAPABILITIES -->
+  <section id="about" class="section-pad">
+    <div class="container">
       <div class="row g-4">
         <div class="col-lg-6">
-          <div class="card p-4 h-100 border-0 shadow-sm">
-            <h4 class="fw-bold text-primary mb-3"><i class="bi bi-check-circle-fill me-2"></i>Active Suite</h4>
-            <ul class="list-unstyled mb-0">
-              <!-- <li class="py-2 border-bottom"><strong>WaitLess</strong> - Queue Management System</li>
-              <li class="py-2 border-bottom"><strong>MediTrack</strong> - Medicine History Tracker</li>
-              <li class="py-2 border-bottom"><strong>ServiceHub</strong> - Local Services Marketplace</li> -->
-              <li class="py-2 border-bottom"><strong>GateFlow</strong> - Gate Pass Management</li>
-              <li class="py-2 border-bottom"><strong>HRFlow</strong> - HR Management System</li>
-              <li class="py-2 pt-2"><strong>VenuePlay</strong> - Venue Engagement Platform</li>
+          <div class="capability">
+            <div class="section-kicker text-info">Why AA Technologies</div>
+            <h3 class="mb-3">From business problem to production-ready solution.</h3>
+            <p>
+              We focus on understanding the business workflow first and then choosing the right architecture,
+              technology and delivery approach.
+            </p>
+            <ul class="check-list">
+              <li><i class="bi bi-check-circle-fill"></i><span>Business-first solution design</span></li>
+              <li><i class="bi bi-check-circle-fill"></i><span>Scalable multi-tenant SaaS architecture</span></li>
+              <li><i class="bi bi-check-circle-fill"></i><span>Modern web, mobile and API engineering</span></li>
+              <li><i class="bi bi-check-circle-fill"></i><span>AI and automation built into practical workflows</span></li>
+              <li><i class="bi bi-check-circle-fill"></i><span>Cloud-ready deployment and integration</span></li>
             </ul>
           </div>
         </div>
+
         <div class="col-lg-6">
-          <div class="card p-4 h-100 border-0 shadow-sm">
-            <h4 class="fw-bold text-dark mb-3"><i class="bi bi-rocket-takeoff-fill me-2"
-                style="color: var(--cyan-accent);"></i>Long-Term Product Pipeline</h4>
-            <div class="d-flex flex-wrap gap-2 mt-3">
-              <span class="badge-tech">HRMS Platform</span>
-              <span class="badge-tech">Gate Pass System</span>
-              <span class="badge-tech">Inventory Management</span>
-              <span class="badge-tech">ERP Solution</span>
-              <span class="badge-tech">CRM Platform</span>
-              <span class="badge-tech">PromptHub AI</span>
-              <span class="badge-tech">Workflow Automation</span>
-              <span class="badge-tech">Enterprise AI Assistant</span>
-              <span class="badge-tech">Document Management</span>
+          <div class="p-4 p-lg-5 h-100 border rounded-4 bg-white">
+            <div class="section-kicker">Our approach</div>
+            <h3 class="mb-4">A simple delivery journey</h3>
+
+            <div class="d-flex gap-3 mb-4">
+              <div class="icon-box flex-shrink-0 mb-0"><i class="bi bi-search"></i></div>
+              <div><h5 class="mb-1">01. Discover</h5><p class="text-muted mb-0 small">Understand the process, users, goals and constraints.</p></div>
+            </div>
+            <div class="d-flex gap-3 mb-4">
+              <div class="icon-box flex-shrink-0 mb-0"><i class="bi bi-bezier2"></i></div>
+              <div><h5 class="mb-1">02. Design</h5><p class="text-muted mb-0 small">Define architecture, user experience, data and integration design.</p></div>
+            </div>
+            <div class="d-flex gap-3 mb-4">
+              <div class="icon-box flex-shrink-0 mb-0"><i class="bi bi-code-square"></i></div>
+              <div><h5 class="mb-1">03. Build</h5><p class="text-muted mb-0 small">Develop, integrate, test and iterate with business feedback.</p></div>
+            </div>
+            <div class="d-flex gap-3">
+              <div class="icon-box flex-shrink-0 mb-0"><i class="bi bi-rocket-takeoff"></i></div>
+              <div><h5 class="mb-1">04. Launch & Evolve</h5><p class="text-muted mb-0 small">Deploy, monitor, improve and scale as your business grows.</p></div>
             </div>
           </div>
         </div>
@@ -202,409 +642,328 @@
     </div>
   </section>
 
-  <section id="techstack" class="py-5 bg-white">
-    <div class="container py-4 text-center">
-      <h2 class="fw-bold mb-3">Our Technology Stack</h2>
-      <p class="text-muted mb-5">Leveraging robust, modern frameworks and cloud platforms.</p>
-      <div class="d-flex flex-wrap justify-content-center gap-2">
-        <span class="badge-tech">Node.js</span>
-        <span class="badge-tech">React</span>
-        <span class="badge-tech">Angular</span>
-        <span class="badge-tech">Ionic</span>
-        <span class="badge-tech">Mendix</span>
-        <span class="badge-tech">MySQL</span>
-        <span class="badge-tech">PostgreSQL</span>
-        <span class="badge-tech">MongoDB</span>
-        <span class="badge-tech">Docker</span>
-        <span class="badge-tech">Kubernetes</span>
-        <span class="badge-tech">AWS</span>
-        <span class="badge-tech">Azure</span>
-        <span class="badge-tech">Google Cloud</span>
-        <span class="badge-tech">OpenAI</span>
-        <span class="badge-tech">Claude</span>
-        <span class="badge-tech">REST APIs</span>
+  <!-- TECHNOLOGY -->
+  <section id="technology" class="section-pad bg-white border-top border-bottom">
+    <div class="container text-center">
+      <div class="section-kicker">Technology</div>
+      <h2 class="section-title">Built with the tools modern teams trust</h2>
+      <p class="section-subtitle">Our technology capabilities span application development, data, cloud, low-code and AI.</p>
+
+      <div class="tech-wrap">
+        <span class="tech-pill">Node.js</span>
+        <span class="tech-pill">Express.js</span>
+        <span class="tech-pill">React</span>
+        <span class="tech-pill">Angular</span>
+        <span class="tech-pill">Ionic</span>
+        <span class="tech-pill">Mendix</span>
+        <span class="tech-pill">MySQL</span>
+        <span class="tech-pill">PostgreSQL</span>
+        <span class="tech-pill">MongoDB</span>
+        <span class="tech-pill">REST APIs</span>
+        <span class="tech-pill">AWS</span>
+        <span class="tech-pill">Azure</span>
+        <span class="tech-pill">Google Cloud</span>
+        <span class="tech-pill">Docker</span>
+        <span class="tech-pill">Kubernetes</span>
+        <span class="tech-pill">OpenAI</span>
+        <span class="tech-pill">Claude</span>
+        <span class="tech-pill">GitHub</span>
       </div>
     </div>
   </section>
 
-  <!-- ================= Footer ================= -->
-<footer id="about" class="bg-dark text-light pt-5 pb-3 border-top border-secondary">
+  <!-- INDUSTRIES -->
+  <section class="section-pad industries">
+    <div class="container">
+      <div class="text-center mb-5">
+        <div class="section-kicker">Industry focus</div>
+        <h2 class="section-title">Technology that adapts to your domain</h2>
+      </div>
 
-  <div class="container">
+      <div class="row g-3">
+        <div class="col-6 col-md-4 col-lg-2"><div class="industry-card"><i class="bi bi-bank"></i><h6>Finance</h6></div></div>
+        <div class="col-6 col-md-4 col-lg-2"><div class="industry-card"><i class="bi bi-truck"></i><h6>Logistics</h6></div></div>
+        <div class="col-6 col-md-4 col-lg-2"><div class="industry-card"><i class="bi bi-cart3"></i><h6>Retail</h6></div></div>
+        <div class="col-6 col-md-4 col-lg-2"><div class="industry-card"><i class="bi bi-hospital"></i><h6>Healthcare</h6></div></div>
+        <div class="col-6 col-md-4 col-lg-2"><div class="industry-card"><i class="bi bi-mortarboard"></i><h6>Education</h6></div></div>
+        <div class="col-6 col-md-4 col-lg-2"><div class="industry-card"><i class="bi bi-building"></i><h6>Enterprise</h6></div></div>
+      </div>
+    </div>
+  </section>
 
-    <div class="row gy-4">
+  <!-- CONTACT -->
+  <section id="contact" class="section-pad">
+    <div class="container">
+      <div class="contact-box">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-7">
+            <div class="section-kicker text-info">Let's build something useful</div>
+            <h2 class="section-title mb-3">Have a business challenge or product idea?</h2>
+            <p class="mb-4">
+              Tell us what you want to improve, automate or build. We can help shape the solution,
+              architecture and delivery roadmap.
+            </p>
+            <a class="btn btn-light btn-lg fw-bold px-4" href="mailto:tharak37@gmail.com">
+              Contact AA Technologies <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+          </div>
 
-      <!-- Company -->
-      <div class="col-lg-4 col-md-6">
+          <div class="col-lg-5">
+            <div class="floating-card">
+              <h5 class="text-white mb-3">Contact</h5>
+              <div class="contact-item"><i class="bi bi-envelope-fill"></i><span>tharak37@gmail.com</span></div>
+              <div class="contact-item"><i class="bi bi-telephone-fill"></i><span>+91 76618 29283</span></div>
+              <div class="contact-item mb-0"><i class="bi bi-geo-alt-fill"></i><span>Visakhapatnam, Andhra Pradesh, India</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <h4 class="fw-bold text-white mb-3">
-          <!-- <i class="bi bi-cpu-fill text-info me-2"></i> -->
-          AA Technologies
-        </h4>
-
-        <p class="text-secondary mb-3">
-          Empowering businesses with modern SaaS platforms, enterprise applications,
-          AI-powered automation, cloud solutions, and digital transformation services.
-        </p>
-
-        <div class="d-flex gap-3 fs-5">
-
-          <a href="#" class="text-secondary"><i class="bi bi-facebook"></i></a>
-
-          <a href="#" class="text-secondary"><i class="bi bi-linkedin"></i></a>
-
-          <a href="#" class="text-secondary"><i class="bi bi-twitter-x"></i></a>
-
-          <a href="#" class="text-secondary"><i class="bi bi-github"></i></a>
-
+  <!-- FOOTER -->
+  <footer class="pt-5 pb-4">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-5">
+          <img class="footer-logo mb-3" src="../assets/AA_logo.png" alt="AA Technologies">
+          <p class="mb-3">
+            Building intelligent digital solutions through software engineering, SaaS, AI, cloud and automation.
+          </p>
+          <div class="d-flex gap-3 fs-5">
+            <a href="#" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+            <a href="#" aria-label="GitHub"><i class="bi bi-github"></i></a>
+            <a href="mailto:tharak37@gmail.com" aria-label="Email"><i class="bi bi-envelope"></i></a>
+          </div>
         </div>
 
+        <div class="col-6 col-lg-2">
+          <h5>Company</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="#about">About</a></li>
+            <li class="mb-2"><a href="#services">Services</a></li>
+            <li class="mb-2"><a href="#solutions">Solutions</a></li>
+            <li class="mb-2"><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="col-6 col-lg-2">
+          <h5>Solutions</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="#solutions">HRFlow</a></li>
+            <li class="mb-2"><a href="#solutions">GateFlow</a></li>
+            <li class="mb-2"><a href="#solutions">Inventory</a></li>
+            <li class="mb-2"><a href="#solutions">PromptHub AI</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-3">
+          <h5>Capabilities</h5>
+          <p class="mb-0 small">Enterprise Apps • SaaS • AI • Cloud • APIs • Mobile • Automation • Digital Transformation</p>
+        </div>
       </div>
 
-      <!-- Quick Links -->
-
-      <div class="col-lg-2 col-md-6">
-
-        <h5 class="text-white mb-3">Quick Links</h5>
-
-        <ul class="list-unstyled">
-
-          <li class="mb-2">
-            <a href="#home" class="text-secondary text-decoration-none">
-              Home
-            </a>
-          </li>
-
-          <li class="mb-2">
-            <a href="#features" class="text-secondary text-decoration-none">
-              Features
-            </a>
-          </li>
-
-          <li class="mb-2">
-            <a href="#modules" class="text-secondary text-decoration-none">
-              Modules
-            </a>
-          </li>
-
-          <li class="mb-2">
-            <a href="#pricing" class="text-secondary text-decoration-none">
-              Pricing
-            </a>
-          </li>
-
-          <li>
-            <a href="#contact" class="text-secondary text-decoration-none">
-              Contact
-            </a>
-          </li>
-
-        </ul>
-
+      <hr class="border-secondary my-4">
+      <div class="d-flex flex-column flex-md-row justify-content-between gap-2 small">
+        <span>© 2026 AA Technologies. All Rights Reserved.</span>
+        <span>Designed & Developed by AA Technologies</span>
       </div>
-
-      <!-- Products -->
-
-      <div class="col-lg-3 col-md-6">
-
-        <h5 class="text-white mb-3">
-          Products
-        </h5>
-
-        <ul class="list-unstyled">
-
-          <li class="mb-2">HRMS Suite</li>
-
-          <li class="mb-2">CRM Platform</li>
-
-          <li class="mb-2">Inventory Management</li>
-
-          <li class="mb-2">Gate Pass System</li>
-
-          <li class="mb-2">Helpdesk</li>
-
-
-        </ul>
-
-      </div>
-
-      <!-- Contact -->
-
-      <div class="col-lg-3 col-md-6">
-
-        <h5 class="text-white mb-3">
-          Contact Us
-        </h5>
-
-        <p class="mb-2">
-          <i class="bi bi-envelope-fill text-info me-2"></i>
-          tharak37@gmail.com
-        </p>
-
-        <p class="mb-2">
-          <i class="bi bi-telephone-fill text-info me-2"></i>
-          +91 76618 29283
-        </p>
-
-        <p class="mb-0">
-          <i class="bi bi-geo-alt-fill text-info me-2"></i>
-          Visakhapatnam, Andhra Pradesh, India
-        </p>
-
-      </div>
-
     </div>
+  </footer>
 
-    <hr class="border-secondary my-4">
-
-    <div class="row align-items-center">
-
-      <div class="col-md-6 text-center text-md-start">
-
-        <small class="text-secondary">
-          © 2026 <strong class="text-white">AA Technologies</strong>. All Rights Reserved.
-        </small>
-
-      </div>
-
-      <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
-
-        <small class="text-secondary">
-          Designed & Developed by
-          <span class="text-info fw-semibold">
-            AA Technologies
-          </span>
-        </small>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</footer>
-
-  <div class="modal fade" id="authModal" tabindex="-1">
+  <!-- AUTH MODAL: EXISTING API FLOW RETAINED -->
+  <div class="modal fade" id="authModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content border-0 shadow-lg">
-        <div class="modal-header border-0 pb-0">
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      <div class="modal-content shadow-lg">
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-bold">Client Portal</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body px-4 pb-4">
-
-          <ul class="nav nav-pills nav-fill mb-4 bg-light p-1 rounded" id="authTab" role="tablist">
-            <li class="nav-item">
-              <button class="nav-link active rounded" id="login-tab" data-bs-toggle="pill" data-bs-target="#loginPane"
-                type="button">Login</button>
-            </li>
-            <li class="nav-item">
-              <button class="nav-link rounded" id="register-tab" data-bs-toggle="pill" data-bs-target="#registerPane"
-                type="button">Register</button>
-            </li>
+          <ul class="nav nav-pills nav-fill auth-tabs mb-4" id="authTab" role="tablist">
+            <li class="nav-item"><button class="nav-link active" id="login-tab" data-bs-toggle="pill" data-bs-target="#loginPane" type="button">Login</button></li>
+            <li class="nav-item"><button class="nav-link" id="register-tab" data-bs-toggle="pill" data-bs-target="#registerPane" type="button">Register</button></li>
           </ul>
 
-          <div class="tab-content" id="authTabContent">
-
+          <div class="tab-content">
             <div class="tab-pane fade show active" id="loginPane">
               <form id="loginForm">
-                <h4 class="mb-3 fw-bold text-center">Welcome Back</h4>
+                <h4 class="text-center mb-1">Welcome back</h4>
+                <p class="text-center text-muted small mb-4">Sign in to your AA Technologies portal.</p>
                 <div class="mb-3">
-                  <label class="form-label">Email Address</label>
+                  <label class="form-label fw-semibold">Email Address</label>
                   <input type="email" id="loginEmail" class="form-control" required placeholder="admin@company.com">
                 </div>
                 <div class="mb-3">
-                  <label class="form-label">Password</label>
+                  <label class="form-label fw-semibold">Password</label>
                   <input type="password" id="loginPassword" class="form-control" required placeholder="••••••••">
                 </div>
-                <button type="submit" class="btn btn-primary w-100 py-2 mb-2">Login</button>
-                <div class="text-end mb-3">
-                  <a href="#" class="small text-decoration-none" onclick="switchPane('forgotPane')">Forgot Password?</a>
-                </div>
-                <div id="loginAlert" class="alert alert-danger d-none py-2 small" role="alert"></div>
+                <button type="submit" class="btn btn-brand w-100 py-2">Login</button>
+                <div class="text-end mt-3"><a href="#" class="small" onclick="switchPane('forgotPane');return false;">Forgot Password?</a></div>
+                <div id="loginAlert" class="alert alert-danger d-none py-2 small mt-3"></div>
               </form>
             </div>
 
             <div class="tab-pane fade" id="registerPane">
               <form id="registerForm">
-                <h4 class="mb-3 fw-bold text-center">Create Tenant Account</h4>
-                <div class="mb-3">
-                  <label class="form-label">Company / Tenant Name</label>
-                  <input type="text" id="regTenantName" class="form-control" required placeholder="InnoTech Solutions">
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Subdomain</label>
-                  <input type="text" id="regSubdomain" class="form-control" required placeholder="innotech">
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Admin Full Name</label>
-                  <input type="text" id="regAdminName" class="form-control" required placeholder="John Doe">
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Admin Email</label>
-                  <input type="email" id="regAdminEmail" class="form-control" required placeholder="john@innotech.com">
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Password</label>
-                  <input type="password" id="regPassword" class="form-control" required placeholder="Admin@123">
-                </div>
-                <button type="submit" class="btn btn-success w-100 py-2 mb-3">Register Organization</button>
-                <div id="regAlert" class="alert alert-danger d-none py-2 small" role="alert"></div>
+                <h4 class="text-center mb-1">Create an account</h4>
+                <p class="text-center text-muted small mb-4">Register your organization to get started.</p>
+                <div class="mb-3"><label class="form-label fw-semibold">Company / Tenant Name</label><input type="text" id="regTenantName" class="form-control" required placeholder="InnoTech Solutions"></div>
+                <div class="mb-3"><label class="form-label fw-semibold">Subdomain</label><input type="text" id="regSubdomain" class="form-control" required placeholder="innotech"></div>
+                <div class="mb-3"><label class="form-label fw-semibold">Admin Full Name</label><input type="text" id="regAdminName" class="form-control" required placeholder="John Doe"></div>
+                <div class="mb-3"><label class="form-label fw-semibold">Admin Email</label><input type="email" id="regAdminEmail" class="form-control" required placeholder="john@innotech.com"></div>
+                <div class="mb-3"><label class="form-label fw-semibold">Password</label><input type="password" id="regPassword" class="form-control" required placeholder="Admin@123"></div>
+                <button type="submit" class="btn btn-success w-100 py-2">Register Organization</button>
+                <div id="regAlert" class="alert alert-danger d-none py-2 small mt-3"></div>
               </form>
             </div>
 
             <div class="tab-pane fade" id="forgotPane">
               <form id="forgotForm">
-                <h4 class="mb-3 fw-bold text-center">Reset Password</h4>
-                <p class="text-muted small text-center">Enter your email address and we'll send you a password reset
-                  link/token.</p>
-                <div class="mb-3">
-                  <label class="form-label">Email Address</label>
-                  <input type="email" id="forgotEmail" class="form-control" required placeholder="admin@company.com">
-                </div>
-                <button type="submit" class="btn btn-warning w-100 py-2 mb-3 text-dark">Send Reset Token</button>
-                <div class="text-center mb-2">
-                  <a href="#" class="small text-decoration-none" onclick="switchPane('loginPane')">Back to Login</a>
-                </div>
-                <div id="forgotAlert" class="alert alert-info d-none py-2 small" role="alert"></div>
+                <h4 class="text-center mb-1">Reset password</h4>
+                <p class="text-center text-muted small mb-4">Enter your email to request a reset token.</p>
+                <div class="mb-3"><label class="form-label fw-semibold">Email Address</label><input type="email" id="forgotEmail" class="form-control" required placeholder="admin@company.com"></div>
+                <button type="submit" class="btn btn-warning w-100 py-2">Send Reset Token</button>
+                <div class="text-center mt-3"><a href="#" class="small" onclick="switchPane('loginPane');return false;">Back to Login</a></div>
+                <div id="forgotAlert" class="alert alert-info d-none py-2 small mt-3"></div>
               </form>
             </div>
 
             <div class="tab-pane fade" id="resetPane">
               <form id="resetForm">
-                <h4 class="mb-3 fw-bold text-center">Set New Password</h4>
-                <div class="mb-3">
-                  <label class="form-label">Reset Token</label>
-                  <input type="text" id="resetToken" class="form-control" required placeholder="Paste token here">
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">New Password</label>
-                  <input type="password" id="resetNewPassword" class="form-control" required placeholder="New Password">
-                </div>
-                <button type="submit" class="btn btn-dark w-100 py-2 mb-3">Update Password</button>
-                <div class="text-center mb-2">
-                  <a href="#" class="small text-decoration-none" onclick="switchPane('loginPane')">Back to Login</a>
-                </div>
-                <div id="resetAlert" class="alert alert-danger d-none py-2 small" role="alert"></div>
+                <h4 class="text-center mb-1">Set new password</h4>
+                <p class="text-center text-muted small mb-4">Use the reset token to update your password.</p>
+                <div class="mb-3"><label class="form-label fw-semibold">Reset Token</label><input type="text" id="resetToken" class="form-control" required placeholder="Paste token here"></div>
+                <div class="mb-3"><label class="form-label fw-semibold">New Password</label><input type="password" id="resetNewPassword" class="form-control" required placeholder="New password"></div>
+                <button type="submit" class="btn btn-dark w-100 py-2">Update Password</button>
+                <div class="text-center mt-3"><a href="#" class="small" onclick="switchPane('loginPane');return false;">Back to Login</a></div>
+                <div id="resetAlert" class="alert alert-danger d-none py-2 small mt-3"></div>
               </form>
             </div>
-
           </div>
-
         </div>
       </div>
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script>
-    // Helper function to switch modal panes programmatically
-    function switchPane(paneId) {
-      if (paneId === 'loginPane') {
-        new bootstrap.Tab(document.getElementById('login-tab')).show();
-        return;
-      }
-      if (paneId === 'registerPane') {
-        new bootstrap.Tab(document.getElementById('register-tab')).show();
-        return;
-      }
 
-      document.querySelectorAll('.tab-pane').forEach(el => {
-        el.classList.remove('show', 'active');
-      });
-      document.getElementById(paneId).classList.add('show', 'active');
+  <script>
+    function switchPane(paneId) {
+      if (paneId === "loginPane") {
+        bootstrap.Tab.getOrCreateInstance(document.getElementById("login-tab")).show();
+        return;
+      }
+      if (paneId === "registerPane") {
+        bootstrap.Tab.getOrCreateInstance(document.getElementById("register-tab")).show();
+        return;
+      }
+      document.querySelectorAll("#authModal .tab-pane").forEach(el => el.classList.remove("show", "active"));
+      const pane = document.getElementById(paneId);
+      if (pane) pane.classList.add("show", "active");
     }
 
-    // 1. Handle Login
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-      const alertBox = document.getElementById('loginAlert');
-      alertBox.classList.add('d-none');
+      const alertBox = document.getElementById("loginAlert");
+      alertBox.classList.add("d-none");
 
       try {
-        const response = await axios.post('/api/auth/login', { email, password });
-        localStorage.setItem('token', response.data.token);
+        const response = await axios.post("/api/auth/login", {
+          email: document.getElementById("loginEmail").value,
+          password: document.getElementById("loginPassword").value
+        });
 
+        localStorage.setItem("token", response.data.token);
         const role = response.data.user?.role || response.data.role;
-        if (role === 'SUPER_ADMIN') {
-          window.location.href = '/super-admin.html';
+
+        if (role === "SUPER_ADMIN") {
+          window.location.href = "/super-admin.html";
         } else {
-          window.location.href = '/dashboard.html';
+          window.location.href = "/dashboard.html";
         }
       } catch (err) {
-        alertBox.textContent = err.response?.data?.error || 'Login failed. Please check your credentials.';
-        alertBox.classList.remove('d-none');
+        alertBox.textContent = err.response?.data?.error || "Login failed. Please check your credentials.";
+        alertBox.classList.remove("d-none");
       }
     });
 
-    // 2. Handle Tenant Self-Registration (/api/auth/register)
-    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+      const alertBox = document.getElementById("regAlert");
+      alertBox.classList.add("d-none");
+
       const payload = {
-        tenantName: document.getElementById('regTenantName').value,
-        subdomain: document.getElementById('regSubdomain').value,
-        adminName: document.getElementById('regAdminName').value,
-        adminEmail: document.getElementById('regAdminEmail').value,
-        adminPassword: document.getElementById('regPassword').value
+        tenantName: document.getElementById("regTenantName").value,
+        subdomain: document.getElementById("regSubdomain").value,
+        adminName: document.getElementById("regAdminName").value,
+        adminEmail: document.getElementById("regAdminEmail").value,
+        adminPassword: document.getElementById("regPassword").value
       };
-      const alertBox = document.getElementById('regAlert');
-      alertBox.classList.add('d-none');
 
       try {
-        await axios.post('/api/auth/register', payload);
-        alert('Tenant and Admin registered successfully! You can now log in.');
-        switchPane('loginPane');
+        await axios.post("/api/auth/register", payload);
+        alert("Tenant and Admin registered successfully! You can now log in.");
+        switchPane("loginPane");
       } catch (err) {
-        alertBox.textContent = err.response?.data?.error || 'Registration failed.';
-        alertBox.classList.remove('d-none');
+        alertBox.textContent = err.response?.data?.error || "Registration failed.";
+        alertBox.classList.remove("d-none");
       }
     });
 
-    // 3. Handle Forgot Password Request (/api/auth/forgot-password)
-    document.getElementById('forgotForm').addEventListener('submit', async (e) => {
+    document.getElementById("forgotForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const email = document.getElementById('forgotEmail').value;
-      const alertBox = document.getElementById('forgotAlert');
-      alertBox.classList.remove('d-none');
-      alertBox.className = 'alert alert-info py-2 small';
-      alertBox.textContent = 'Sending reset instructions...';
+      const alertBox = document.getElementById("forgotAlert");
+      alertBox.className = "alert alert-info py-2 small mt-3";
+      alertBox.textContent = "Sending reset instructions...";
 
       try {
-        const res = await axios.post('/api/auth/forgot-password', { email });
-        alertBox.className = 'alert alert-success py-2 small';
-        alertBox.textContent = res.data.message || 'Password reset token generated!';
+        const res = await axios.post("/api/auth/forgot-password", {
+          email: document.getElementById("forgotEmail").value
+        });
+
+        alertBox.className = "alert alert-success py-2 small mt-3";
+        alertBox.textContent = res.data.message || "Password reset token generated!";
 
         if (res.data.token) {
-          document.getElementById('resetToken').value = res.data.token;
+          document.getElementById("resetToken").value = res.data.token;
         }
-
-        setTimeout(() => switchPane('resetPane'), 2500);
+        setTimeout(() => switchPane("resetPane"), 1800);
       } catch (err) {
-        alertBox.className = 'alert alert-danger py-2 small';
-        alertBox.textContent = err.response?.data?.error || 'Failed to request password reset.';
+        alertBox.className = "alert alert-danger py-2 small mt-3";
+        alertBox.textContent = err.response?.data?.error || "Failed to request password reset.";
       }
     });
 
-    // 4. Handle Reset Password Completion (/api/auth/reset-password)
-    document.getElementById('resetForm').addEventListener('submit', async (e) => {
+    document.getElementById("resetForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      const token = document.getElementById('resetToken').value;
-      const newPassword = document.getElementById('resetNewPassword').value;
-      const alertBox = document.getElementById('resetAlert');
-      alertBox.classList.add('d-none');
+      const alertBox = document.getElementById("resetAlert");
+      alertBox.classList.add("d-none");
 
       try {
-        await axios.post('/api/auth/reset-password', { token, newPassword });
-        alert('Password successfully updated! You can now log in with your new password.');
-        switchPane('loginPane');
+        await axios.post("/api/auth/reset-password", {
+          token: document.getElementById("resetToken").value,
+          newPassword: document.getElementById("resetNewPassword").value
+        });
+
+        alert("Password successfully updated! You can now log in with your new password.");
+        switchPane("loginPane");
       } catch (err) {
-        alertBox.textContent = err.response?.data?.error || 'Password reset failed or token expired.';
-        alertBox.classList.remove('d-none');
+        alertBox.textContent = err.response?.data?.error || "Password reset failed or token expired.";
+        alertBox.classList.remove("d-none");
       }
+    });
+
+    // Close the mobile navigation after clicking a section link.
+    document.querySelectorAll("#mainNav .nav-link").forEach(link => {
+      link.addEventListener("click", () => {
+        const nav = document.getElementById("mainNav");
+        if (nav.classList.contains("show")) {
+          bootstrap.Collapse.getOrCreateInstance(nav).hide();
+        }
+      });
     });
   </script>
 </body>
-
 </html>

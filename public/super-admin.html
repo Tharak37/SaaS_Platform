@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Super Admin — AA Enterprise Control Center</title>
-  <meta name="description" content="AA Enterprise Platform Super Admin Control Center — manage tenants, product modules, audit logs and platform settings.">
+  <meta name="description"
+    content="AA Enterprise Platform Super Admin Control Center — manage tenants, product modules, audit logs and platform settings.">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <link href="/shared.css" rel="stylesheet">
@@ -16,19 +18,26 @@
       --primary-light: #F1F5F9;
       --sa-accent: #EF4444;
     }
+
     .sidebar .nav-link.active {
       background: #EF4444;
-      box-shadow: 0 4px 12px rgba(239,68,68,0.30);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.30);
     }
-    .sidebar .nav-link:hover { background: rgba(255,255,255,0.07); }
+
+    .sidebar .nav-link:hover {
+      background: rgba(255, 255, 255, 0.07);
+    }
 
     /* Super Admin header stripe */
     .sa-header-stripe {
       background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
       border-bottom: 3px solid #EF4444;
       padding: 12px 24px;
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
+
     .sa-badge {
       background: #EF4444;
       color: white;
@@ -49,10 +58,15 @@
       border-left: 4px solid var(--sa-accent);
       transition: transform 0.2s;
     }
-    .sa-stat-card:hover { transform: translateY(-2px); }
+
+    .sa-stat-card:hover {
+      transform: translateY(-2px);
+    }
 
     /* Tenant row hover */
-    .table tbody tr:hover td { background: #F8FAFC; }
+    .table tbody tr:hover td {
+      background: #F8FAFC;
+    }
 
     /* Module key code pill */
     .module-key-pill {
@@ -66,7 +80,10 @@
     }
 
     /* Audit log */
-    .audit-row td { font-size: 0.82rem; }
+    .audit-row td {
+      font-size: 0.82rem;
+    }
+
     .audit-action {
       background: #EEF2FF;
       color: #4F46E5;
@@ -76,87 +93,174 @@
       border-radius: 20px;
     }
 
-    .sidebar { background: #0F172A; }
+    .sidebar {
+      background: #0F172A;
+    }
   </style>
 </head>
+
 <body>
 
   <!-- ░░ TOP NAVIGATION ░░ -->
-  <nav class="navbar-top" style="background:#0F172A; border-bottom:2px solid #EF4444;">
-    <div class="d-flex align-items-center gap-3">
-      <div class="brand-logo" style="color:white">
-        <div class="brand-logo-icon" style="background:#EF4444"><i class="bi bi-shield-lock-fill"></i></div>
-        <div>
-          <div style="font-size:1rem;font-weight:700;color:white">AA Enterprise Platform</div>
-          <div style="font-size:0.7rem;color:#94A3B8;margin-top:-2px">Super Admin Control Center</div>
-        </div>
-      </div>
-      <span class="sa-badge ms-2">SUPER ADMIN</span>
-    </div>
-    <div class="d-flex align-items-center gap-3">
-      <a target="_blank" href="/dashboard.html" class="btn btn-sm" style="background:#1E293B;color:#94A3B8;border:1px solid #334155">
-        <i class="bi bi-building me-1"></i>Tenant View
-      </a>
-      <div class="vr" style="height:24px;background:#334155;opacity:1"></div>
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 py-2"
+    style="background:#0F172A; border-bottom:2px solid #EF4444; z-index: 1040;">
+    <div class="container-fluid px-0">
+      <!-- Brand / Mobile Toggle -->
       <div class="d-flex align-items-center gap-2">
-        <div class="user-avatar text-white" style="background:#EF4444" id="userAvatar">SA</div>
-        <div>
-          <div class="fw-semibold small lh-1" style="color:white" id="userName">Super Admin</div>
-          <div style="font-size:0.7rem;color:#64748B">SUPER_ADMIN</div>
+        <button class="btn btn-sm d-lg-none text-white border-0 p-1 me-1" type="button" data-bs-toggle="offcanvas"
+          data-bs-target="#mobileSidebar" aria-controls="mobileSidebar">
+          <i class="bi bi-list fs-4"></i>
+        </button>
+        <div class="brand-logo d-flex align-items-center gap-2">
+          <div class="brand-logo-icon d-flex align-items-center justify-content-center text-white rounded p-2"
+            style="background:#EF4444; width: 36px; height: 36px;">
+            <i class="bi bi-shield-lock-fill fs-6"></i>
+          </div>
+          <div>
+            <div style="font-size:0.95rem; font-weight:700; color:white; line-height: 1.2;">AA Enterprise</div>
+            <div style="font-size:0.65rem; color:#94A3B8;">Super Admin Center</div>
+          </div>
+        </div>
+        <span class="badge bg-danger ms-1 d-none d-sm-inline-block" style="font-size: 0.6rem;">SUPER ADMIN</span>
+      </div>
+
+      <!-- Top Navbar Actions & User Profile -->
+      <div class="d-flex align-items-center gap-2 gap-md-3">
+        <a target="_self" href="/dashboard.html" class="btn btn-sm text-nowrap"
+          style="background:#1E293B; color:#94A3B8; border:1px solid #334155; font-size: 0.75rem;">
+          <i class="bi bi-building me-1"></i><span class="d-none d-sm-inline">Tenant View</span><span
+            class="d-inline d-sm-none">Tenant</span>
+        </a>
+        <div class="vr d-none d-sm-block" style="height:24px; background:#334155; opacity:1"></div>
+        <div class="d-flex align-items-center gap-2">
+          <div class="user-avatar text-white rounded-circle d-flex align-items-center justify-content-center fw-bold"
+            style="background:#EF4444; width:32px; height:32px; font-size:0.75rem;" id="userAvatar">SA</div>
+          <div class="d-none md-block">
+            <div class="fw-semibold small lh-1 text-white" id="userName" style="font-size: 0.8rem !important;">Super
+              Admin
+            </div>
+            <div style="font-size:0.65rem; color:#64748B">SUPER_ADMIN</div>
+          </div>
         </div>
       </div>
     </div>
   </nav>
 
-  <!-- ░░ SIDEBAR ░░ -->
-  <nav class="sidebar">
-    <div class="sidebar-section-label" style="color:#475569">Control Panels</div>
-    <ul class="nav flex-column" id="sidebarNav">
+  <!-- ░░ MOBILE SIDEBAR OFFCANVAS (< LG) ░░ -->
+  <div class="offcanvas offcanvas-start bg-dark text-white d-lg-none" tabindex="-1" id="mobileSidebar"
+    aria-labelledby="mobileSidebarLabel" style="width: 260px; background: #0F172A !important;">
+    <div class="offcanvas-header border-bottom border-secondary py-3">
+      <h5 class="offcanvas-title text-white fs-6 fw-bold" id="mobileSidebarLabel">
+        <i class="bi bi-shield-lock-fill text-danger me-2"></i>Menu
+      </h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column justify-content-between p-3">
+      <div>
+        <div class="text-uppercase small fw-bold text-muted mb-2" style="font-size: 0.7rem; letter-spacing: 0.5px;">
+          Control Panels</div>
+        <ul class="nav flex-column gap-1 mb-4">
+          <li class="nav-item">
+            <button class="nav-link text-white text-start w-100 rounded py-2 px-3 active bg-danger"
+              onclick="showPanel('tenants', this); bootstrap.Offcanvas.getInstance(document.getElementById('mobileSidebar')).hide();">
+              <i class="bi bi-building-fill me-2"></i>Tenants
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link text-white text-start w-100 rounded py-2 px-3"
+              onclick="showPanel('catalogue', this); bootstrap.Offcanvas.getInstance(document.getElementById('mobileSidebar')).hide();">
+              <i class="bi bi-grid-3x3-gap-fill me-2"></i>Product Catalogue
+            </button>
+          </li>
+          <li class="nav-item">
+            <button class="nav-link text-white text-start w-100 rounded py-2 px-3"
+              onclick="showPanel('audit', this); bootstrap.Offcanvas.getInstance(document.getElementById('mobileSidebar')).hide();">
+              <i class="bi bi-journal-check me-2"></i>Audit Logs
+            </button>
+          </li>
+        </ul>
+
+        <div class="text-uppercase small fw-bold text-muted mb-2" style="font-size: 0.7rem; letter-spacing: 0.5px;">
+          Quick
+          Links</div>
+        <ul class="nav flex-column gap-1">
+          <li><a class="nav-link text-white-50 py-2 px-3 rounded" href="/api-docs" target="_blank"><i
+                class="bi bi-code-slash me-2"></i>Swagger API Docs</a></li>
+        </ul>
+      </div>
+      <div class="pt-3 border-top border-secondary">
+        <button class="btn btn-outline-danger w-100 btn-sm text-start py-2 px-3" onclick="logout()">
+          <i class="bi bi-box-arrow-right me-2"></i>Sign Out
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ░░ DESKTOP SIDEBAR (>= LG) ░░ -->
+  <nav class="sidebar d-none d-lg-flex flex-column"
+    style="width: 240px; position: fixed; top: 57px; bottom: 0; left: 0; background: #0F172A; border-right: 1px solid #1E293B; z-index: 1030; padding: 1.25rem 1rem;">
+    <div class="sidebar-section-label"
+      style="color:#475569; font-size:0.7rem; font-weight:700; text-transform:uppercase; margin-bottom:0.5rem;">Control
+      Panels</div>
+    <ul class="nav flex-column gap-1" id="sidebarNav">
       <li class="nav-item">
-        <button class="nav-link active" onclick="showPanel('tenants', this)">
-          <i class="bi bi-building-fill"></i><span class="nav-label">Tenants</span>
+        <button class="nav-link text-white text-start w-100 rounded py-2 px-3 active bg-danger border-0"
+          onclick="showPanel('tenants', this)">
+          <i class="bi bi-building-fill me-2"></i><span class="nav-label">Tenants</span>
         </button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" onclick="showPanel('catalogue', this)">
-          <i class="bi bi-grid-3x3-gap-fill"></i><span class="nav-label">Product Catalogue</span>
+        <button class="nav-link text-white text-start w-100 rounded py-2 px-3 border-0 bg-transparent"
+          onclick="showPanel('catalogue', this)">
+          <i class="bi bi-grid-3x3-gap-fill me-2"></i><span class="nav-label">Product Catalogue</span>
         </button>
       </li>
       <li class="nav-item">
-        <button class="nav-link" onclick="showPanel('audit', this)">
-          <i class="bi bi-journal-check"></i><span class="nav-label">Audit Logs</span>
+        <button class="nav-link text-white text-start w-100 rounded py-2 px-3 border-0 bg-transparent"
+          onclick="showPanel('audit', this)">
+          <i class="bi bi-journal-check me-2"></i><span class="nav-label">Audit Logs</span>
         </button>
       </li>
     </ul>
 
-    <div class="sidebar-section-label mt-3" style="color:#475569">Quick Links</div>
-    <ul class="nav flex-column">
-      <li><a class="nav-link" href="/api-docs" target="_blank"><i class="bi bi-code-slash"></i><span class="nav-label">Swagger API Docs</span></a></li>
-      <!-- <li><a class="nav-link" href="/health" target="_blank"><i class="bi bi-heart-pulse"></i><span class="nav-label">Health Check</span></a></li> -->
+    <div class="sidebar-section-label mt-4"
+      style="color:#475569; font-size:0.7rem; font-weight:700; text-transform:uppercase; margin-bottom:0.5rem;">Quick
+      Links</div>
+    <ul class="nav flex-column gap-1">
+      <li><a class="nav-link text-white-50 py-2 px-3 rounded" href="/api-docs" target="_blank"
+          style="font-size: 0.85rem;"><i class="bi bi-code-slash me-2"></i><span class="nav-label">Swagger API
+            Docs</span></a></li>
     </ul>
 
-    <div class="sidebar-footer">
-      <button class="nav-link w-100" style="color:#F87171" onclick="logout()">
-        <i class="bi bi-box-arrow-right"></i><span class="nav-label">Sign Out</span>
+    <div class="sidebar-footer mt-auto pt-3 border-top border-secondary">
+      <button class="btn btn-outline-danger w-100 btn-sm text-start py-2 px-3" style="font-size: 0.85rem;"
+        onclick="logout()">
+        <i class="bi bi-box-arrow-right me-2"></i><span class="nav-label">Sign Out</span>
       </button>
     </div>
   </nav>
 
   <!-- ░░ MAIN CONTENT ░░ -->
-  <main class="main-content">
+  <main class="main-content"
+    style="margin-top: 57px; padding: 1.5rem; min-height: calc(100vh - 57px); background: #F8FAFC;"
+    :style="{ marginLeft: window.innerWidth >= 992 ? '240px' : '0' }">
 
     <!-- ── Panel: Tenants ── -->
     <div id="panelTenants">
-      <div class="page-header">
+      <div
+        class="page-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
         <div>
-          <h2>Tenant Management</h2>
-          <p>Provision new organisations, manage module subscriptions, and control tenant access.</p>
+          <h2 class="fw-bold fs-4 mb-1">Tenant Management</h2>
+          <p class="text-muted small mb-0">Provision new organisations, manage module subscriptions, and control tenant
+            access.</p>
         </div>
-        <div class="d-flex gap-2">
-          <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#createTenantModal">
+        <div class="d-flex flex-wrap gap-2 w-100 w-md-auto">
+          <button class="btn btn-danger btn-sm flex-grow-1 flex-md-grow-0" data-bs-toggle="modal"
+            data-bs-target="#createTenantModal">
             <i class="bi bi-building-add me-1"></i>Register Tenant
           </button>
-          <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#assignModuleModal" onclick="populateModuleDropdowns()">
+          <button class="btn btn-outline-secondary btn-sm flex-grow-1 flex-md-grow-0" data-bs-toggle="modal"
+            data-bs-target="#assignModuleModal" onclick="populateModuleDropdowns()">
             <i class="bi bi-plus-circle me-1"></i>Assign Module
           </button>
         </div>
@@ -164,142 +268,244 @@
 
       <!-- Platform Stats Row -->
       <div class="row g-3 mb-4" id="saStatsRow">
-        <div class="col-md-3"><div class="sa-stat-card"><div class="text-muted small fw-bold">Total Tenants</div><h3 class="fw-bold mt-1 mb-0" id="statTotalTenants">—</h3></div></div>
-        <div class="col-md-3"><div class="sa-stat-card" style="border-left-color:#10B981"><div class="text-muted small fw-bold">Active Module Assignments</div><h3 class="fw-bold mt-1 mb-0" id="statActiveModules">—</h3></div></div>
-        <div class="col-md-3"><div class="sa-stat-card" style="border-left-color:#F59E0B"><div class="text-muted small fw-bold">Platform Products</div><h3 class="fw-bold mt-1 mb-0" id="statCatalogueCount">—</h3></div></div>
-        <div class="col-md-3"><div class="sa-stat-card" style="border-left-color:#3B82F6"><div class="text-muted small fw-bold">Platform Uptime</div><h3 class="fw-bold mt-1 mb-0" id="statUptime">—</h3></div></div>
+        <div class="col-6 col-md-3">
+          <div class="sa-stat-card bg-white p-3 rounded shadow-sm border-start border-4 border-danger">
+            <div class="text-muted small fw-bold text-uppercase" style="font-size: 0.7rem;">Total Tenants</div>
+            <h3 class="fw-bold mt-1 mb-0 fs-4" id="statTotalTenants">—</h3>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="sa-stat-card bg-white p-3 rounded shadow-sm border-start border-4 border-success"
+            style="border-left-color:#10B981 !important;">
+            <div class="text-muted small fw-bold text-uppercase" style="font-size: 0.7rem;">Active Modules</div>
+            <h3 class="fw-bold mt-1 mb-0 fs-4" id="statActiveModules">—</h3>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="sa-stat-card bg-white p-3 rounded shadow-sm border-start border-4 border-warning"
+            style="border-left-color:#F59E0B !important;">
+            <div class="text-muted small fw-bold text-uppercase" style="font-size: 0.7rem;">Products</div>
+            <h3 class="fw-bold mt-1 mb-0 fs-4" id="statCatalogueCount">—</h3>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="sa-stat-card bg-white p-3 rounded shadow-sm border-start border-4 border-primary"
+            style="border-left-color:#3B82F6 !important;">
+            <div class="text-muted small fw-bold text-uppercase" style="font-size: 0.7rem;">Uptime</div>
+            <h3 class="fw-bold mt-1 mb-0 fs-4" id="statUptime">—</h3>
+          </div>
+        </div>
       </div>
 
-      <div class="table-container">
-        <div class="table-toolbar">
-          <h6 class="fw-bold mb-0"><i class="bi bi-building me-2 text-danger"></i>All Tenant Organisations</h6>
-          <input class="table-search" type="text" placeholder="Search tenants..." oninput="filterTable('tenantTableBody', this.value)">
+      <!-- Responsive Table Card -->
+      <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+        <div
+          class="card-header bg-white py-3 px-3 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2 border-bottom">
+          <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-building me-2 text-danger"></i>All Tenant Organisations
+          </h6>
+          <input class="form-control form-control-sm w-100 w-sm-auto" style="max-width: 240px;" type="text"
+            placeholder="Search tenants..." oninput="filterTable('tenantTableBody', this.value)">
         </div>
-        <table class="table align-middle">
-          <thead>
-            <tr>
-              <th>Tenant</th>
-              <th>Subdomain</th>
-              <th>Assigned Modules</th>
-              <th>Status</th>
-              <th>Created</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="tenantTableBody">
-            <tr><td colspan="6" class="text-center py-4 text-muted">Loading tenants...</td></tr>
-          </tbody>
-        </table>
+        <div class="table-responsive mb-0">
+          <table class="table align-middle mb-0 text-nowrap">
+            <thead class="table-light fs-7 text-uppercase" style="font-size: 0.75rem;">
+              <tr>
+                <th class="py-3 px-3">Tenant</th>
+                <th class="py-3 px-3">Subdomain</th>
+                <th class="py-3 px-3">Assigned Modules</th>
+                <th class="py-3 px-3">Status</th>
+                <th class="py-3 px-3">Created</th>
+                <th class="py-3 px-3 text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tenantTableBody" class="fs-8" style="font-size: 0.85rem;">
+              <tr>
+                <td colspan="6" class="text-center py-4 text-muted">Loading tenants...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
     <!-- ── Panel: Product Catalogue ── -->
     <div id="panelCatalogue" style="display:none">
-      <div class="page-header">
+      <div
+        class="page-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
         <div>
-          <h2>Product Module Catalogue</h2>
-          <p>Manage available enterprise product suites, pricing, and activation status.</p>
+          <h2 class="fw-bold fs-4 mb-1">Product Module Catalogue</h2>
+          <p class="text-muted small mb-0">Manage available enterprise product suites, pricing, and activation status.
+          </p>
         </div>
-        <button class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#createModuleModal">
+        <button class="btn btn-danger btn-sm w-100 w-md-auto" data-bs-toggle="modal"
+          data-bs-target="#createModuleModal">
           <i class="bi bi-folder-plus me-1"></i>Add Module to Catalogue
         </button>
       </div>
-      <div class="table-container">
-        <div class="table-toolbar">
-          <h6 class="fw-bold mb-0"><i class="bi bi-grid-3x3-gap me-2 text-danger"></i>Enterprise Products</h6>
-          <input class="table-search" type="text" placeholder="Search modules..." oninput="filterTable('productModuleTableBody', this.value)">
+
+      <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+        <div
+          class="card-header bg-white py-3 px-3 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2 border-bottom">
+          <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-grid-3x3-gap me-2 text-danger"></i>Enterprise Products</h6>
+          <input class="form-control form-control-sm w-100 w-sm-auto" style="max-width: 240px;" type="text"
+            placeholder="Search modules..." oninput="filterTable('productModuleTableBody', this.value)">
         </div>
-        <table class="table align-middle">
-          <thead>
-            <tr><th>Module Key</th><th>Display Name</th><th>Description</th><th>Monthly Price</th><th>Status</th><th>Actions</th></tr>
-          </thead>
-          <tbody id="productModuleTableBody">
-            <tr><td colspan="6" class="text-center py-4 text-muted">Loading catalogue...</td></tr>
-          </tbody>
-        </table>
+        <div class="table-responsive mb-0">
+          <table class="table align-middle mb-0 text-nowrap">
+            <thead class="table-light fs-7 text-uppercase" style="font-size: 0.75rem;">
+              <tr>
+                <th class="py-3 px-3">Module Key</th>
+                <th class="py-3 px-3">Display Name</th>
+                <th class="py-3 px-3">Description</th>
+                <th class="py-3 px-3">Monthly Price</th>
+                <th class="py-3 px-3">Status</th>
+                <th class="py-3 px-3 text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="productModuleTableBody" class="fs-8" style="font-size: 0.85rem;">
+              <tr>
+                <td colspan="6" class="text-center py-4 text-muted">Loading catalogue...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
     <!-- ── Panel: Audit Logs ── -->
     <div id="panelAudit" style="display:none">
-      <div class="page-header">
+      <div
+        class="page-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
         <div>
-          <h2>Audit Log</h2>
-          <p>Platform-wide activity trail — all significant events recorded and timestamped.</p>
+          <h2 class="fw-bold fs-4 mb-1">Audit Log</h2>
+          <p class="text-muted small mb-0">Platform-wide activity trail — all significant events recorded and
+            timestamped.
+          </p>
         </div>
-        <button class="btn btn-outline-secondary btn-sm" onclick="loadAuditLogs()">
+        <button class="btn btn-outline-secondary btn-sm w-100 w-md-auto" onclick="loadAuditLogs()">
           <i class="bi bi-arrow-clockwise me-1"></i>Refresh
         </button>
       </div>
-      <div class="table-container">
-        <div class="table-toolbar">
-          <h6 class="fw-bold mb-0"><i class="bi bi-journal-check me-2 text-danger"></i>Recent Events</h6>
-          <input class="table-search" type="text" placeholder="Search logs..." oninput="filterTable('auditTableBody', this.value)">
+
+      <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+        <div
+          class="card-header bg-white py-3 px-3 d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2 border-bottom">
+          <h6 class="fw-bold mb-0 text-dark"><i class="bi bi-journal-check me-2 text-danger"></i>Recent Events</h6>
+          <input class="form-control form-control-sm w-100 w-sm-auto" style="max-width: 240px;" type="text"
+            placeholder="Search logs..." oninput="filterTable('auditTableBody', this.value)">
         </div>
-        <table class="table align-middle">
-          <thead><tr><th>Time</th><th>User</th><th>Action</th><th>Details</th></tr></thead>
-          <tbody id="auditTableBody">
-            <tr><td colspan="4" class="text-center py-4 text-muted">Select Audit Logs panel to load...</td></tr>
-          </tbody>
-        </table>
+        <div class="table-responsive mb-0">
+          <table class="table align-middle mb-0 text-nowrap">
+            <thead class="table-light fs-7 text-uppercase" style="font-size: 0.75rem;">
+              <tr>
+                <th class="py-3 px-3">Time</th>
+                <th class="py-3 px-3">User</th>
+                <th class="py-3 px-3">Action</th>
+                <th class="py-3 px-3">Details</th>
+              </tr>
+            </thead>
+            <tbody id="auditTableBody" class="fs-8" style="font-size: 0.85rem;">
+              <tr>
+                <td colspan="4" class="text-center py-4 text-muted">Select Audit Logs panel to load...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
   </main>
 
   <!-- ░░ MODAL: Register Tenant ░░ -->
-  <div class="modal fade" id="createTenantModal" tabindex="-1">
-    <div class="modal-dialog">
-      <form id="createTenantForm" class="modal-content">
-        <div class="modal-header"><h5 class="modal-title"><i class="bi bi-building-add me-2 text-danger"></i>Register New Tenant</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-        <div class="modal-body">
-          <div class="mb-3"><label class="form-label">Organisation / Company Name</label><input type="text" id="newTenantName" class="form-control" required placeholder="Acme Corp"></div>
-          <div class="mb-3"><label class="form-label">Subdomain</label><input type="text" id="newSubdomain" class="form-control" required placeholder="acme"></div>
-          <hr><h6 class="text-muted fw-bold mb-3">Initial Admin Account</h6>
-          <div class="mb-3"><label class="form-label">Admin Full Name</label><input type="text" id="newAdminName" class="form-control" required placeholder="Jane Doe"></div>
-          <div class="mb-3"><label class="form-label">Admin Email</label><input type="email" id="newAdminEmail" class="form-control" required placeholder="admin@acme.com"></div>
-          <div class="mb-3"><label class="form-label">Admin Password</label><input type="password" id="newAdminPassword" class="form-control" required placeholder="SecurePassword@123"></div>
+  <div class="modal fade" id="createTenantModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <form id="createTenantForm" class="modal-content border-0 shadow">
+        <div class="modal-header bg-light py-3">
+          <h5 class="modal-title fs-6 fw-bold"><i class="bi bi-building-add me-2 text-danger"></i>Register New Tenant
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-building-add me-1"></i>Provision Tenant</button>
+        <div class="modal-body p-3 p-md-4">
+          <div class="mb-3"><label class="form-label small fw-semibold">Organisation / Company Name</label><input
+              type="text" id="newTenantName" class="form-control form-control-sm" required placeholder="Acme Corp">
+          </div>
+          <div class="mb-3"><label class="form-label small fw-semibold">Subdomain</label><input type="text"
+              id="newSubdomain" class="form-control form-control-sm" required placeholder="acme"></div>
+          <hr class="my-3">
+          <h6 class="text-muted fw-bold small text-uppercase mb-3" style="font-size:0.75rem;">Initial Admin Account</h6>
+          <div class="mb-3"><label class="form-label small fw-semibold">Admin Full Name</label><input type="text"
+              id="newAdminName" class="form-control form-control-sm" required placeholder="Jane Doe"></div>
+          <div class="mb-3"><label class="form-label small fw-semibold">Admin Email</label><input type="email"
+              id="newAdminEmail" class="form-control form-control-sm" required placeholder="admin@acme.com"></div>
+          <div class="mb-3"><label class="form-label small fw-semibold">Admin Password</label><input type="password"
+              id="newAdminPassword" class="form-control form-control-sm" required placeholder="SecurePassword@123">
+          </div>
+        </div>
+        <div class="modal-footer bg-light py-2">
+          <button type="button" class="btn btn-outline-secondary btn-sm px-3" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger btn-sm px-3"><i class="bi bi-building-add me-1"></i>Provision
+            Tenant</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- ░░ MODAL: Assign Module ░░ -->
-  <div class="modal fade" id="assignModuleModal" tabindex="-1">
-    <div class="modal-dialog">
-      <form id="assignModuleForm" class="modal-content">
-        <div class="modal-header"><h5 class="modal-title"><i class="bi bi-plug me-2 text-danger"></i>Assign Module to Tenant</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-        <div class="modal-body">
-          <div class="mb-3"><label class="form-label">Tenant ID</label><input type="number" id="modalTenantId" class="form-control" required placeholder="e.g. 2"></div>
-          <div class="mb-3"><label class="form-label">Product Module</label><select id="modalModuleName" class="form-select" required><option value="" disabled selected>Loading modules...</option></select></div>
-          <div class="mb-3"><label class="form-label">Status</label><select id="modalModuleStatus" class="form-select" required><option value="ACTIVE">ACTIVE</option><option value="SUSPENDED">SUSPENDED</option></select></div>
+  <div class="modal fade" id="assignModuleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <form id="assignModuleForm" class="modal-content border-0 shadow">
+        <div class="modal-header bg-light py-3">
+          <h5 class="modal-title fs-6 fw-bold"><i class="bi bi-plug me-2 text-danger"></i>Assign Module to Tenant</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-check2 me-1"></i>Save Assignment</button>
+        <div class="modal-body p-3 p-md-4">
+          <div class="mb-3"><label class="form-label small fw-semibold">Tenant ID</label><input type="number"
+              id="modalTenantId" class="form-control form-control-sm" required placeholder="e.g. 2"></div>
+          <div class="mb-3"><label class="form-label small fw-semibold">Product Module</label><select
+              id="modalModuleName" class="form-select form-select-sm" required>
+              <option value="" disabled selected>Loading modules...</option>
+            </select></div>
+          <div class="mb-3"><label class="form-label small fw-semibold">Status</label><select id="modalModuleStatus"
+              class="form-select form-select-sm" required>
+              <option value="ACTIVE">ACTIVE</option>
+              <option value="SUSPENDED">SUSPENDED</option>
+            </select></div>
+        </div>
+        <div class="modal-footer bg-light py-2">
+          <button type="button" class="btn btn-outline-secondary btn-sm px-3" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger btn-sm px-3"><i class="bi bi-check2 me-1"></i>Save
+            Assignment</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- ░░ MODAL: Add Product Module ░░ -->
-  <div class="modal fade" id="createModuleModal" tabindex="-1">
-    <div class="modal-dialog">
-      <form id="createModuleForm" class="modal-content">
-        <div class="modal-header"><h5 class="modal-title"><i class="bi bi-folder-plus me-2 text-danger"></i>Add Product Module to Catalogue</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-        <div class="modal-body">
-          <div class="mb-3"><label class="form-label">Module Key <span class="text-muted small">(UPPERCASE identifier)</span></label><input type="text" id="newModuleKey" class="form-control" required placeholder="INVENTORY" style="font-family:monospace;text-transform:uppercase"></div>
-          <div class="mb-3"><label class="form-label">Display Name</label><input type="text" id="newModuleDisplayName" class="form-control" required placeholder="AA Inventory"></div>
-          <div class="mb-3"><label class="form-label">Description</label><textarea id="newModuleDescription" class="form-control" rows="2" placeholder="Stock and warehouse management system."></textarea></div>
-          <div class="mb-3"><label class="form-label">Monthly Price (₹)</label><input type="number" step="0.01" id="newModulePrice" class="form-control" required placeholder="750.00"></div>
+  <div class="modal fade" id="createModuleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <form id="createModuleForm" class="modal-content border-0 shadow">
+        <div class="modal-header bg-light py-3">
+          <h5 class="modal-title fs-6 fw-bold"><i class="bi bi-folder-plus me-2 text-danger"></i>Add Product Module to
+            Catalogue</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-plus-lg me-1"></i>Create Module</button>
+        <div class="modal-body p-3 p-md-4">
+          <div class="mb-3"><label class="form-label small fw-semibold">Module Key <span
+                class="text-muted small">(UPPERCASE identifier)</span></label><input type="text" id="newModuleKey"
+              class="form-control form-control-sm" required placeholder="INVENTORY"
+              style="font-family:monospace;text-transform:uppercase"></div>
+          <div class="mb-3"><label class="form-label small fw-semibold">Display Name</label><input type="text"
+              id="newModuleDisplayName" class="form-control form-control-sm" required placeholder="AA Inventory"></div>
+          <div class="mb-3"><label class="form-label small fw-semibold">Description</label><textarea
+              id="newModuleDescription" class="form-control form-control-sm" rows="2"
+              placeholder="Stock and warehouse management system."></textarea></div>
+          <div class="mb-3"><label class="form-label small fw-semibold">Monthly Price (₹)</label><input type="number"
+              step="0.01" id="newModulePrice" class="form-control form-control-sm" required placeholder="750.00"></div>
+        </div>
+        <div class="modal-footer bg-light py-2">
+          <button type="button" class="btn btn-outline-secondary btn-sm px-3" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger btn-sm px-3"><i class="bi bi-plus-lg me-1"></i>Create
+            Module</button>
         </div>
       </form>
     </div>
@@ -307,16 +513,34 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="/shared.js"></script>
+  <script src="./shared.js"></script>
+  <script>
+    window.addEventListener('resize', () => {
+      const main = document.querySelector('.main-content');
+      if (window.innerWidth >= 992) {
+        main.style.marginLeft = '240px';
+      } else {
+        main.style.marginLeft = '0px';
+      }
+    });
+  </script>
   <script>
     const token = localStorage.getItem('token');
     if (!token) window.location.href = '/index.html';
     const api = axios.create({ headers: { Authorization: `Bearer ${token}` } });
+    window.addEventListener('resize', () => {
+      const main = document.querySelector('.main-content');
+      if (window.innerWidth >= 992) {
+        main.style.marginLeft = '240px';
+      } else {
+        main.style.marginLeft = '0px';
+      }
+    });
 
     // ── Panel Switching ───────────────────────────────────────
     function showPanel(name, el) {
-      ['panelTenants','panelCatalogue','panelAudit'].forEach(p => {
-        document.getElementById(p).style.display = p === `panel${name.charAt(0).toUpperCase()+name.slice(1)}` ? '' : 'none';
+      ['panelTenants', 'panelCatalogue', 'panelAudit'].forEach(p => {
+        document.getElementById(p).style.display = p === `panel${name.charAt(0).toUpperCase() + name.slice(1)}` ? '' : 'none';
       });
       document.querySelectorAll('.sidebar .nav-link').forEach(l => l.classList.remove('active'));
       if (el) el.classList.add('active');
@@ -330,7 +554,7 @@
         const u = h.data.uptime;
         const hrs = Math.floor(u / 3600), mins = Math.floor((u % 3600) / 60);
         document.getElementById('statUptime').textContent = `${hrs}h ${mins}m`;
-      } catch {}
+      } catch { }
     }
 
     // ── Populate Module Dropdown ──────────────────────────────
@@ -354,7 +578,7 @@
         let totalModAssignments = 0;
 
         if (!tenants.length) {
-          tbody.innerHTML = `<tr><td colspan="6">${emptyStateHTML('bi-building','No Tenants','No organisations registered yet.','')}</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="6">${emptyStateHTML('bi-building', 'No Tenants', 'No organisations registered yet.', '')}</td></tr>`;
           return;
         }
         tbody.innerHTML = '';
@@ -362,7 +586,7 @@
           const mods = t.modules || [];
           totalModAssignments += mods.length;
           const modBadges = mods.length
-            ? mods.map(m => `<span class="badge me-1" style="background:#EEF2FF;color:#4F46E5;font-weight:600">${m.moduleName} <span class="badge ${m.status==='ACTIVE'?'bg-success':'bg-secondary'}" style="font-size:0.6rem">${m.status}</span></span>`).join('')
+            ? mods.map(m => `<span class="badge me-1" style="background:#EEF2FF;color:#4F46E5;font-weight:600">${m.moduleName} <span class="badge ${m.status === 'ACTIVE' ? 'bg-success' : 'bg-secondary'}" style="font-size:0.6rem">${m.status}</span></span>`).join('')
             : '<span class="text-muted small">No modules assigned</span>';
           tbody.innerHTML += `
             <tr>
@@ -396,7 +620,7 @@
         document.getElementById('statCatalogueCount').textContent = mods.length;
 
         if (!mods.length) {
-          tbody.innerHTML = `<tr><td colspan="6">${emptyStateHTML('bi-grid-3x3-gap','No Products','No modules in catalogue.','')}</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="6">${emptyStateHTML('bi-grid-3x3-gap', 'No Products', 'No modules in catalogue.', '')}</td></tr>`;
           return;
         }
         tbody.innerHTML = mods.map(m => `
@@ -407,8 +631,8 @@
             <td class="fw-bold text-success">₹${parseFloat(m.price || 0).toLocaleString('en-IN')}/mo</td>
             <td>${statusBadge(m.status)}</td>
             <td>
-              <button class="btn btn-xs btn-outline-dark me-1" onclick="toggleModuleStatus(${m.id}, '${m.status==='ACTIVE'?'DISCONTINUED':'ACTIVE'}')">
-                ${m.status==='ACTIVE'?'Discontinue':'Activate'}
+              <button class="btn btn-xs btn-outline-dark me-1" onclick="toggleModuleStatus(${m.id}, '${m.status === 'ACTIVE' ? 'DISCONTINUED' : 'ACTIVE'}')">
+                ${m.status === 'ACTIVE' ? 'Discontinue' : 'Activate'}
               </button>
               <a href="/modules/${m.moduleKey.toLowerCase()}/index.html" target="_blank" class="btn btn-xs btn-outline-primary">
                 <i class="bi bi-box-arrow-up-right"></i>
@@ -428,7 +652,7 @@
         const res = await api.get('/api/audit-logs');
         const logs = res.data || [];
         if (!logs.length) {
-          tbody.innerHTML = `<tr><td colspan="4">${emptyStateHTML('bi-journal','No Audit Logs','No events recorded yet.','')}</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="4">${emptyStateHTML('bi-journal', 'No Audit Logs', 'No events recorded yet.', '')}</td></tr>`;
           return;
         }
         tbody.innerHTML = logs.map(l => `
@@ -436,7 +660,7 @@
             <td class="text-muted" style="white-space:nowrap">${formatDateTime(l.createdAt)}</td>
             <td><div class="fw-semibold small">${l.userName || 'System'}</div><div class="text-muted" style="font-size:0.72rem">#${l.userId || '—'}</div></td>
             <td><span class="audit-action">${l.action}</span></td>
-            <td class="text-muted small">${(l.details || '').substring(0,120)}${l.details?.length > 120 ? '...' : ''}</td>
+            <td class="text-muted small">${(l.details || '').substring(0, 120)}${l.details?.length > 120 ? '...' : ''}</td>
           </tr>`).join('');
       } catch {
         tbody.innerHTML = `<tr><td colspan="4" class="text-center text-danger py-3">Failed to load audit logs. Endpoint may not exist yet.</td></tr>`;
@@ -526,4 +750,5 @@
     })();
   </script>
 </body>
+
 </html>

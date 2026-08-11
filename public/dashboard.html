@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AA Enterprise Platform — Workspace Hub</title>
-  <meta name="description" content="AA Enterprise SaaS Platform — your unified workspace for CRM, School ERP, Hospital ERP and all enterprise modules.">
+  <meta name="description"
+    content="AA Enterprise SaaS Platform — your unified workspace for CRM, School ERP, Hospital ERP and all enterprise modules.">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <link href="/shared.css" rel="stylesheet">
   <style>
-    /* Hub-specific overrides */
+    /* Hub-specific overrides & Responsive adjustments */
     .module-card {
-      border: 1px solid var(--border-color);
+      border: 1px solid var(--border-color, #e2e8f0);
       border-radius: 16px;
-      padding: 24px;
+      padding: 20px;
       background: white;
       transition: all 0.25s ease;
       cursor: pointer;
@@ -23,34 +25,45 @@
       position: relative;
       overflow: hidden;
     }
+
     .module-card::before {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 4px;
-      background: var(--card-accent, var(--primary));
+      background: var(--card-accent, var(--primary, #0d6efd));
     }
+
     .module-card:hover {
       transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.10);
-      border-color: var(--card-accent, var(--primary));
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.10);
+      border-color: var(--card-accent, var(--primary, #0d6efd));
     }
+
     .module-icon {
-      width: 54px; height: 54px;
-      border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem;
-      margin-bottom: 16px;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      margin-bottom: 14px;
       flex-shrink: 0;
     }
+
     .module-badge {
       position: absolute;
-      top: 16px; right: 16px;
+      top: 16px;
+      right: 16px;
       font-size: 0.65rem;
       padding: 3px 8px;
       border-radius: 20px;
       font-weight: 700;
     }
+
     .module-card .launch-btn {
       margin-top: auto;
       padding-top: 16px;
@@ -58,9 +71,9 @@
 
     /* No-module state */
     .no-modules-card {
-      border: 2px dashed var(--slate-300);
+      border: 2px dashed var(--slate-300, #cbd5e1);
       border-radius: 16px;
-      padding: 48px 24px;
+      padding: 36px 20px;
       text-align: center;
       background: white;
     }
@@ -72,223 +85,411 @@
       border-radius: 12px;
       font-size: 0.68rem;
       font-weight: 700;
-      background: var(--primary-light);
-      color: var(--primary);
+      background: var(--primary-light, #cfe2ff);
+      color: var(--primary, #0d6efd);
       margin-right: 4px;
+      margin-bottom: 2px;
     }
 
     /* Platform stats */
     .platform-stat {
       text-align: center;
-      padding: 20px;
-      border-right: 1px solid var(--border-color);
+      padding: 16px;
+      border-right: 1px solid var(--border-color, #e2e8f0);
     }
-    .platform-stat:last-child { border-right: none; }
+
+    .platform-stat:last-child {
+      border-right: none;
+    }
+
     .platform-stat .stat-val {
-      font-family: var(--font-heading);
-      font-size: 1.8rem;
+      font-family: var(--font-heading, inherit);
+      font-size: 1.5rem;
       font-weight: 700;
-      color: var(--primary);
+      color: var(--primary, #0d6efd);
     }
+
     .platform-stat .stat-label {
-      font-size: 0.75rem;
-      color: var(--slate-500);
+      font-size: 0.7rem;
+      color: var(--slate-500, #64748b);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.4px;
-      margin-top: 4px;
+      margin-top: 2px;
+    }
+
+    /* Sidebar Nav Links */
+    .nav-link-custom {
+      transition: background-color 0.2s ease, color 0.2s ease;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .nav-link-custom:hover {
+      background-color: #1E293B !important;
+      color: #FFFFFF !important;
+    }
+
+    .nav-link-custom.active {
+      background-color: #0D6EFD !important;
+      /* Primary Brand Color */
+      color: #FFFFFF !important;
+      font-weight: 600;
+    }
+
+    /* Custom Scrollbar for Desktop Sidebar */
+    .sidebar-desktop::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .sidebar-desktop::-webkit-scrollbar-track {
+      background: #0F172A;
+    }
+
+    .sidebar-desktop::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
     }
 
     /* Sidebar special links */
-    .sidebar .nav-link.danger-link { color: #F87171; }
-    .sidebar .nav-link.danger-link:hover { background: rgba(239,68,68,0.1); color: #EF4444; }
+    .sidebar .nav-link.danger-link {
+      color: #F87171;
+    }
+
+    .sidebar .nav-link.danger-link:hover {
+      background: rgba(239, 68, 68, 0.1);
+      color: #EF4444;
+    }
+
+    /* Mobile responsiveness adjustments */
+    @media (max-width: 991.98px) {
+      .platform-stat {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color, #e2e8f0);
+      }
+
+      .platform-stat:nth-last-child(-n+2) {
+        border-bottom: none;
+      }
+    }
   </style>
 </head>
+
 <body>
 
   <!-- ░░ TOP NAVIGATION ░░ -->
-  <nav class="navbar-top">
-    <div class="d-flex align-items-center gap-3">
-      <a class="brand-logo" href="/dashboard.html">
-        <div class="brand-logo-icon"><i class="bi bi-grid-3x3-gap-fill"></i></div>
-        <span>AA Enterprise<span class="text-muted fw-normal ms-1" style="font-size:0.85rem">Platform</span></span>
-      </a>
-    </div>
-    <div class="d-flex align-items-center gap-3">
-      <button class="notif-btn" title="Notifications">
-        <i class="bi bi-bell"></i>
-        <span class="notif-badge">3</span>
-      </button>
-      <div class="vr mx-1" style="height:24px;opacity:0.15"></div>
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3 py-2"
+    style="background: var(--bs-dark, #0F172A); border-bottom: 1px solid rgba(255,255,255,0.1); z-index: 1040;">
+    <div class="container-fluid px-0">
+
+      <!-- Mobile Hamburger Toggle & Brand Logo -->
       <div class="d-flex align-items-center gap-2">
-        <div class="user-avatar bg-primary text-white" id="userAvatar">SA</div>
-        <div>
-          <div class="fw-semibold small lh-1" id="userName">Loading...</div>
-          <div class="text-muted" style="font-size:0.7rem" id="userRoleText">Role</div>
+        <button class="btn btn-sm d-lg-none text-white border-0 p-1 me-1 shadow-none" type="button"
+          data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar" aria-controls="mobileSidebar">
+          <i class="bi bi-list fs-4"></i>
+        </button>
+        <a class="brand-logo d-flex align-items-center gap-2 text-decoration-none text-white" href="/dashboard.html">
+          <div class="brand-logo-icon d-flex align-items-center justify-content-center text-white rounded p-2"
+            style="background: var(--primary, #0d6efd); width: 36px; height: 36px;">
+            <i class="bi bi-grid-3x3-gap-fill fs-6"></i>
+          </div>
+          <span class="fw-bold" style="font-size: 0.95rem;">
+            AA Enterprise<span class="text-muted fw-normal ms-1 d-none d-sm-inline"
+              style="font-size:0.8rem">Platform</span>
+          </span>
+        </a>
+      </div>
+
+      <!-- Top Right Actions & Profile -->
+      <div class="d-flex align-items-center gap-2 gap-md-3">
+        <!-- <button class="notif-btn btn btn-sm btn-link text-white position-relative p-1 px-2 text-decoration-none"
+          title="Notifications">
+          <i class="bi bi-bell fs-5"></i>
+          <span class="notif-badge position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+            style="font-size: 0.6rem;">3</span>
+        </button> -->
+
+        <div class="vr mx-1 bg-secondary opacity-50 d-none d-sm-block" style="height:24px;"></div>
+
+        <div class="d-flex align-items-center gap-2">
+          <div
+            class="user-avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center fw-bold"
+            id="userAvatar" style="width:34px; height:34px; font-size:0.75rem;">SA</div>
+          <div class="d-none d-md-block">
+            <div class="fw-semibold small lh-1 text-white" id="userName" style="font-size: 0.8rem !important;">
+              Loading...
+            </div>
+            <div class="text-muted" style="font-size:0.65rem" id="userRoleText">Role</div>
+          </div>
         </div>
       </div>
 
     </div>
   </nav>
 
-  <!-- ░░ SIDEBAR ░░ -->
-  <nav class="sidebar">
-    <div class="sidebar-section-label">Workspace</div>
-    <ul class="nav flex-column" id="sidebarNav">
+  <!-- ░░ MOBILE SIDEBAR OFFCANVAS (< LG) ░░ -->
+  <div class="offcanvas offcanvas-start text-white d-lg-none border-end border-secondary" tabindex="-1"
+    id="mobileSidebar" aria-labelledby="mobileSidebarLabel" style="width: 260px; background: #0F172A !important;">
+    <div class="offcanvas-header border-bottom border-secondary py-3">
+      <h5 class="offcanvas-title text-white fs-6 fw-bold" id="mobileSidebarLabel">
+        <i class="bi bi-grid-3x3-gap-fill text-primary me-2"></i>Workspace Navigation
+      </h5>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column justify-content-between p-3">
+      <div>
+        <div class="text-uppercase small fw-bold text-muted mb-2" style="font-size: 0.7rem; letter-spacing: 0.5px;">
+          Workspace
+        </div>
+        <ul class="nav flex-column gap-1 mb-3" id="mobileSidebarNav">
+          <li class="nav-item">
+            <button type="button"
+              class="nav-link nav-link-custom text-white text-start w-100 rounded py-2 px-3 active border-0"
+              data-section="modules" onclick="navigateToSection('modules')">
+              <i class="bi bi-grid-fill me-2"></i>My Modules
+            </button>
+          </li>
+          <li class="nav-item" id="mobileSidebarUsersLink" style="display:none">
+            <button type="button"
+              class="nav-link nav-link-custom text-white-50 text-start w-100 rounded py-2 px-3 border-0 bg-transparent"
+              data-section="users" onclick="navigateToSection('users')">
+              <i class="bi bi-people-fill me-2"></i>Users & Roles
+            </button>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-custom text-white-50 text-start w-100 rounded py-2 px-3 text-decoration-none"
+              href="/billing.html">
+              <i class="bi bi-credit-card-2-front me-2"></i>Billing & Plans
+            </a>
+          </li>
+        </ul>
+
+        <div class="text-uppercase small fw-bold text-muted mb-2" style="font-size: 0.7rem; letter-spacing: 0.5px;">
+          Dynamic Modules
+        </div>
+        <ul class="nav flex-column gap-1" id="mobileSidebarDynamicModules">
+          <li>
+            <span class="text-white-50 small px-3 py-1 d-block">
+              <i class="bi bi-hourglass-split me-1"></i> Loading...
+            </span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="pt-3 border-top border-secondary">
+        <button type="button"
+          class="btn btn-outline-danger w-100 text-start py-2 px-3 rounded border-0 bg-transparent text-danger fw-semibold shadow-none"
+          onclick="logout()">
+          <i class="bi bi-box-arrow-right me-2"></i>Sign Out
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ░░ DESKTOP SIDEBAR (>= LG) ░░ -->
+  <nav class="sidebar sidebar-desktop d-none d-lg-flex flex-column"
+    style="width: 240px; position: fixed; top: 57px; bottom: 0; left: 0; background: #0F172A; border-right: 1px solid #1E293B; z-index: 1030; padding: 1.25rem 1rem; overflow-y: auto;">
+
+    <div class="sidebar-section-label"
+      style="font-size:0.7rem; font-weight:700; text-transform:uppercase; color:#64748B; margin-bottom:0.5rem;">
+      Workspace
+    </div>
+    <ul class="nav flex-column gap-1" id="sidebarNav">
       <li class="nav-item">
-        <button class="nav-link active" onclick="showSection('modules')">
-          <i class="bi bi-grid-fill"></i><span class="nav-label">My Modules</span>
+        <button type="button"
+          class="nav-link nav-link-custom text-white w-100 text-start border-0 rounded py-2 px-3 active"
+          data-section="modules" onclick="navigateToSection('modules')">
+          <i class="bi bi-grid-fill me-2"></i><span class="nav-label">My Modules</span>
         </button>
       </li>
       <li class="nav-item" id="sidebarUsersLink" style="display:none">
-        <button class="nav-link" onclick="showSection('users')">
-          <i class="bi bi-people-fill"></i><span class="nav-label">Users & Roles</span>
+        <button type="button"
+          class="nav-link nav-link-custom text-white-50 w-100 text-start border-0 rounded py-2 px-3 bg-transparent"
+          data-section="users" onclick="navigateToSection('users')">
+          <i class="bi bi-people-fill me-2"></i><span class="nav-label">Users & Roles</span>
         </button>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
-          <i class="bi bi-credit-card-2-front"></i><span class="nav-label">Billing & Plans</span>
+        <a class="nav-link nav-link-custom text-white-50 w-100 text-start border-0 rounded py-2 px-3 text-decoration-none"
+          href="/billing.html">
+          <i class="bi bi-credit-card-2-front me-2"></i><span class="nav-label">Billing & Plans</span>
         </a>
       </li>
     </ul>
 
-    <div class="sidebar-section-label">Dynamic Modules</div>
-    <ul class="nav flex-column" id="sidebarDynamicModules">
-      <li><button class="nav-link" disabled style="opacity:0.4;cursor:default"><i class="bi bi-hourglass-split"></i><span class="nav-label">Loading...</span></button></li>
+    <div class="sidebar-section-label mt-4"
+      style="font-size:0.7rem; font-weight:700; text-transform:uppercase; color:#64748B; margin-bottom:0.5rem;">
+      Dynamic Modules
+    </div>
+    <ul class="nav flex-column gap-1" id="sidebarDynamicModules">
+      <li>
+        <button type="button" class="nav-link w-100 text-start border-0 rounded py-2 px-3 text-white-50 bg-transparent"
+          disabled style="opacity:0.4; cursor:default">
+          <i class="bi bi-hourglass-split me-2"></i><span class="nav-label">Loading...</span>
+        </button>
+      </li>
     </ul>
 
-    <div class="sidebar-footer">
-      <button class="nav-link danger-link w-100" onclick="logout()">
-        <i class="bi bi-box-arrow-right"></i><span class="nav-label">Sign Out</span>
+    <div class="sidebar-footer mt-auto pt-3 border-top border-secondary">
+      <button type="button"
+        class="btn btn-outline-danger w-100 text-start border-0 rounded py-2 px-3 bg-transparent text-danger fw-semibold shadow-none"
+        onclick="logout()">
+        <i class="bi bi-box-arrow-right me-2"></i><span class="nav-label">Sign Out</span>
       </button>
     </div>
   </nav>
 
   <!-- ░░ MAIN CONTENT ░░ -->
-  <main class="main-content">
+  <main class="main-content"
+    style="margin-top: 57px; padding: 1.5rem; min-height: calc(100vh - 57px); background: var(--bg-color, #f8fafc);"
+    :style="{ marginLeft: window.innerWidth >= 992 ? '240px' : '0' }">
 
     <!-- Section: My Modules -->
     <div id="sectionModules">
-      <div class="page-header">
+      <div
+        class="page-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
         <div>
-          <h2>My Workspace</h2>
-          <p id="tenantWelcome">Loading your organization's active product suites...</p>
+          <h2 class="fw-bold fs-4 mb-1">My Workspace</h2>
+          <p class="text-muted small mb-0" id="tenantWelcome">Loading your organization's active product suites...</p>
         </div>
-        <a href="#" class="btn btn-primary btn-sm">
+        <a href="./billing.html" class="btn btn-primary btn-sm text-nowrap w-100 w-md-auto">
           <i class="bi bi-cart-plus me-1"></i>Manage Subscriptions
         </a>
       </div>
 
-      <!-- Platform Stats Bar -->
-      <div class="card mb-4">
+      <!-- Platform Stats Bar (Stacked on Mobile, Columns on Desktop) -->
+      <div class="card mb-4 border-0 shadow-sm rounded-3 overflow-hidden">
         <div class="row g-0" id="platformStatsRow">
-          <div class="col platform-stat">
+          <div class="col-6 col-md-3 platform-stat border-bottom border-md-bottom-0">
             <div class="stat-val" id="statModules">—</div>
             <div class="stat-label">Active Modules</div>
           </div>
-          <div class="col platform-stat">
+          <div class="col-6 col-md-3 platform-stat border-bottom border-md-bottom-0">
             <div class="stat-val" id="statUsers">—</div>
             <div class="stat-label">Team Members</div>
           </div>
-          <div class="col platform-stat">
+          <div class="col-6 col-md-3 platform-stat">
             <div class="stat-val" id="statStorage">—</div>
             <div class="stat-label">Files Uploaded</div>
           </div>
-          <div class="col platform-stat">
+          <div class="col-6 col-md-3 platform-stat">
             <div class="stat-val text-success" id="statPlan">FREE</div>
             <div class="stat-label">Current Plan</div>
           </div>
         </div>
       </div>
 
-      <h5 class="fw-bold mb-3">Active Product Suites</h5>
-      <div class="row g-4" id="activeModulesGrid">
-        <div class="col-12"><div class="view-loader"><div class="spinner-border"></div><p>Loading modules...</p></div></div>
+      <h5 class="fw-bold mb-3 fs-5">Active Product Suites</h5>
+      <div class="row g-3 g-md-4" id="activeModulesGrid">
+        <div class="col-12">
+          <div class="view-loader text-center py-5">
+            <div class="spinner-border text-primary"></div>
+            <p class="text-muted small mt-2">Loading modules...</p>
+          </div>
+        </div>
       </div>
     </div>
 
     <!-- Section: Users & Roles (Admin only) -->
     <div id="sectionUsers" style="display:none">
-      <div class="page-header">
+      <div
+        class="page-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4">
         <div>
-          <h2>Users & Role Management</h2>
-          <p>Create employee accounts and assign multi-role access across all product modules.</p>
+          <h2 class="fw-bold fs-4 mb-1">Users & Role Management</h2>
+          <p class="text-muted small mb-0">Create employee accounts and assign multi-role access across all product
+            modules.</p>
         </div>
-        <button class="btn btn-primary btn-sm" onclick="openCreateUserModal()">
+        <button class="btn btn-primary btn-sm w-100 w-md-auto" onclick="openCreateUserModal()">
           <i class="bi bi-person-plus me-1"></i>Add User
         </button>
       </div>
 
-      <div class="table-container">
-        <div class="table-toolbar">
-          <input class="table-search" type="text" placeholder="Search users..." oninput="filterTable('usersTableBody', this.value)">
+      <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+        <div
+          class="table-toolbar p-3 bg-white border-bottom d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
+          <input class="form-control form-control-sm w-100 w-sm-auto table-search" style="max-width: 240px;" type="text"
+            placeholder="Search users..." oninput="filterTable('usersTableBody', this.value)">
           <span class="text-muted small" id="userCount">Loading...</span>
         </div>
-        <table class="table align-middle">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Assigned Roles</th>
-              <th>Created</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="usersTableBody">
-            <tr><td colspan="5" class="text-center py-4 text-muted">Loading users...</td></tr>
-          </tbody>
-        </table>
+        <div class="table-responsive mb-0">
+          <table class="table align-middle mb-0 text-nowrap">
+            <thead class="table-light fs-7 text-uppercase" style="font-size: 0.75rem;">
+              <tr>
+                <th class="py-3 px-3">Name</th>
+                <th class="py-3 px-3">Email</th>
+                <th class="py-3 px-3">Assigned Roles</th>
+                <th class="py-3 px-3">Created</th>
+                <th class="py-3 px-3 text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody" class="fs-8" style="font-size: 0.85rem;">
+              <tr>
+                <td colspan="5" class="text-center py-4 text-muted">Loading users...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
   </main>
 
   <!-- ░░ MODAL: Create User ░░ -->
-  <div class="modal fade" id="createUserModal" tabindex="-1">
-    <div class="modal-dialog">
-      <form id="createUserForm" class="modal-content" onsubmit="handleCreateUser(event)">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="bi bi-person-plus me-2 text-primary"></i>Create Organisation User</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+  <div class="modal fade" id="createUserModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <form id="createUserForm" class="modal-content border-0 shadow" onsubmit="handleCreateUser(event)">
+        <div class="modal-header bg-light py-3">
+          <h5 class="modal-title fs-6 fw-bold"><i class="bi bi-person-plus me-2 text-primary"></i>Create Organisation
+            User
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <div class="mb-3"><label class="form-label">Full Name</label><input type="text" id="newUserName" class="form-control" required placeholder="Ramesh Naidu"></div>
-          <div class="mb-3"><label class="form-label">Email Address</label><input type="email" id="newUserEmail" class="form-control" required placeholder="ramesh@company.com"></div>
-          <div class="mb-3"><label class="form-label">Password</label><input type="password" id="newUserPassword" class="form-control" required placeholder="••••••••"></div>
+        <div class="modal-body p-3 p-md-4">
+          <div class="mb-3"><label class="form-label small fw-semibold">Full Name</label><input type="text"
+              id="newUserName" class="form-control form-control-sm" required placeholder="Ramesh Naidu"></div>
+          <div class="mb-3"><label class="form-label small fw-semibold">Email Address</label><input type="email"
+              id="newUserEmail" class="form-control form-control-sm" required placeholder="ramesh@company.com"></div>
+          <div class="mb-3"><label class="form-label small fw-semibold">Password</label><input type="password"
+              id="newUserPassword" class="form-control form-control-sm" required placeholder="••••••••"></div>
           <div class="mb-3">
-            <label class="form-label">Assign Roles</label>
+            <label class="form-label small fw-semibold">Assign Roles</label>
             <div id="createRoleCheckboxes" class="border rounded p-3 bg-light" style="max-height:160px;overflow-y:auto">
               <span class="text-muted small">Loading roles...</span>
             </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-person-check me-1"></i>Create Account</button>
+        <div class="modal-footer bg-light py-2">
+          <button type="button" class="btn btn-outline-secondary btn-sm px-3" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm px-3"><i class="bi bi-person-check me-1"></i>Create
+            Account</button>
         </div>
       </form>
     </div>
   </div>
 
   <!-- ░░ MODAL: Edit User Roles ░░ -->
-  <div class="modal fade" id="editUserModal" tabindex="-1">
-    <div class="modal-dialog">
-      <form id="editUserForm" class="modal-content" onsubmit="handleUpdateUserRoles(event)">
-        <div class="modal-header">
-          <h5 class="modal-title"><i class="bi bi-pencil-square me-2 text-primary"></i>Manage User Roles</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+  <div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+      <form id="editUserForm" class="modal-content border-0 shadow" onsubmit="handleUpdateUserRoles(event)">
+        <div class="modal-header bg-light py-3">
+          <h5 class="modal-title fs-6 fw-bold"><i class="bi bi-pencil-square me-2 text-primary"></i>Manage User Roles
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body p-3 p-md-4">
           <input type="hidden" id="editUserId">
-          <div class="mb-3"><label class="form-label">User</label><input type="text" id="editUserName" class="form-control" readonly disabled></div>
+          <div class="mb-3"><label class="form-label small fw-semibold">User</label><input type="text" id="editUserName"
+              class="form-control form-control-sm" readonly disabled></div>
           <div class="mb-3">
-            <label class="form-label">Roles</label>
-            <div id="editRoleCheckboxes" class="border rounded p-3 bg-light" style="max-height:200px;overflow-y:auto"></div>
+            <label class="form-label small fw-semibold">Roles</label>
+            <div id="editRoleCheckboxes" class="border rounded p-3 bg-light" style="max-height:200px;overflow-y:auto">
+            </div>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-check2 me-1"></i>Save Changes</button>
+        <div class="modal-footer bg-light py-2">
+          <button type="button" class="btn btn-outline-secondary btn-sm px-3" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-success btn-sm px-3"><i class="bi bi-check2 me-1"></i>Save
+            Changes</button>
         </div>
       </form>
     </div>
@@ -298,27 +499,28 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script src="/shared.js"></script>
+  <script src="./shared.js"></script>
   <script>
     const token = localStorage.getItem('token');
     if (!token) window.location.href = '/index.html';
 
     const api = axios.create({ headers: { Authorization: `Bearer ${token}` } });
     let availableRoles = [];
+    let availableModules = [];
     let tenantUsersList = [];
     let currentUserData = {};
     let isAdmin = false;
 
     // ── Module icon/color config ──────────────────────────────
     const MODULE_CONFIG = {
-      'CRM':          { icon: 'bi-hexagon-fill',        color: '#4F46E5', bg: '#EEF2FF',    label: 'AA CRM360',        desc: 'Lead management, Customer 360°, Deal pipeline and commercial workflows.' },
-      'SCHOOL_ERP':   { icon: 'bi-mortarboard-fill',    color: '#2563EB', bg: '#DBEAFE',    label: 'AA School360',     desc: 'Admissions, Students, Teachers, Fees, Library, Transport and Exams.' },
-      'HOSPITAL_ERP': { icon: 'bi-hospital-fill',       color: '#0284C7', bg: '#E0F2FE',    label: 'AA Hospital360',   desc: 'Patients, Doctors, OPD, IPD, Pharmacy, Billing and Clinical EMR.' },
-      'HRMS':         { icon: 'bi-people-fill',          color: '#059669', bg: '#D1FAE5',    label: 'AA HRMS',          desc: 'Employee management, Payroll, Leave, Recruitment and Appraisals.' },
-      'INVENTORY':    { icon: 'bi-boxes',                color: '#D97706', bg: '#FEF3C7',    label: 'AA Inventory',     desc: 'Stock management, Warehouses, Purchase Orders and Supplier tracking.' },
-      'HELPDESK':     { icon: 'bi-headset',              color: '#7C3AED', bg: '#EDE9FE',    label: 'AA Helpdesk',      desc: 'Support tickets, SLA tracking, Agent assignments and customer portal.' },
-      'SERVICE360':   { icon: 'bi-tools',               color: '#DC2626', bg: '#FEE2E2',    label: 'AA Service360',    desc: 'Field service management, technician dispatch and job order tracking.' },
-      'PROJECTS':     { icon: 'bi-kanban-fill',          color: '#0891B2', bg: '#CFFAFE',    label: 'AA Projects',      desc: 'Project planning, task boards, milestones, team assignments and reports.' },
+      'CRM': { icon: 'bi-hexagon-fill', color: '#4F46E5', bg: '#EEF2FF', label: 'AA CRM360', desc: 'Lead management, Customer 360°, Deal pipeline and commercial workflows.' },
+      'SCHOOL_ERP': { icon: 'bi-mortarboard-fill', color: '#2563EB', bg: '#DBEAFE', label: 'AA School360', desc: 'Admissions, Students, Teachers, Fees, Library, Transport and Exams.' },
+      'HOSPITAL_ERP': { icon: 'bi-hospital-fill', color: '#0284C7', bg: '#E0F2FE', label: 'AA Hospital360', desc: 'Patients, Doctors, OPD, IPD, Pharmacy, Billing and Clinical EMR.' },
+      'HRMS': { icon: 'bi-people-fill', color: '#059669', bg: '#D1FAE5', label: 'AA HRMS', desc: 'Employee management, Payroll, Leave, Recruitment and Appraisals.' },
+      'INVENTORY': { icon: 'bi-boxes', color: '#D97706', bg: '#FEF3C7', label: 'AA Inventory', desc: 'Stock management, Warehouses, Purchase Orders and Supplier tracking.' },
+      'HELPDESK': { icon: 'bi-headset', color: '#7C3AED', bg: '#EDE9FE', label: 'AA Helpdesk', desc: 'Support tickets, SLA tracking, Agent assignments and customer portal.' },
+      'SERVICE360': { icon: 'bi-tools', color: '#DC2626', bg: '#FEE2E2', label: 'AA Service360', desc: 'Field service management, technician dispatch and job order tracking.' },
+      'PROJECTS': { icon: 'bi-kanban-fill', color: '#0891B2', bg: '#CFFAFE', label: 'AA Projects', desc: 'Project planning, task boards, milestones, team assignments and reports.' },
     };
 
     // ── Init ─────────────────────────────────────────────────
@@ -345,10 +547,12 @@
 
         if (isAdmin) {
           document.getElementById('sidebarUsersLink').style.display = '';
+          document.getElementById('mobileSidebarUsersLink').style.display = '';
         }
 
-        await fetchAvailableRoles();
+        // await fetchAvailableRoles();
         await loadActiveModules();
+        // await loadTenantModulesAndRoles();
         await loadPlatformStats();
         if (isAdmin) await loadTenantUsers();
 
@@ -374,21 +578,40 @@
         document.getElementById('statStorage').textContent = '—';
 
         try {
-          const subRes = await api.get('/api/billing/subscription');
+          const subRes = await api.get('/api/subscriptions');
           document.getElementById('statPlan').textContent = subRes.data?.planName || 'FREE';
-        } catch {}
-      } catch {}
+        } catch { }
+      } catch { }
     }
 
     // ── Active Modules ────────────────────────────────────────
     async function loadActiveModules() {
       const grid = document.getElementById('activeModulesGrid');
       const sidebarMods = document.getElementById('sidebarDynamicModules');
+      const mobilesidebarMods = document.getElementById('mobileSidebarDynamicModules');
+
       try {
         const res = await api.get('/api/tenant/my-modules');
         const mods = res.data || [];
+        availableModules = mods;
+
+        // Always include 'CORE' by default along with subscribed module keys
+        const moduleKeys = ['CORE', ...availableModules.map(m => m.moduleKey)];
+
+        // Remove duplicates if any exist
+        const uniqueKeys = [...new Set(moduleKeys)];
+
+        // 2. Fetch roles filtered by the tenant's active module keys
+        const roleRes = await api.get(`/api/roles?moduleKeys=${encodeURIComponent(uniqueKeys.join(','))}`);
+        console.log(availableModules);
+
+        availableRoles = roleRes.data || [];
+        console.log(availableRoles);
+        // Render role checkboxes dynamically in user modals
+        renderRoleCheckboxes(availableRoles);
 
         sidebarMods.innerHTML = '';
+        mobilesidebarMods.innerHTML = '';
 
         if (!mods.length) {
           grid.innerHTML = `
@@ -416,7 +639,18 @@
             <i class="bi ${cfg.icon}" style="color:${cfg.color}"></i>
             <span class="nav-label">${cfg.label}</span>
           </button>`;
+
           sidebarMods.appendChild(li);
+
+          const mobileLi = document.createElement('li');
+          mobileLi.innerHTML = `
+            <button type="button" class="nav-link text-white text-start w-100 rounded py-2 px-3 border-0 bg-transparent" onclick="launchModule('${mod.moduleKey}'); bootstrap.Offcanvas.getOrCreateInstance(document.getElementById('mobileSidebar')).hide();">
+              <i class="bi ${cfg.icon} me-2" style="color:${cfg.color}"></i>
+              <span class="nav-label">${cfg.label}</span>
+            </button>`;
+
+          mobilesidebarMods.appendChild(mobileLi);
+          // document.getElementById('mobileSidebarDynamicModules').appendChild(mobileLi);
 
           // Grid card
           const col = document.createElement('div');
@@ -444,22 +678,22 @@
 
     // ── Section Switching ─────────────────────────────────────
     function showSection(name) {
-      ['sectionModules','sectionUsers'].forEach(s => {
-        document.getElementById(s).style.display = s === `section${name.charAt(0).toUpperCase()+name.slice(1)}` ? '' : 'none';
+      ['sectionModules', 'sectionUsers'].forEach(s => {
+        document.getElementById(s).style.display = s === `section${name.charAt(0).toUpperCase() + name.slice(1)}` ? '' : 'none';
       });
       document.querySelectorAll('.sidebar .nav-link').forEach(el => el.classList.remove('active'));
       event.currentTarget?.classList.add('active');
     }
 
     // ── Roles ─────────────────────────────────────────────────
-    async function fetchAvailableRoles() {
-      try {
-        const res = await api.get('/api/roles');
-        availableRoles = res.data || [];
-      } catch {
-        availableRoles = ['ADMIN','MANAGER','USER','TEACHER','ACCOUNTANT','DOCTOR','NURSE','RECEPTIONIST'];
-      }
-    }
+    // async function fetchAvailableRoles() {
+    //   try {
+    //     const res = await api.get('/api/roles');
+    //     availableRoles = res.data || [];
+    //   } catch {
+    //     availableRoles = ['ADMIN', 'CRM_ADMIN', 'HOSPITAL_ADMIN'];
+    //   }
+    // }
 
     // ── User Management ───────────────────────────────────────
     async function loadTenantUsers() {
@@ -470,7 +704,7 @@
         tenantUsersList = res.data || [];
         if (countEl) countEl.textContent = `${tenantUsersList.length} users`;
         if (!tenantUsersList.length) {
-          tbody.innerHTML = `<tr><td colspan="5">${emptyStateHTML('bi-people','No Users Found','Add the first team member.','')}</td></tr>`;
+          tbody.innerHTML = `<tr><td colspan="5">${emptyStateHTML('bi-people', 'No Users Found', 'Add the first team member.', '')}</td></tr>`;
           return;
         }
         tbody.innerHTML = '';
@@ -482,7 +716,7 @@
             rolesBadge = roles.length
               ? roles.map(r => `<span class="user-role-badge">${r}</span>`).join('')
               : '<span class="user-role-badge" style="background:#F1F5F9;color:#475569">None</span>';
-          } catch {}
+          } catch { }
           tbody.innerHTML += `
             <tr>
               <td><div class="d-flex align-items-center gap-2">
@@ -509,7 +743,7 @@
       container.innerHTML = availableRoles.map(r => `
         <div class="form-check">
           <input class="form-check-input new-role-chk" type="checkbox" value="${r}" id="cr_${r}">
-          <label class="form-check-label small fw-semibold" for="cr_${r}">${r.replace(/_/g,' ')}</label>
+          <label class="form-check-label small fw-semibold" for="cr_${r}">${r.replace(/_/g, ' ')}</label>
         </div>`).join('') || '<span class="text-muted small">No roles available.</span>';
       new bootstrap.Modal(document.getElementById('createUserModal')).show();
     }
@@ -541,8 +775,8 @@
         const assigned = res.data || [];
         document.getElementById('editRoleCheckboxes').innerHTML = availableRoles.map(r => `
           <div class="form-check">
-            <input class="form-check-input edit-role-chk" type="checkbox" value="${r}" id="er_${r}" ${assigned.includes(r)?'checked':''}>
-            <label class="form-check-label small fw-semibold" for="er_${r}">${r.replace(/_/g,' ')}</label>
+            <input class="form-check-input edit-role-chk" type="checkbox" value="${r}" id="er_${r}" ${assigned.includes(r) ? 'checked' : ''}>
+            <label class="form-check-label small fw-semibold" for="er_${r}">${r.replace(/_/g, ' ')}</label>
           </div>`).join('');
         new bootstrap.Modal(document.getElementById('editUserModal')).show();
       } catch { showToast('Failed to load user roles.', 'error'); }
@@ -573,7 +807,63 @@
       window.location.href = '/index.html';
     }
 
+    /**
+   * Safely navigates between dashboard sections, updates active UI states across
+   * desktop and mobile sidebars, and dismisses the offcanvas drawer if open.
+   * @param {string} sectionId - The ID of the section to show (e.g., 'modules', 'users')
+   */
+    function navigateToSection(sectionId) {
+      // 1. Call your underlying section toggle logic
+      if (typeof showSection === 'function') {
+        showSection(sectionId);
+      }
+
+      // 2. Synchronize active state styling across both sidebars
+      document.querySelectorAll('.nav-link-custom[data-section]').forEach(btn => {
+        if (btn.getAttribute('data-section') === sectionId) {
+          btn.classList.add('active', 'text-white');
+          btn.classList.remove('text-white-50', 'bg-transparent');
+        } else {
+          btn.classList.remove('active', 'text-white');
+          btn.classList.add('text-white-50', 'bg-transparent');
+        }
+      });
+
+      // 3. Safely dismiss the mobile offcanvas drawer if currently active
+      const mobileSidebarEl = document.getElementById('mobileSidebar');
+      if (mobileSidebarEl) {
+        const bsOffcanvas = bootstrap.Offcanvas.getOrCreateInstance(mobileSidebarEl);
+        if (bsOffcanvas) {
+          bsOffcanvas.hide();
+        }
+      }
+    }
+
+    // Render dynamic checkboxes grouped or listed by role
+    function renderRoleCheckboxes(roles) {
+      const container = document.getElementById('createRoleCheckboxes');
+      if (!container) return;
+
+      if (!Array.isArray(roles) || roles.length === 0) {
+        container.innerHTML = `<span class="text-muted small">No roles available for your active modules.</span>`;
+        return;
+      }
+
+      // Extract unique role names from records
+      const uniqueRoleNames = [...new Set(roles.map(r => r.role))];
+
+      container.innerHTML = uniqueRoleNames.map(role => `
+        <div class="form-check mb-2">
+            <input class="form-check-input user-role-checkbox" type="checkbox" value="${role}" id="role_${role}">
+            <label class="form-check-label small fw-semibold text-dark" for="role_${role}">
+                ${role}
+            </label>
+        </div>
+    `).join('');
+    }
+
     initHub();
   </script>
 </body>
+
 </html>

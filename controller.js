@@ -575,10 +575,27 @@ exports.deleteTenantUser = async (req, res, pool) => {
   }
 };
 
-// 1. Get all unique system roles from RolePermission
+// 1. Get unique system roles from RolePermission filtered by tenant's active module keys
 exports.getAvailableRoles = async (req, res, pool) => {
   try {
-    const [roles] = await pool.query('SELECT DISTINCT role FROM RolePermission');
+    const { moduleKeys } = req.query;
+    let query = 'SELECT DISTINCT role FROM RolePermission';
+    let params = [];
+
+    if (moduleKeys) {
+      // Split comma-separated module keys into an array
+      const keysArray = moduleKeys.split(',').map(k => k.trim()).filter(Boolean);
+
+      if (keysArray.length > 0) {
+        // Construct parameterized IN clause safely
+        query += ` WHERE moduleKey IN (${keysArray.map(() => '?').join(',')})`;
+        params = keysArray;
+      }
+    }
+
+    query += ' ORDER BY role ASC';
+
+    const [roles] = await pool.query(query, params);
     res.json(roles.map(r => r.role));
   } catch (error) {
     res.status(500).json({ error: error.message });
